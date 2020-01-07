@@ -19,17 +19,16 @@
    <top>
       <GridPane id="menu" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="200.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="301.0" minWidth="5.0" prefWidth="200.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="MediaPlayer" />
-            <TextField id="search" fx:id="search" GridPane.columnIndex="2" />
-            <Label text="Search" GridPane.columnIndex="1" />
+            <TextField id="search" fx:id="search" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" promptText="Search" GridPane.columnIndex="2" />
          </children>
       </GridPane>
    </top>
@@ -53,18 +52,18 @@
       </GridPane>
    </bottom>
    <left>
-      <VBox id="sidemenu" prefHeight="400.0" prefWidth="149.0" BorderPane.alignment="CENTER">
+      <VBox id="sidemenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
             <Label id="library" fx:id="libary" text="Library" />
-            <VBox id="library_list" alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+            <VBox id="library_list" alignment="CENTER_LEFT" maxWidth="-Infinity" prefWidth="200.0">
                <children>
                   <Button fx:id="last_added" mnemonicParsing="false" text="Last added" />
                   <Button fx:id="colection" mnemonicParsing="false" text="Colection" />
                </children>
             </VBox>
             <Label text="Playlists" />
-            <ListView id="list" focusTraversable="false" />
-            <Button id="playlist_btn" fx:id="create_playlist" alignment="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="289.0" text="Create playlist" />
+            <ListView id="list" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+            <Button id="playlist_btn" fx:id="create_playlist" alignment="CENTER" mnemonicParsing="false" prefWidth="289.0" text="Create playlist" />
          </children>
       </VBox>
    </left>
