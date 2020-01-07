@@ -1,0 +1,80 @@
+Label
+{
+    -fx-font-size: 13;
+    -fx-text-fill: #a8a8a8;
+    -fx-padding: 5 10;
+}
+Button
+{
+    -fx-font-size: 13;
+    -fx-text-fill: #a8a8a8;
+    -fx-font-weight: bold;
+    -fx-background-color: Transparent;
+    -fx-padding: 5 10;
+}
+FontAwesomeIconView
+{
+    -fx-fill: white;
+}
+#menu
+{
+    -fx-background-color: black;
+    -fx-padding: 10;
+}
+#search
+{
+    -fx-background-radius: 10;
+    -fx-border-width: 0;
+    -fx-border-radius: 10;
+}
+#sidemenu
+{
+    -fx-background-color: black;
+}
+#sidemenu > Label
+{
+    -fx-padding: 20 0 0 10;
+}
+#sidemenu Button:hover
+{
+    -fx-text-fill: white;
+}
+
+#list
+{
+    -fx-background-color: black;
+    -fx-padding: 10;
+}
+#playlist_btn
+{
+    -fx-background-color: black;
+    -fx-padding: 20 0;
+    -fx-pref-width: 150;
+    -fx-text-fill: #a8a8a8;
+    -fx-font-weight: bold;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: white
+}
+#playlist_btn:hover
+{
+    -fx-text-fill: white;
+}
+#control
+{
+    -fx-background-color: gray;
+    -fx-padding: 10;
+}
+#play_btn
+{
+    -fx-background-color: gray;
+    -fx-border-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 10 20;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-background-insets: 2;
+}
+#play_btn:hover > FontAwesomeIconView
+{
+    -fx-fill: red;
+}
