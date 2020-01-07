@@ -1,4 +1,4 @@
-package sample;
+package code;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/display/sample.fxml"));
         Scene scene = new Scene(root, 600, 500);
         primaryStage.setTitle("MediaPlayer");
         // primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("hospital.png")));
