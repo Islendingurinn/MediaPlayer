@@ -13,7 +13,8 @@ public class Main extends Application {
     {
         Parent root = FXMLLoader.load(getClass().getResource("/display/sample.fxml"));
         Scene scene = new Scene(root, 600, 500);
-        primaryStage.setTitle("MediaPlayer");
+        primaryStage.setMinWidth(616);
+        primaryStage.setMinHeight(539);
         // primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("hospital.png")));
         primaryStage.setScene(scene);
         primaryStage.show();
