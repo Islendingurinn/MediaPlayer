@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.Controller">
    <center>
-      <MediaView fitHeight="200.0" fitWidth="300.0" BorderPane.alignment="CENTER" />
+      <MediaView fx:id="mediaview" fitHeight="200.0" fitWidth="300.0" BorderPane.alignment="CENTER" />
    </center>
    <top>
       <GridPane id="menu" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
@@ -55,16 +55,16 @@
    <left>
       <VBox id="sidemenu" prefHeight="400.0" prefWidth="149.0" BorderPane.alignment="CENTER">
          <children>
-            <Label id="library" fx:id="libary" text="Library" />
+            <Label id="library" fx:id="library" text="Library" />
             <VBox id="library_list" alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Button fx:id="last_added" mnemonicParsing="false" text="Last added" />
-                  <Button fx:id="colection" mnemonicParsing="false" text="Colection" />
+                  <Button fx:id="collection" mnemonicParsing="false" text="Collection" />
                </children>
             </VBox>
             <Label text="Playlists" />
-            <ListView id="list" focusTraversable="false" />
-            <Button id="playlist_btn" fx:id="create_playlist" alignment="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="289.0" text="Create playlist" />
+            <ListView id="list" fx:id="playlists" focusTraversable="false" />
+            <Button id="playlist_btn" fx:id="create_playlist" alignment="CENTER" mnemonicParsing="false" onAction="#createPlaylist" prefHeight="60.0" prefWidth="289.0" text="Create playlist" />
          </children>
       </VBox>
    </left>

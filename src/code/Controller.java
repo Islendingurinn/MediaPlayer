@@ -2,39 +2,68 @@ package code;
 
 import code.player.PlayerManager;
 import code.playlist.Playlist;
+import code.playlist.PlaylistManager;
 import code.video.Video;
 import database.DB;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
 
+    public static ObservableList<String> _DISPLAYEDPLAYLISTS;
     private List<Playlist> _PLAYLISTS;
     private List<Video> _VIDEOS;
 
     @FXML
     private MediaView mediaview;
 
+    @FXML
+    private TextField search;
+
+    @FXML
+    private ListView<String> playlists;
+
+    @FXML
+    private Button play;
+
+    @FXML
+    private Label library;
+
+    @FXML
+    private Button last_added;
+
+    @FXML
+    private Button collection;
+
+    @FXML
+    private Button create_playlist;
+
     public void initialize(){
         PlayerManager.setMediaview(mediaview);
         PlayerManager.set();
+
+        _DISPLAYEDPLAYLISTS = FXCollections.observableArrayList();
+        playlists.setItems(_DISPLAYEDPLAYLISTS);
 
         //setupVideos();
         //setupPlaylists();
     }
 
-    private boolean test = false;
-
     @FXML
-    void buttonpress(ActionEvent event) {
-
-        PlayerManager.stopVideo();
-
+    private void createPlaylist(ActionEvent event) {
+        Playlist playlist = new Playlist(1);
     }
 
     private void setupPlaylists(){

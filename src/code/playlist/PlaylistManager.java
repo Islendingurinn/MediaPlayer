@@ -6,7 +6,7 @@ import java.util.List;
 
 public class PlaylistManager {
 
-    public void createPlaylist(String name, List<Integer> videos){
+    public static void createPlaylist(String name, List<Integer> videos){
 
         DB.selectSQL("SELECT count(fldPlaylistID) FROM tblPlaylist");
         int ID = Integer.parseInt(DB.getData());
@@ -18,20 +18,20 @@ public class PlaylistManager {
         }
     }
 
-    public void deletePlaylist(int ID){
+    public static void deletePlaylist(int ID){
 
         DB.deleteSQL("DELETE FROM tblPlaylist WHERE fldPlaylistID=" + ID);
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + ID);
 
     }
 
-    public void addVideoToPlaylist(int playlistID, int videoID){
+    public static void addVideoToPlaylist(int playlistID, int videoID){
 
         DB.insertSQL("INSERT INTO tblMapping (fldPlaylistID, fldVideoID) VALUES (" + playlistID + ", " + videoID + ")");
 
     }
 
-    public void removeVideoFromPlaylist(int playlistID, int videoID){
+    public static void removeVideoFromPlaylist(int playlistID, int videoID){
 
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + playlistID + " AND fldVideoID=" + videoID);
 
