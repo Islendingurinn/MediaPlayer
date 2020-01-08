@@ -13,11 +13,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.MediaView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -66,6 +64,16 @@ public class Controller {
         Playlist playlist = new Playlist(1);
     }
 
+    @FXML
+    private void videoInteract(ActionEvent event) {
+        PlayerManager.handleInteraction();
+    }
+
+    @FXML
+    private void playlistInteract(MouseEvent mouseEvent) {
+        PlaylistManager.handleInteraction(playlists);
+    }
+
     private void setupPlaylists(){
         DB.selectSQL("SELECT fldPlaylistID FROM tblPlaylist");
 
@@ -85,4 +93,5 @@ public class Controller {
             _VIDEOS.add(new Video(Integer.parseInt(resultset)));
         }while(true);
     }
+
 }

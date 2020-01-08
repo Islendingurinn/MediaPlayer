@@ -1,6 +1,8 @@
 package code.playlist;
 
 import database.DB;
+import javafx.event.ActionEvent;
+import javafx.scene.control.ListView;
 
 import java.util.List;
 
@@ -35,6 +37,11 @@ public class PlaylistManager {
 
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + playlistID + " AND fldVideoID=" + videoID);
 
+    }
+
+    public static void handleInteraction(ListView<String> playlists){
+        String x = playlists.getSelectionModel().getSelectedItem();
+        System.out.println(x);
     }
 
 }

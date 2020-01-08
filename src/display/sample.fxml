@@ -43,7 +43,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button id="play_btn" fx:id="play" mnemonicParsing="false" GridPane.columnIndex="1">
+            <Button id="play_btn" fx:id="play" mnemonicParsing="false" onAction="#videoInteract" GridPane.columnIndex="1">
                <graphic>
                   <FontAwesomeIconView glyphName="PLAY" />
                </graphic>
@@ -62,8 +62,8 @@
                </children>
             </VBox>
             <Label text="Playlists" />
-            <ListView id="list" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
-            <Button id="playlist_btn" fx:id="create_playlist" alignment="CENTER" mnemonicParsing="false" prefWidth="289.0" text="Create playlist" />
+            <ListView id="list" fx:id="playlists" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#playlistInteract" VBox.vgrow="ALWAYS" />
+            <Button id="playlist_btn" fx:id="create_playlist" alignment="CENTER" mnemonicParsing="false" onAction="#createPlaylist" prefWidth="289.0" text="Create playlist" />
          </children>
       </VBox>
    </left>

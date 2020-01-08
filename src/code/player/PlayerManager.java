@@ -14,6 +14,7 @@ public class PlayerManager {
     private static MediaView mediaview; //setmediaplayer(player)
     private static MediaPlayer mediaplayer; //new with media
     //private Media media; // The video file new Media w/ path
+    private static boolean _PAUSE = false;
 
     public static void setMediaview(MediaView mv){
         mediaview = mv;
@@ -67,6 +68,20 @@ public class PlayerManager {
         height.bind(Bindings.selectDouble(mediaview.sceneProperty(), "height"));
     }
 
+    public static void handleInteraction(){
+        if(mediaview.getMediaPlayer() == null){
+            //TODO: Play selected video / playlist
+        }else if(_PAUSE){
+            playVideo();
+            _PAUSE = !_PAUSE;
+        }else{
+            pauseVideo();
+            _PAUSE = !_PAUSE;
+        }
+
+
+    }
+
     public static void playVideo(){
         mediaplayer.play();
     }
@@ -78,5 +93,6 @@ public class PlayerManager {
     public static void stopVideo(){
         mediaplayer.stop();
         mediaview.setMediaPlayer(null);
+        _PAUSE = false;
     }
 }
