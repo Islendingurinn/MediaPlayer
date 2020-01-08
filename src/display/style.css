@@ -41,7 +41,7 @@ FontAwesomeIconView
 }
 #list
 {
-    -fx-background-color: black;
+    -fx-background-color: Transparent;
     -fx-padding: 10;
 }
 #playlist_btn

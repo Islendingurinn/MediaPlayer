@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.Controller">
-   <center>
-      <MediaView fx:id="mediaview" fitHeight="200.0" fitWidth="300.0" BorderPane.alignment="CENTER" />
-   </center>
    <top>
       <GridPane id="menu" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -52,19 +52,29 @@
       </GridPane>
    </bottom>
    <left>
-      <VBox id="sidemenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0" BorderPane.alignment="CENTER">
+      <VBox id="sidemenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
-            <Label id="library" fx:id="library" text="Library" />
-            <VBox id="library_list" alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Button fx:id="last_added" mnemonicParsing="false" text="Last added" />
-                  <Button fx:id="collection" mnemonicParsing="false" text="Collection" />
-               </children>
-            </VBox>
+            <Button fx:id="last_added" mnemonicParsing="false" text="Library" />
             <Label text="Playlists" />
             <ListView id="list" fx:id="playlists" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#playlistInteract" VBox.vgrow="ALWAYS" />
             <Button id="playlist_btn" fx:id="create_playlist" alignment="CENTER" mnemonicParsing="false" onAction="#createPlaylist" prefWidth="289.0" text="Create playlist" />
          </children>
       </VBox>
    </left>
+   <center>
+      <StackPane fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
+         <children>
+            <ListView />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <MediaView fx:id="mediaview" smooth="false">
+                     <viewport>
+                        <Rectangle2D />
+                     </viewport>
+                  </MediaView>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </center>
 </BorderPane>
