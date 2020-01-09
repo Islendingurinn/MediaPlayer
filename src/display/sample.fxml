@@ -56,19 +56,25 @@
             <Button mnemonicParsing="false" onAction="#requestLibrary" text="Library" />
             <Label text="Playlists" />
             <ListView id="list" fx:id="playlists" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#playlistInteract" VBox.vgrow="ALWAYS" />
-            <Button id="playlist_btn" fx:id="create_playlist" alignment="CENTER" mnemonicParsing="false" onAction="#createPlaylist" prefWidth="289.0" text="Create playlist" />
+            <StackPane prefHeight="58.0" prefWidth="150.0">
+               <children>
+                  <Button id="playlist_btn" alignment="CENTER" mnemonicParsing="false" onAction="#createPlaylist" prefWidth="289.0" text="Create playlist" />
+                  <TextField fx:id="playlistName" onAction="#onPlaylistName" prefHeight="35.0" prefWidth="150.0" visible="false" />
+               </children>
+            </StackPane>
          </children>
       </VBox>
    </left>
    <center>
         <StackPane fx:id="center" minHeight="600.0" minWidth="800.0" BorderPane.alignment="TOP_LEFT">
          <children>
-            <MediaView fx:id="mediaview">
+            <MediaView fx:id="mediaview" visible="false">
                <viewport>
                   <Rectangle2D />
                </viewport>
             </MediaView>
             <ListView fx:id="videos" prefHeight="200.0" prefWidth="200.0" />
+            <ListView fx:id="currentPlaylist" prefHeight="200.0" prefWidth="200.0" visible="false" />
          </children>
       </StackPane>
    </center>
