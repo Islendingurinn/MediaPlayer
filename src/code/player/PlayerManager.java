@@ -3,6 +3,7 @@ package code.player;
 import database.DB;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -42,17 +43,14 @@ public class PlayerManager {
         return new Media(new File(resultset).toURI().toString());
     }
 
-    public static void set(){
+    public static void set(StackPane center){
         mediaplayer = new MediaPlayer(load());
         mediaview.setMediaPlayer(mediaplayer);
 
         mediaplayer.setAutoPlay(true);
 
-        DoubleProperty width = mediaview.fitWidthProperty();
-        DoubleProperty height = mediaview.fitHeightProperty();
-
-        width.bind(Bindings.selectDouble(mediaview.sceneProperty(), "width"));
-        height.bind(Bindings.selectDouble(mediaview.sceneProperty(), "height"));
+        mediaview.fitWidthProperty().bind(center.widthProperty().subtract(50));
+        mediaview.fitHeightProperty().bind(center.heightProperty().subtract(50));
     }
 
     public static void setVideo(int id){

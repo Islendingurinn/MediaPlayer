@@ -5,12 +5,20 @@ import code.playlist.Playlist;
 import code.playlist.PlaylistManager;
 import code.video.Video;
 import database.DB;
+import javafx.beans.InvalidationListener;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaView;
 
@@ -23,10 +31,10 @@ public class Controller {
     private List<Video> _VIDEOS;
 
     @FXML
-    private MediaView mediaview;
+    private MediaView mediaView;
 
     @FXML
-    private StackPane stackPane;
+    public StackPane center;
 
     @FXML
     private TextField search;
@@ -50,8 +58,8 @@ public class Controller {
     private Button create_playlist;
 
     public void initialize(){
-        PlayerManager.setMediaview(mediaview);
-        PlayerManager.set();
+        PlayerManager.setMediaview(mediaView);
+        PlayerManager.set(center);
 
         _DISPLAYEDPLAYLISTS = FXCollections.observableArrayList();
         playlists.setItems(_DISPLAYEDPLAYLISTS);
@@ -61,12 +69,6 @@ public class Controller {
 
         //playlists.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-
-        int w = (int)stackPane.getWidth(); // player.getMedia().getWidth();
-        int h = (int)stackPane.getHeight(); // player.getMedia().getHeight();
-
-        //mediaview.setFitHeight(200);
-        //mediaview.setFitWidth(200);
     }
 
     @FXML
