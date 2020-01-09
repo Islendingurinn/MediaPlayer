@@ -15,7 +15,8 @@ public class Video {
     public Video(int _ID){
         this._ID = _ID;
 
-        load();
+        //load();
+        test();
     }
 
     private void load(){
@@ -30,5 +31,9 @@ public class Video {
         _CATEGORY = DB.getData();
 
         Controller._DISPLAYEDVIDEOS.add(_NAME);
+    }
+
+    private void test(){
+        Controller._DISPLAYEDVIDEOS.add("Test");
     }
 }

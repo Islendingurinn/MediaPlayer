@@ -23,7 +23,7 @@ public class Playlist {
 
         //DB.selectSQL("SELECT fldName FROM tblPlaylist WHERE fldPlaylistID=" + this._ID);
         //this._NAME = DB.getData();
-        this._NAME = "Test Playlist";
+        this._NAME = "Test Playlistkkihuhuhujij \nuhu";
         Controller._DISPLAYEDPLAYLISTS.add(_NAME);
 
         /*DB.selectSQL("SELECT fldVideoID FROM tblMapping WHERE fldPlaylistID=" + this._ID);
@@ -40,7 +40,7 @@ public class Playlist {
     }
 
     private void save(){
-        PlaylistManager.createPlaylist(_NAME, _VIDEOS);
+        //PlaylistManager.createPlaylist(_NAME, _VIDEOS);
     }
 
     private void delete(){

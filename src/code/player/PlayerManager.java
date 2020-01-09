@@ -1,8 +1,10 @@
 package code.player;
 
+import code.Controller;
 import database.DB;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -14,11 +16,16 @@ public class PlayerManager {
 
     private static MediaView mediaview; //setmediaplayer(player)
     private static MediaPlayer mediaplayer; //new with media
+    private static ListView<String> library;
     //private Media media; // The video file new Media w/ path
     private static boolean _PAUSE = false;
 
     public static void setMediaview(MediaView mv){
         mediaview = mv;
+    }
+
+    public static void setLibrary(ListView<String> videos){
+        library = videos;
     }
 
     public static Media load(){
@@ -45,6 +52,7 @@ public class PlayerManager {
 
     public static void set(StackPane center){
         mediaview.setVisible(true);
+        library.setVisible(false);
         mediaplayer = new MediaPlayer(load());
         mediaview.setMediaPlayer(mediaplayer);
 
@@ -95,6 +103,7 @@ public class PlayerManager {
         mediaplayer.stop();
         mediaview.setMediaPlayer(null);
         _PAUSE = false;
+        library.setVisible(true);
         mediaview.setVisible(false);
     }
 }

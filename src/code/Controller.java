@@ -15,10 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -41,31 +38,20 @@ public class Controller {
     public StackPane center;
 
     @FXML
-    private TextField search;
-
-    @FXML
     private ListView<String> playlists;
 
     @FXML
+    private TextField search;
+
+    @FXML
     private ListView<String> videos;
-
-    @FXML
-    private Button play;
-
-    @FXML
-    private Label library;
-
-    @FXML
-    private Button last_added;
-
-    @FXML
-    private Button collection;
 
     @FXML
     private Button create_playlist;
 
     public void initialize(){
         PlayerManager.setMediaview(mediaview);
+        PlayerManager.setLibrary(videos);
         VideoManager.setVideos(videos);
         PlayerManager.set(center);
 
@@ -74,6 +60,7 @@ public class Controller {
 
         _DISPLAYEDVIDEOS = FXCollections.observableArrayList();
         videos.setItems(_DISPLAYEDVIDEOS);
+        videos.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         //setupVideos();
         //setupPlaylists();
@@ -81,7 +68,13 @@ public class Controller {
 
     @FXML
     private void createPlaylist(ActionEvent event) {
+        if(mediaview.getMediaPlayer() != null) return;
+
         Playlist playlist = new Playlist(1);
+        Video video = new Video(1);
+
+        List<String> selectedVideos = videos.getSelectionModel().getSelectedItems();
+        PlaylistManager.createPlaylist("Test", selectedVideos);
     }
 
     @FXML
@@ -97,6 +90,11 @@ public class Controller {
     @FXML
     private void libraryInteract(MouseEvent mouseEvent) {
         VideoManager.handleInteraction(videos);
+    }
+
+    @FXML
+    private void requestLibrary(ActionEvent event) {
+        PlayerManager.stopVideo();
     }
 
     private void setupPlaylists(){
@@ -118,5 +116,4 @@ public class Controller {
             _VIDEOS.add(new Video(Integer.parseInt(resultset)));
         }while(true);
     }
-
 }

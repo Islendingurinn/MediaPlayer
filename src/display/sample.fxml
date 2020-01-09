@@ -42,7 +42,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button id="play_btn" fx:id="play" mnemonicParsing="false" onAction="#videoInteract" GridPane.columnIndex="1">
+            <Button id="play_btn" mnemonicParsing="false" onAction="#videoInteract" GridPane.columnIndex="1">
                <graphic>
                   <FontAwesomeIconView glyphName="PLAY" />
                </graphic>
@@ -53,7 +53,7 @@
    <left>
       <VBox id="sidemenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="last_added" mnemonicParsing="false" text="Library" />
+            <Button mnemonicParsing="false" onAction="#requestLibrary" text="Library" />
             <Label text="Playlists" />
             <ListView id="list" fx:id="playlists" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#playlistInteract" VBox.vgrow="ALWAYS" />
             <Button id="playlist_btn" fx:id="create_playlist" alignment="CENTER" mnemonicParsing="false" onAction="#createPlaylist" prefWidth="289.0" text="Create playlist" />
@@ -63,11 +63,12 @@
    <center>
         <StackPane fx:id="center" minHeight="600.0" minWidth="800.0" BorderPane.alignment="TOP_LEFT">
          <children>
-            <MediaView fx:id="mediaView">
+            <MediaView fx:id="mediaview">
                <viewport>
                   <Rectangle2D />
                </viewport>
             </MediaView>
+            <ListView fx:id="videos" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </StackPane>
    </center>

@@ -1,6 +1,7 @@
 package code.playlist;
 
 import database.DB;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ListView;
 
@@ -8,15 +9,15 @@ import java.util.List;
 
 public class PlaylistManager {
 
-    public static void createPlaylist(String name, List<Integer> videos){
+    public static void createPlaylist(String name, List<String> videos){
 
         DB.selectSQL("SELECT count(fldPlaylistID) FROM tblPlaylist");
         int ID = Integer.parseInt(DB.getData());
 
         DB.insertSQL("INSERT INTO tblPlaylist (fldName) VALUES (" + name + ")");
 
-        for(int videoID : videos){
-            DB.insertSQL("INSERT INTO tblMapping (fldPlaylistID, fldVideoID) VALUES (" + ID + ", " + videoID + ")");
+        for(String video : videos){
+            //DB.insertSQL("INSERT INTO tblMapping (fldPlaylistID, fldVideoID) VALUES (" + ID + ", " + videoID + ")");
         }
     }
 
