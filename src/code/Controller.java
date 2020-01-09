@@ -4,6 +4,7 @@ import code.player.PlayerManager;
 import code.playlist.Playlist;
 import code.playlist.PlaylistManager;
 import code.video.Video;
+import code.video.VideoManager;
 import database.DB;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
@@ -14,8 +15,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -27,11 +30,12 @@ import java.util.List;
 public class Controller {
 
     public static ObservableList<String> _DISPLAYEDPLAYLISTS;
-    private List<Playlist> _PLAYLISTS;
-    private List<Video> _VIDEOS;
+    public static ObservableList<String> _DISPLAYEDVIDEOS;
+    public static List<Playlist> _PLAYLISTS;
+    public static List<Video> _VIDEOS;
 
     @FXML
-    private MediaView mediaView;
+    private MediaView mediaview;
 
     @FXML
     public StackPane center;
@@ -41,6 +45,9 @@ public class Controller {
 
     @FXML
     private ListView<String> playlists;
+
+    @FXML
+    private ListView<String> videos;
 
     @FXML
     private Button play;
@@ -58,17 +65,18 @@ public class Controller {
     private Button create_playlist;
 
     public void initialize(){
-        PlayerManager.setMediaview(mediaView);
+        PlayerManager.setMediaview(mediaview);
+        VideoManager.setVideos(videos);
         PlayerManager.set(center);
 
         _DISPLAYEDPLAYLISTS = FXCollections.observableArrayList();
         playlists.setItems(_DISPLAYEDPLAYLISTS);
 
+        _DISPLAYEDVIDEOS = FXCollections.observableArrayList();
+        videos.setItems(_DISPLAYEDVIDEOS);
+
         //setupVideos();
         //setupPlaylists();
-
-        //playlists.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
     }
 
     @FXML
@@ -84,6 +92,11 @@ public class Controller {
     @FXML
     private void playlistInteract(MouseEvent mouseEvent) {
         PlaylistManager.handleInteraction(playlists);
+    }
+
+    @FXML
+    private void libraryInteract(MouseEvent mouseEvent) {
+        VideoManager.handleInteraction(videos);
     }
 
     private void setupPlaylists(){

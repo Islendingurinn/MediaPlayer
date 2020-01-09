@@ -44,6 +44,7 @@ public class PlayerManager {
     }
 
     public static void set(StackPane center){
+        mediaview.setVisible(true);
         mediaplayer = new MediaPlayer(load());
         mediaview.setMediaPlayer(mediaplayer);
 
@@ -89,8 +90,11 @@ public class PlayerManager {
     }
 
     public static void stopVideo(){
+        if(mediaview.getMediaPlayer() == null) return;
+
         mediaplayer.stop();
         mediaview.setMediaPlayer(null);
         _PAUSE = false;
+        mediaview.setVisible(false);
     }
 }

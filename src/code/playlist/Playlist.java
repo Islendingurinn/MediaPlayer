@@ -1,7 +1,6 @@
 package code.playlist;
 
 import code.Controller;
-import database.DB;
 
 import java.util.ArrayList;
 import java.util.List;

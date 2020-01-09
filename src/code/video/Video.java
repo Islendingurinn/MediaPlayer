@@ -1,5 +1,6 @@
 package code.video;
 
+import code.Controller;
 import database.DB;
 
 import java.io.File;
@@ -27,5 +28,7 @@ public class Video {
 
         DB.selectSQL("SELECT fldCategory FROM tblVideo WHERE fldVideoID=" + _ID);
         _CATEGORY = DB.getData();
+
+        Controller._DISPLAYEDVIDEOS.add(_NAME);
     }
 }
