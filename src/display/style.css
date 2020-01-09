@@ -1,24 +1,38 @@
+@font-face {
+    font-family: "Open Sans";
+    src: url("fonts/OpenSans-Regular.ttf");
+}
+@font-face {
+    font-family: "Open Sans";
+    src: url("fonts/OpenSans-Bold.ttf");
+}
+.root
+{
+    -fx-font-family: 'Open Sans', sans-serif;
+}
+.root FontAwesomeIconView
+{
+    -fx-font-size: 16;
+    -fx-fill: white;
+    -fx-font-family: 'FontAwesome';
+}
 Label
 {
-    -fx-font-size: 13;
+    -fx-font-size: 14;
     -fx-text-fill: #a8a8a8;
     -fx-padding: 5 10;
 }
 Button
 {
-    -fx-font-size: 13;
+    -fx-font-size: 14;
     -fx-text-fill: #a8a8a8;
     -fx-font-weight: bold;
     -fx-background-color: Transparent;
     -fx-padding: 5 10;
 }
-FontAwesomeIconView
-{
-    -fx-fill: white;
-}
 #menu
 {
-    -fx-background-color: black;
+    -fx-background-color: #2B2B2B;
     -fx-padding: 10;
 }
 #search
@@ -29,24 +43,89 @@ FontAwesomeIconView
 }
 #sidemenu
 {
-    -fx-background-color: black;
+    -fx-background-color: #2B2B2B;
+}
+#sidemenu Button
+{
+    -fx-padding: 20 0 0 20;
+    -fx-text-fill: #A7A7A7;
 }
 #sidemenu > Label
 {
-    -fx-padding: 20 0 0 10;
+    -fx-padding: 20 0 0 20;
 }
 #sidemenu Button:hover
 {
     -fx-text-fill: white;
 }
-#list
+/* The ListView for playlist */
+#playlists
 {
+    -fx-font-size: 14;
+    -fx-padding: 5 1 0 10;
     -fx-background-color: Transparent;
-    -fx-padding: 10;
+}
+
+/**/
+#playlists .list-cell
+{
+    -fx-text-fill: #A7A7A7;
+    -fx-background-color: Transparent;
+}
+
+#playlists .list-cell:selected
+{
+    -fx-text-fill: white;
+}
+#playlists .list-cell:hover
+{
+    -fx-text-fill: white;
+}
+
+
+/* The scrollbar of ListView */
+#playlists .scroll-bar:horizontal .track,
+#playlists .scroll-bar:vertical .track
+{
+    -fx-background-color: #121212;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius: 2em;
+}
+/* The increment and decrement button scrollbar */
+#playlists .scroll-bar:horizontal .increment-button,
+#playlists .scroll-bar:horizontal .decrement-button
+{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0 0 10 0;
+}
+/* The increment and decrement button scrollbar */
+#playlists .scroll-bar:vertical .increment-button,
+#playlists .scroll-bar:vertical .decrement-button
+{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding:0 10 0 0;
+}
+
+#playlists  .scroll-bar .increment-arrow,
+#playlists  .scroll-bar .decrement-arrow
+{
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+/* The main scrollbar CSS class which we drag every time (movable) */
+#playlists .scroll-bar:horizontal .thumb,
+#playlists .scroll-bar:vertical .thumb
+{
+    -fx-background-color: #A7A7A7;
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2;
 }
 #playlist_btn
 {
-    -fx-background-color: black;
+    -fx-background-color: #2B2B2B;
     -fx-padding: 20 0;
     -fx-pref-width: 150;
     -fx-text-fill: #a8a8a8;
@@ -60,12 +139,12 @@ FontAwesomeIconView
 }
 #control
 {
-    -fx-background-color: gray;
+    -fx-background-color: #3C3F41;
     -fx-padding: 10;
 }
 #play_btn
 {
-    -fx-background-color: gray;
+    -fx-background-color: #3C3F41;
     -fx-border-color: white;
     -fx-background-radius: 10;
     -fx-padding: 10 20;
@@ -73,7 +152,13 @@ FontAwesomeIconView
     -fx-border-width: 2;
     -fx-background-insets: 2;
 }
+#play_btn > FontAwesomeIconView
+{
+    -fx-font-size: 12;
+    -fx-fill: white;
+}
 #play_btn:hover > FontAwesomeIconView
 {
     -fx-fill: red;
 }
+
