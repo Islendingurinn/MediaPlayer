@@ -53,8 +53,8 @@
    <left>
       <VBox id="sidemenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#requestLibrary" text="Library" />
-            <Label text="Playlists" />
+            <Button mnemonicParsing="false" onAction="#requestLibrary" text="LIBRARY" />
+            <Label text="PLAYLISTS" />
             <ListView id="playlists" fx:id="playlists" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#playlistInteract" VBox.vgrow="ALWAYS" />
             <StackPane prefHeight="58.0" prefWidth="150.0">
                <children>
