@@ -54,5 +54,12 @@ public class Video {
         DB.deleteSQL("DELETE FROM tblVideo WHERE fldVideoID=" + _ID);
     }
 
+    public boolean compares(String search){
+        if(search.contains("" + _ID)) return true;
+        if(search.contains(_NAME)) return true;
+        if(search.contains(_CATEGORY)) return true;
+
+        return false;
+    }
 
 }

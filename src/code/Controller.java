@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaView;
@@ -166,6 +167,20 @@ public class Controller {
         PlayerManager.stopVideo();
         currentPlaylist.setVisible(false);
         videos.setVisible(true);
+    }
+
+    @FXML
+    private void searched(KeyEvent event){
+        PlayerManager.stopVideo();
+        videos.setVisible(false);
+        currentPlaylist.setVisible(true);
+
+        _CURRENTPLAYLIST.clear();
+
+        String searchTerm = search.getText();
+        for(Video video : _VIDEOS){
+            if(video.compares(searchTerm)) _CURRENTPLAYLIST.add(video.toString());
+        }
     }
 
     private void setupPlaylists(){

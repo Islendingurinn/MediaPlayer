@@ -27,7 +27,7 @@
         </rowConstraints>
          <children>
             <Label text="MediaPlayer" />
-            <TextField id="search" fx:id="search" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" promptText="Search" GridPane.columnIndex="2" />
+            <TextField id="search" fx:id="search" maxWidth="150.0" minWidth="150.0" onKeyTyped="#searched" prefWidth="150.0" promptText="Search" GridPane.columnIndex="2" />
          </children>
       </GridPane>
    </top>
