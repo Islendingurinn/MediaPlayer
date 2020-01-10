@@ -13,7 +13,7 @@ public class Main extends Application {
     {
         Parent root = FXMLLoader.load(getClass().getResource("/display/sample.fxml"));
         Scene scene = new Scene(root);
-        primaryStage.setMinWidth(966);
+        primaryStage.setMinWidth(1066);
         primaryStage.setMinHeight(739);
         // primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("hospital.png")));
         primaryStage.setScene(scene);
