@@ -1,4 +1,5 @@
 package database;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +42,7 @@ public class DB {
      */
     static {
         Properties props = new Properties();
-        String fileName = "db.properties";
+        String fileName = "src/database/db.properties";
         InputStream input;
         try{
             input = new FileInputStream(fileName);
@@ -130,11 +131,13 @@ public class DB {
     public static String getData(){
         if (terminated){
             System.exit(0);
+            System.out.println("Terminated");
         }
         if (!pendingData){
             terminated=true;
             throw new RuntimeException("ERROR! No previous select, communication with the database is lost!"); 
         }else if (!moreData){
+            System.out.println("Disconnected");
            disconnect();
            pendingData=false;
            return NOMOREDATA; 

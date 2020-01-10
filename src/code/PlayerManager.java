@@ -1,13 +1,6 @@
 package code;
 
-import code.Controller;
-import code.Video;
-import database.DB;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -34,21 +27,21 @@ public class PlayerManager {
     }
 
     public static void loadVideo(String name){
-        DB.selectSQL("SELECT fldVideoID FROM tblVideo WHERE fldName=" + name);
-        String resultset = DB.getData();
+        database.DB.selectSQL("SELECT fldVideoID FROM tblVideo WHERE fldName=" + name);
+        String resultset = database.DB.getData();
 
 
 
 
-        if(resultset.equals(DB.NOMOREDATA)); //TODO: ERROR
+        if(resultset.equals(database.DB.NOMOREDATA)); //TODO: ERROR
         loadVideo(Integer.parseInt(resultset));
     }
 
     public static Media loadVideo(int id){
-        DB.selectSQL("SELECT fldPath FROM tblVideo where fldVideoID=" + id);
-        String resultset = DB.getData();
+        database.DB.selectSQL("SELECT fldPath FROM tblVideo where fldVideoID=" + id);
+        String resultset = database.DB.getData();
 
-        if(resultset.equals(DB.NOMOREDATA)); //TODO: ERROR
+        if(resultset.equals(database.DB.NOMOREDATA)); //TODO: ERROR
 
         return new Media(new File(resultset).toURI().toString());
     }
@@ -111,15 +104,23 @@ public class PlayerManager {
     }
 
     public static void play(List<Video> videos){
-        if(videos.size() == 0) stopVideo();
+        //if(videos.size() == 0) stopVideo();
+        try {
+            Video video = videos.get(0);
+            mediaplayer = new MediaPlayer(new Media(new File(video.getPath()).toURI().toString()));
+            mediaview.setVisible(true);
+            mediaplayer.setAutoPlay(true);
 
-        Video video = videos.get(0);
-        mediaplayer = new MediaPlayer(new Media(video.getPath()));
-        mediaview.setVisible(true);
+            System.out.println("Playing: " + video.toString());
 
-        mediaplayer.setOnEndOfMedia(() -> {
-            videos.remove(0);
-            play(videos);
-        });
+            mediaplayer.setOnEndOfMedia(() -> {
+                videos.remove(0);
+                play(videos);
+            });
+
+            mediaview.setMediaPlayer(mediaplayer);
+        }catch(IndexOutOfBoundsException ex){
+            stopVideo();
+        }
     }
 }

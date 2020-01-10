@@ -1,9 +1,6 @@
 package code;
 
-import code.Controller;
 import database.DB;
-
-import java.io.File;
 
 public class Video {
 
@@ -18,7 +15,8 @@ public class Video {
         _PATH = path;
         _CATEGORY = category;
 
-        if(_ID == -1) setupID();
+        toggleDisplay();
+        if(_ID == -1) this._ID = setupID();
     }
 
     public int getID(){
@@ -35,14 +33,14 @@ public class Video {
     }
 
     public void toggleDisplay(){
-        if(Controller._DISPLAYEDVIDEOS.contains(toString()))
+        if(!Controller._DISPLAYEDVIDEOS.contains(toString()))
             Controller._DISPLAYEDVIDEOS.add(toString());
         else
             Controller._DISPLAYEDVIDEOS.remove(toString());
     }
 
     private int setupID(){
-        DB.selectSQL("SELECT count(fldVideoID) IN tblVideo");
+        DB.selectSQL("SELECT count(fldVideoID) FROM tblVideo");
         return Integer.parseInt(DB.getData());
     }
 

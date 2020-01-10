@@ -14,6 +14,9 @@ public class Playlist {
         this._ID = id;
         this._NAME = name;
         this._VIDEOS = videos;
+
+        if(this._ID == -1) this._ID = setupID();
+        toggleDisplay();
     }
 
     public int getID(){
@@ -29,18 +32,33 @@ public class Playlist {
         return _VIDEOS;
     }
 
-    private void toggleDisplay(){
-        if(Controller._DISPLAYEDPLAYLISTS.contains(toString()))
+    public void toggleDisplay(){
+        if(!Controller._DISPLAYEDPLAYLISTS.contains(toString()))
             Controller._DISPLAYEDPLAYLISTS.add(toString());
         else
             Controller._DISPLAYEDPLAYLISTS.remove(toString());
     }
 
-    private void save(){
-        DB.insertSQL("INSERT INTO tblPlaylist (fldPlaylistID, fldName) VALUES (" + _ID + ", " + _NAME + ")");
+    private int setupID(){
+        DB.selectSQL("SELECT count(fldPlaylistID) FROM tblPlaylist");
+        //String resultset = DB.getData();
+
+        int id = -1;
+        do{
+            String resultset = DB.getData();
+            System.out.println(resultset);
+            if(resultset.equals(DB.NOMOREDATA)) break;
+            id = Integer.parseInt(resultset);
+        }while(true);
+
+        return id+1;
+    }
+
+    public void save(){
+        DB.insertSQL("INSERT INTO tblPlaylist (fldPlaylistID, fldName) VALUES (" + _ID + ", '" + _NAME + "')");
 
         for(Video video : _VIDEOS){
-            DB.insertSQL("INSERT INTO tblMapping (fldPlaylistID, fldVideoID) VALUES (" + _ID + ", " + video.getID() + ")");
+            DB.insertSQL("INSERT INTO tblMapping (fldVideoID, fldPlaylistID) VALUES (" + video.getID() + ", " + _ID + ")");
         }
     }
 
@@ -49,13 +67,13 @@ public class Playlist {
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + _ID);
     }
 
-    private void add(Video video){
+    public void add(Video video){
         _VIDEOS.add(video);
         DB.insertSQL("INSERT INTO tblMapping (fldPlaylistID, fldVideoID) VALUES (" + _ID + ", " + video.getID() + ")");
         //TODO: CHECK?
     }
 
-    private void remove(Video video){
+    public void remove(Video video){
         _VIDEOS.remove(video);
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + _ID + " AND fldVideoID=" + video.getID());
     }

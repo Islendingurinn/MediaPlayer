@@ -59,8 +59,13 @@ public class Controller {
         _CURRENTPLAYLIST = FXCollections.observableArrayList();
         currentPlaylist.setItems(_CURRENTPLAYLIST);
 
-        //setupVideos();
-        //setupPlaylists();
+        _VIDEOS = new ArrayList<>();
+        _PLAYLISTS = new ArrayList<>();
+
+        setupVideos();
+        setupPlaylists();
+
+        System.out.println(_VIDEOS.size());
     }
 
     @FXML
@@ -71,6 +76,8 @@ public class Controller {
         if(selectedVideos.size() > 0){
             waitingForPlaylistName = true;
             playlistName.setVisible(true);
+            playlistName.requestFocus();
+            System.out.println("creating");
         }else selectedVideos = null;
     }
 
@@ -81,14 +88,19 @@ public class Controller {
             for(Video video : _VIDEOS){
                 if(video.toString().equalsIgnoreCase(toString)){
                     playlistVideos.add(video);
+                    System.out.println("Videos: " + playlistVideos.size());
                     break;
                 }
             }
         }
 
-        //TODO:
-        Playlist newPlaylist = new Playlist(1, playlistName.getText(), playlistVideos);
+        Playlist newPlaylist = new Playlist(-1, playlistName.getText(), playlistVideos);
+        newPlaylist.save();
         playlistName.setVisible(false);
+
+        _PLAYLISTS.clear();
+        _DISPLAYEDPLAYLISTS.clear();
+        setupPlaylists();
     }
 
     @FXML
@@ -110,6 +122,7 @@ public class Controller {
 
             if(selectedVideos.size() == 0) return;
             videos.setVisible(false);
+            currentPlaylist.setVisible(false);
             PlayerManager.play(selectedVideos);
         }else if(currentPlaylist.isVisible()){
             //PLAY PLAYLIST
@@ -157,6 +170,9 @@ public class Controller {
             }
         }
 
+        _CURRENTPLAYLIST.clear();
+        System.out.println("Playlist: " + playlist);
+        System.out.println("Size: " + playlist.getVideos().size());
         for(Video video : playlist.getVideos()){
             _CURRENTPLAYLIST.add(video.toString());
         }
@@ -184,13 +200,32 @@ public class Controller {
     }
 
     private void setupPlaylists(){
-        DB.selectSQL("SELECT fldPlaylistID FROM tblPlaylist");
 
-        do{
-            String resultset = DB.getData();
-            if(resultset.equals(DB.NOMOREDATA)) break;
-            //_PLAYLISTS.add(new Playlist(Integer.parseInt(resultset)));
-        }while(true);
+        DB.selectSQL("SELECT count(fldPlaylistID) FROM tblPlaylist");
+        int nrValues = Integer.parseInt(DB.getData());
+
+        for (int i = 1; i <= nrValues; i++) {
+            DB.selectSQL("SELECT fldName FROM tblPlaylist WHERE fldPlaylistID=" + i);
+            String name = DB.getData();
+
+            List<Video> playlistVideos = new ArrayList<>();
+            DB.selectSQL("SELECT fldVideoID FROM tblMapping WHERE fldPlaylistID=" + i);
+            do{
+                String mappingset = DB.getData();
+                if(mappingset.equals(DB.NOMOREDATA)) break;
+
+                int videoID = Integer.parseInt(mappingset);
+                for(Video video : _VIDEOS){
+                    if(video.getID() == videoID) playlistVideos.add(video);
+                }
+            }while(true);
+
+            Playlist newPlaylist = new Playlist(i, name, playlistVideos);
+            _PLAYLISTS.add(newPlaylist);
+            System.out.println("end");
+        }
+
+
     }
 
     private void setupVideos(){
@@ -199,7 +234,20 @@ public class Controller {
         do{
             String resultset = DB.getData();
             if(resultset.equals(DB.NOMOREDATA)) break;
-            //_VIDEOS.add(new Video(Integer.parseInt(resultset)));
+
+            int id = Integer.parseInt(resultset);
+
+            DB.selectSQL("SELECT fldName FROM tblVideo WHERE fldVideoID=" + id);
+            String name = DB.getData();
+
+            DB.selectSQL("SELECT fldPath FROM tblVideo WHERE fldVideoID=" + id);
+            String path = DB.getData();
+
+            DB.selectSQL("SELECT fldCategory FROM tblVideo WHERE fldVideoID=" + id);
+            String category = DB.getData();
+
+            Video newVideo = new Video(id, name, path, category);
+            _VIDEOS.add(newVideo);
         }while(true);
     }
 }
