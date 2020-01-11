@@ -76,6 +76,9 @@ public class Controller {
         volume.valueProperty().addListener((observable, oldValue, newValue) -> {
             PlayerManager.volumeVideo(newValue.doubleValue()/100);
         });
+
+        mediaview.fitWidthProperty().bind(center.widthProperty().subtract(100));
+        mediaview.fitHeightProperty().bind(center.heightProperty().subtract(100));
     }
 
     @FXML
