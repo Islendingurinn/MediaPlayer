@@ -1,52 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.Controller">
    <top>
       <GridPane id="menu" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="200.0" />
-            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="301.0" minWidth="5.0" prefWidth="200.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="321.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="329.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="MediaPlayer" />
-            <TextField id="search" fx:id="search" maxWidth="150.0" minWidth="150.0" onKeyTyped="#searched" prefWidth="150.0" promptText="Search" GridPane.columnIndex="2" />
+            <TextField id="search" fx:id="search" maxWidth="200.0" minWidth="200.0" onKeyTyped="#searched" prefWidth="200.0" promptText="Search" GridPane.columnIndex="1" />
+            <HBox id="control_volume" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="132.0" GridPane.columnIndex="3">
+               <children>
+                  <FontAwesomeIconView glyphName="VOLUME_UP" />
+                  <Slider fx:id="volume" majorTickUnit="50.0" prefHeight="14.0" prefWidth="100.0" value="100.0" />
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </top>
    <bottom>
-      <GridPane id="control" BorderPane.alignment="CENTER">
+      <GridPane id="control" maxWidth="10000.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="600.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button id="play_btn" mnemonicParsing="false" onAction="#videoInteract" GridPane.columnIndex="1">
-               <graphic>
-                  <FontAwesomeIconView glyphName="PLAY" />
-               </graphic>
-            </Button>
+            <VBox id="control_center" prefHeight="48.0" prefWidth="574.0" GridPane.columnIndex="1">
+               <children>
+                  <HBox id="control_slider" alignment="TOP_CENTER" prefHeight="0.0" prefWidth="760.0">
+                     <children>
+                        <Label fx:id="video_timestamp" style="-fx-padding: 0;" text="1" />
+                        <Slider prefHeight="14.0" prefWidth="712.0" style="-fx-padding: 3;" />
+                        <Label fx:id="videoLength" style="-fx-padding: 0;" text="2" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="89.0" prefWidth="760.0">
+                     <children>
+                        <Button mnemonicParsing="false">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="STEP_BACKWARD" text="" />
+                           </graphic>
+                        </Button>
+                        <Button id="play_btn" mnemonicParsing="false" onAction="#videoInteract">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="STOP" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="STEP_FORWARD" />
+                           </graphic>
+                        </Button>
+                        <Button id="play_btn" mnemonicParsing="false" onAction="#videoInteract">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="PLAY" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </GridPane>
    </bottom>
@@ -55,10 +100,10 @@
          <children>
             <Button mnemonicParsing="false" onAction="#requestLibrary" text="LIBRARY" />
             <Label text="PLAYLISTS" />
-            <ListView id="playlists" fx:id="playlists" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#playlistInteract" VBox.vgrow="ALWAYS" />
-            <StackPane prefHeight="58.0" prefWidth="150.0">
+            <ListView id="playlists" fx:id="playlists" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#playlistInteract" prefHeight="391.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <StackPane prefHeight="0.0" prefWidth="200.0">
                <children>
-                  <Button id="playlist_btn" alignment="CENTER" mnemonicParsing="false" onAction="#createPlaylist" prefWidth="289.0" text="Create playlist" />
+                  <Button id="playlist_btn" alignment="CENTER" mnemonicParsing="false" onAction="#createPlaylist" prefWidth="729.0" text="Create playlist" />
                   <TextField fx:id="playlistName" onAction="#onPlaylistName" prefHeight="35.0" prefWidth="150.0" visible="false" />
                </children>
             </StackPane>

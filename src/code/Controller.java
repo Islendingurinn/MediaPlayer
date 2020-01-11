@@ -46,8 +46,14 @@ public class Controller {
     @FXML
     private ListView<String> currentPlaylist;
 
+    @FXML
+    private Label videoLength;
+
+    @FXML
+    private Slider volume;
+
     public void initialize(){
-        PlayerManager.setComponents(mediaview, videos);
+        PlayerManager.setComponents(mediaview, videos, videoLength);
 
         _DISPLAYEDPLAYLISTS = FXCollections.observableArrayList();
         playlists.setItems(_DISPLAYEDPLAYLISTS);
@@ -66,6 +72,10 @@ public class Controller {
         setupPlaylists();
 
         System.out.println(_VIDEOS.size());
+
+        volume.valueProperty().addListener((observable, oldValue, newValue) -> {
+            PlayerManager.volumeVideo(newValue.doubleValue()/100);
+        });
     }
 
     @FXML

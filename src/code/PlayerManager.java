@@ -1,9 +1,11 @@
 package code;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.util.List;
@@ -15,10 +17,13 @@ public class PlayerManager {
     private static ListView<String> library;
     //private Media media; // The video file new Media w/ path
     private static boolean _PAUSE = false;
+    private static double volume = 1;
+    private static Label videoLength;
 
-    public static void setComponents(MediaView mv, ListView<String> videos){
+    public static void setComponents(MediaView mv, ListView<String> videos, Label vL){
         mediaview = mv;
         library = videos;
+        videoLength = vL;
     }
 
     /*public static Media load(){
@@ -103,15 +108,37 @@ public class PlayerManager {
         mediaview.setVisible(false);
     }
 
+    public static void volumeVideo(double value)
+    {
+        volume = value;
+
+        if(mediaview.getMediaPlayer() == null) return;
+
+        mediaplayer.setVolume(volume);
+    }
+
     public static void play(List<Video> videos){
         //if(videos.size() == 0) stopVideo();
         try {
             Video video = videos.get(0);
-            mediaplayer = new MediaPlayer(new Media(new File(video.getPath()).toURI().toString()));
-            mediaview.setVisible(true);
-            mediaplayer.setAutoPlay(true);
+            Media file = new Media(new File(video.getPath()).toURI().toString());
+            mediaplayer = new MediaPlayer(file);
+
+            Duration minutes = mediaplayer.getTotalDuration();
+            System.out.println(Double.valueOf(minutes.toMinutes()));
 
             System.out.println("Playing: " + video.toString());
+
+            mediaplayer.setOnReady(() ->
+            {
+                videoLength.setText(mediaplayer.getCurrentTime().toString());
+                System.out.println("Duration: "+file.getDuration().toMinutes());
+
+                // play
+                mediaview.setVisible(true);
+                mediaplayer.setVolume(volume);
+                mediaplayer.play();
+            });
 
             mediaplayer.setOnEndOfMedia(() -> {
                 videos.remove(0);

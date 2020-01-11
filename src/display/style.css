@@ -32,8 +32,8 @@ Button
 }
 #menu
 {
-    -fx-background-color: #2B2B2B;
-    -fx-padding: 10;
+    -fx-background-color: #2e2e2e;
+    -fx-min-height: 50;
 }
 #search
 {
@@ -43,7 +43,7 @@ Button
 }
 #sidemenu
 {
-    -fx-background-color: #2B2B2B;
+    -fx-background-color: #2e2e2e;
 }
 #sidemenu Button
 {
@@ -125,22 +125,28 @@ Button
 }
 #playlist_btn
 {
-    -fx-background-color: #2B2B2B;
-    -fx-padding: 20 0;
+    -fx-background-color: #2e2e2e;
+    -fx-padding: 19 0 20 0;
     -fx-pref-width: 200;
     -fx-text-fill: #a8a8a8;
     -fx-font-weight: bold;
     -fx-border-width: 1 0 0 0;
-    -fx-border-color: white
+    -fx-border-color: white;
 }
 #playlist_btn:hover
 {
     -fx-text-fill: white;
 }
+
+/* Bottom control */
 #control
 {
-    -fx-background-color: #3C3F41;
-    -fx-padding: 10;
+    -fx-min-height: 90;
+    -fx-background-color: #1c1c1c;
+}
+#control_center
+{
+    -fx-padding: 0 20;
 }
 #play_btn
 {
@@ -165,4 +171,41 @@ Button
 {
     -fx-fill: white;
 }
+#volume
+{
+    -fx-padding: 0 20 0 0;
+}
+#volume FontAwesomeIconView
+{
 
+}
+#volume Slider
+{
+    -fx-max-width: 130;
+    -fx-padding: 0 0 0 10;
+}
+Slider .thumb
+{
+    -fx-background-color: #A7A7A7;
+}
+Slider .thumb:hover
+{
+    -fx-background-color: white;
+}
+#volume Slider .track
+{
+
+}
+#control_slider
+{
+    -fx-padding: 10 0 0 0;
+}
+#control_buttons
+{
+    -fx-padding: 0 0 10 0;
+}
+
+#control_volume Slider
+{
+    -fx-padding: 0 0 0 10;
+}
