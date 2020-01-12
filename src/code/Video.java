@@ -75,6 +75,7 @@ public class Video {
 
             if(resultset.equals(DB.NOMOREDATA)) break;
             id = Integer.parseInt(resultset);
+
         }while(true);
 
         return id+1;

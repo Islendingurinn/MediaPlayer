@@ -38,7 +38,7 @@
             <HBox id="volume" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="132.0" GridPane.columnIndex="3">
                <children>
                   <FontAwesomeIconView glyphName="VOLUME_UP" />
-                  <Slider fx:id="volume" majorTickUnit="50.0" prefHeight="14.0" value="50.0" />
+                  <Slider fx:id="volume" majorTickUnit="50.0" prefHeight="14.0" value="100.0" />
                </children>
             </HBox>
          </children>

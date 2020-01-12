@@ -37,7 +37,7 @@ public class FileController
         System.out.println(file.toString());
         String path = file.toString();
 
-        Video video = new Video(10, "test", path, "test");
+        Video video = new Video(-1, "test", path, "test");
         video.save();
     }
 }

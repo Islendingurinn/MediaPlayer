@@ -331,7 +331,7 @@ public class Controller {
         DB.selectSQL("SELECT count(fldVideoID) FROM tblVideo");
         int count = Integer.parseInt(DB.getData());
 
-        for (int i = 1; i < count; i++)
+        for (int i = 1; i <= count; i++)
         {
             System.out.println(i);
             DB.selectSQL("SELECT fldName FROM tblVideo WHERE fldVideoID=" + i);
