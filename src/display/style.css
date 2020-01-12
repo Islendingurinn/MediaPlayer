@@ -77,6 +77,7 @@ Button
 {
     -fx-text-fill: white;
 }
+
 #playlists .list-cell:hover
 {
     -fx-text-fill: white;
@@ -171,19 +172,6 @@ Button
 {
     -fx-fill: white;
 }
-#volume
-{
-    -fx-padding: 0 20 0 0;
-}
-#volume FontAwesomeIconView
-{
-
-}
-#volume Slider
-{
-    -fx-max-width: 130;
-    -fx-padding: 0 0 0 10;
-}
 Slider .thumb
 {
     -fx-background-color: #A7A7A7;
@@ -205,7 +193,13 @@ Slider .thumb:hover
     -fx-padding: 0 0 10 0;
 }
 
-#control_volume Slider
+#volume Slider
 {
+    -fx-max-width: 110;
     -fx-padding: 0 0 0 10;
+}
+
+#video ContextMenu Menu
+{
+    -fx-text-fill: red;
 }

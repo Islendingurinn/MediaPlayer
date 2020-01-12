@@ -84,7 +84,7 @@ public class Video {
      * Saves the Video data into the DB
      */
     public void save(){
-        DB.insertSQL("INSERT INTO tblVideo (fldVideoID, fldName, fldPath, fldCategory) VALUES (" + _ID + ", " + _NAME + ", " + _PATH + ", " + _CATEGORY + ")");
+        DB.insertSQL("INSERT INTO tblVideo (fldVideoID, fldName, fldPath, fldCategory) VALUES('" + _ID + "','" + _NAME + "','" + _PATH + "','" + _CATEGORY + "')");
     }
 
     /**

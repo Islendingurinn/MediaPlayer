@@ -4,8 +4,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -32,10 +35,10 @@
          <children>
             <Label text="MediaPlayer" />
             <TextField id="search" fx:id="search" maxWidth="200.0" minWidth="200.0" onKeyTyped="#searched" prefWidth="200.0" promptText="Search" GridPane.columnIndex="1" />
-            <HBox id="control_volume" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="132.0" GridPane.columnIndex="3">
+            <HBox id="volume" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="132.0" GridPane.columnIndex="3">
                <children>
                   <FontAwesomeIconView glyphName="VOLUME_UP" />
-                  <Slider fx:id="volume" majorTickUnit="50.0" prefHeight="14.0" prefWidth="100.0" value="100.0" />
+                  <Slider fx:id="volume" majorTickUnit="50.0" prefHeight="14.0" value="50.0" />
                </children>
             </HBox>
          </children>
@@ -55,9 +58,9 @@
                <children>
                   <HBox id="control_slider" alignment="TOP_CENTER" prefHeight="0.0" prefWidth="760.0">
                      <children>
-                        <Label fx:id="video_timestamp" style="-fx-padding: 0;" text="1" />
-                        <Slider prefHeight="14.0" prefWidth="712.0" style="-fx-padding: 3;" />
-                        <Label fx:id="videoLength" style="-fx-padding: 0;" text="2" />
+                        <Label fx:id="videoTimestamp" style="-fx-padding: 0;" />
+                        <Slider prefHeight="20.0" prefWidth="674.0" style="-fx-padding: 3;" />
+                        <Label fx:id="videoLength" style="-fx-padding: 0;" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="89.0" prefWidth="760.0">
@@ -118,7 +121,32 @@
                   <Rectangle2D />
                </viewport>
             </MediaView>
-            <ListView fx:id="videos" prefHeight="200.0" prefWidth="200.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox prefHeight="0.0" prefWidth="800.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#handleButtonFile" text="Add new file" />
+                     </children>
+                  </HBox>
+                  <ListView id="videos" fx:id="videos" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                              <Menu mnemonicParsing="false" text="Add to playlist">
+                                <items>
+                                  <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
+                                       </graphic>
+                                    </MenuItem>
+                                </items>
+                              </Menu>
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
+                  </ListView>
+               </children>
+            </VBox>
             <ListView fx:id="currentPlaylist" prefHeight="200.0" prefWidth="200.0" visible="false" />
          </children>
       </StackPane>

@@ -5,12 +5,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,17 +52,23 @@ public class Controller {
     private ListView<String> currentPlaylist;
 
     @FXML
+    private Label videoTimestamp;
+
+    @FXML
     private Label videoLength;
 
     @FXML
     private Slider volume;
+
+    @FXML
+    private Button addFile;
 
     /**
      * Method ran upon opening the program.
      */
     public void initialize(){
         //Constructs the components for PlayerManager
-        PlayerManager.setComponents(mediaview, videoLength);
+        PlayerManager.setComponents(mediaview, videoTimestamp, videoLength);
 
         //Sets up the ListViews that display Videos and Playlists
         _DISPLAYEDPLAYLISTS = FXCollections.observableArrayList();
@@ -82,6 +93,23 @@ public class Controller {
 
         mediaview.fitWidthProperty().bind(center.widthProperty().subtract(100));
         mediaview.fitHeightProperty().bind(center.heightProperty().subtract(100));
+    }
+
+    @FXML
+    private void handleButtonFile()
+    {
+        try {
+            AnchorPane file = (AnchorPane) FXMLLoader.load(FileController.class.getResource("/display/FileView.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Add file");
+            stage.setScene(new Scene(file));
+            stage.show();
+            FileController.init(stage);
+
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -300,25 +328,23 @@ public class Controller {
      * about Videos upon initialization.
      */
     private void setupVideos(){
-        DB.selectSQL("SELECT fldVideoID FROM tblVideo");
+        DB.selectSQL("SELECT count(fldVideoID) FROM tblVideo");
+        int count = Integer.parseInt(DB.getData());
 
-        do{
-            String resultset = DB.getData();
-            if(resultset.equals(DB.NOMOREDATA)) break;
-
-            int id = Integer.parseInt(resultset);
-
-            DB.selectSQL("SELECT fldName FROM tblVideo WHERE fldVideoID=" + id);
+        for (int i = 1; i < count; i++)
+        {
+            System.out.println(i);
+            DB.selectSQL("SELECT fldName FROM tblVideo WHERE fldVideoID=" + i);
             String name = DB.getData();
 
-            DB.selectSQL("SELECT fldPath FROM tblVideo WHERE fldVideoID=" + id);
+            DB.selectSQL("SELECT fldPath FROM tblVideo WHERE fldVideoID=" + i);
             String path = DB.getData();
 
-            DB.selectSQL("SELECT fldCategory FROM tblVideo WHERE fldVideoID=" + id);
+            DB.selectSQL("SELECT fldCategory FROM tblVideo WHERE fldVideoID=" + i);
             String category = DB.getData();
 
-            Video newVideo = new Video(id, name, path, category);
+            Video newVideo = new Video(i, name, path, category);
             _VIDEOS.add(newVideo);
-        }while(true);
+        }
     }
 }
