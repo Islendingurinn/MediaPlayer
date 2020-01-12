@@ -52,9 +52,14 @@ public class Controller {
     @FXML
     private Slider volume;
 
+    /**
+     * Method ran upon opening the program.
+     */
     public void initialize(){
-        PlayerManager.setComponents(mediaview, videos, videoLength);
+        //Constructs the components for PlayerManager
+        PlayerManager.setComponents(mediaview, videoLength);
 
+        //Sets up the ListViews that display Videos and Playlists
         _DISPLAYEDPLAYLISTS = FXCollections.observableArrayList();
         playlists.setItems(_DISPLAYEDPLAYLISTS);
 
@@ -65,35 +70,45 @@ public class Controller {
         _CURRENTPLAYLIST = FXCollections.observableArrayList();
         currentPlaylist.setItems(_CURRENTPLAYLIST);
 
+        //Sets up the Videos and Playlists from the DB
         _VIDEOS = new ArrayList<>();
         _PLAYLISTS = new ArrayList<>();
 
         setupVideos();
         setupPlaylists();
 
-        System.out.println(_VIDEOS.size());
-
-        volume.valueProperty().addListener((observable, oldValue, newValue) -> {
-            PlayerManager.volumeVideo(newValue.doubleValue()/100);
-        });
+        //Sets up the volume property and fixes the video window size
+        volume.valueProperty().addListener((observable, oldValue, newValue) -> PlayerManager.volumeVideo(newValue.doubleValue()/100));
 
         mediaview.fitWidthProperty().bind(center.widthProperty().subtract(100));
         mediaview.fitHeightProperty().bind(center.heightProperty().subtract(100));
     }
 
+    /**
+     * Listener for when "Create Playlist" is clicked.
+     * Upon click, verify that videos are selected.
+     * If they are, enable visibility for the Name text field
+     * so the user can pick out a name for the playlist.
+     */
     @FXML
     private void createPlaylist(ActionEvent event) {
         if(mediaview.getMediaPlayer() != null) return;
+        if(waitingForPlaylistName) return;
 
         selectedVideos = videos.getSelectionModel().getSelectedItems();
         if(selectedVideos.size() > 0){
             waitingForPlaylistName = true;
             playlistName.setVisible(true);
             playlistName.requestFocus();
-            System.out.println("creating");
         }else selectedVideos = null;
     }
 
+    /**
+     * Listens for when a name has been entered while creating
+     * a playlist. Upon confirmation, add all the selected videos to
+     * a List and then create a new playlist reference, in the app and DB.
+     * Afterward, reset the GUI.
+     */
     @FXML
     private void onPlaylistName(ActionEvent event){
         List<Video> playlistVideos = new ArrayList<>();
@@ -101,7 +116,6 @@ public class Controller {
             for(Video video : _VIDEOS){
                 if(video.toString().equalsIgnoreCase(toString)){
                     playlistVideos.add(video);
-                    System.out.println("Videos: " + playlistVideos.size());
                     break;
                 }
             }
@@ -116,38 +130,33 @@ public class Controller {
         setupPlaylists();
     }
 
+    /**
+     * Listener for any click on the "PLAY" button in the GUI.
+     * There are three cases:
+     * 1. A video is playing, so pass it to PlayerManager's handleInteraction
+     * 2. The user is in Library, if so check if any videos are selected
+     * and if so, go ahead and play the selected videos
+     * 3. The user is in Playlist, if so check if any videos are selected
+     * and if so, go ahead and play the selected videos. If none are, then
+     * play the whole playlist.
+     */
     @FXML
     private void videoInteract(ActionEvent event) {
+        if(waitingForPlaylistName) return;
 
         if(mediaview.isVisible()){
             PlayerManager.handleInteraction();
         }else if(videos.isVisible()){
             //LIBRARY ACTIONS play all
-            List<Video> selectedVideos = new ArrayList<>();
-            for(String toString : videos.getSelectionModel().getSelectedItems()){
-                for(Video video : _VIDEOS) {
-                    if (video.toString().equalsIgnoreCase(toString)) {
-                        selectedVideos.add(video);
-                        break;
-                    }
-                }
-            }
-
+            List<Video> selectedVideos = getSelectedVideos(videos);
             if(selectedVideos.size() == 0) return;
+
             videos.setVisible(false);
             currentPlaylist.setVisible(false);
             PlayerManager.play(selectedVideos);
         }else if(currentPlaylist.isVisible()){
             //PLAY PLAYLIST
-            List<Video> selectedVideos = new ArrayList<>();
-            for(String toString : currentPlaylist.getSelectionModel().getSelectedItems()){
-                for(Video video : _VIDEOS) {
-                    if (video.toString().equalsIgnoreCase(toString)) {
-                        selectedVideos.add(video);
-                        break;
-                    }
-                }
-            }
+            List<Video> selectedVideos = getSelectedVideos(currentPlaylist);
 
             if(selectedVideos.size() == 0){
                 for(String toString : currentPlaylist.getItems()){
@@ -166,8 +175,36 @@ public class Controller {
         }
     }
 
+    /**
+     * Changes the toString version of the Videos
+     * back to their objects.
+     * @param selection The ListView listing the Videos
+     * @return A List of Video objects
+     */
+    private List<Video> getSelectedVideos(ListView<String> selection) {
+        List<Video> selectedVideos = new ArrayList<>();
+        for(String toString : selection.getSelectionModel().getSelectedItems()){
+            for(Video video : _VIDEOS) {
+                if (video.toString().equalsIgnoreCase(toString)) {
+                    selectedVideos.add(video);
+                    break;
+                }
+            }
+        }
+
+        return selectedVideos;
+    }
+
+    /**
+     * A listener for when a Playlist is clicked on the GUI.
+     * If clicked, stop any video and make the Playlist interface visible.
+     * Then, find the Playlist object from its ID and then add all the
+     * Videos into the ListView for display.
+     */
     @FXML
     private void playlistInteract(MouseEvent mouseEvent) {
+        if(waitingForPlaylistName) return;
+
         String playlistClicked = playlists.getSelectionModel().getSelectedItem();
         if(playlistClicked == null) return;
         PlayerManager.stopVideo();
@@ -184,22 +221,36 @@ public class Controller {
         }
 
         _CURRENTPLAYLIST.clear();
-        System.out.println("Playlist: " + playlist);
-        System.out.println("Size: " + playlist.getVideos().size());
         for(Video video : playlist.getVideos()){
             _CURRENTPLAYLIST.add(video.toString());
         }
     }
 
+    /**
+     * A listener for when "Library" is clicked in the GUI.
+     * As the Library is set up on initialization, we only
+     * have to stop any playing Video, hide the Playlist interface
+     * and make the Video list interface visible.
+     */
     @FXML
     private void requestLibrary(ActionEvent event) {
+        if(waitingForPlaylistName) return;
+
         PlayerManager.stopVideo();
         currentPlaylist.setVisible(false);
         videos.setVisible(true);
     }
 
+    /**
+     * Listener for when something is typed into the search bar.
+     * Upon typing, hide everything and make the Playlist view visible.
+     * Then, go through all videos looking for the searched terms and add
+     * to the Playlist ListView.
+     */
     @FXML
     private void searched(KeyEvent event){
+        if(waitingForPlaylistName) return;
+
         PlayerManager.stopVideo();
         videos.setVisible(false);
         currentPlaylist.setVisible(true);
@@ -212,6 +263,10 @@ public class Controller {
         }
     }
 
+    /**
+     * The method provides the app with info from DB
+     * about Playlists upon initialization.
+     */
     private void setupPlaylists(){
 
         DB.selectSQL("SELECT count(fldPlaylistID) FROM tblPlaylist");
@@ -235,12 +290,15 @@ public class Controller {
 
             Playlist newPlaylist = new Playlist(i, name, playlistVideos);
             _PLAYLISTS.add(newPlaylist);
-            System.out.println("end");
         }
 
 
     }
 
+    /**
+     * The method provides the app with info from DB
+     * about Videos upon initialization.
+     */
     private void setupVideos(){
         DB.selectSQL("SELECT fldVideoID FROM tblVideo");
 

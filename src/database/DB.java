@@ -52,7 +52,6 @@ public class DB {
             userName=props.getProperty("userName", "sa");
             password=props.getProperty("password");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            System.out.println("Database Ready");
             
         }catch(IOException | ClassNotFoundException e){
             System.err.println(e.getMessage());
@@ -131,13 +130,11 @@ public class DB {
     public static String getData(){
         if (terminated){
             System.exit(0);
-            System.out.println("Terminated");
         }
         if (!pendingData){
             terminated=true;
             throw new RuntimeException("ERROR! No previous select, communication with the database is lost!"); 
         }else if (!moreData){
-            System.out.println("Disconnected");
            disconnect();
            pendingData=false;
            return NOMOREDATA; 
