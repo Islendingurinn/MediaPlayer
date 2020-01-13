@@ -121,33 +121,25 @@
                         <Rectangle2D />
                     </viewport>
                 </MediaView>
-                <VBox prefHeight="200.0" prefWidth="100.0">
-                    <children>
-                        <HBox prefHeight="0.0" prefWidth="800.0">
-                            <children>
-                                <Button mnemonicParsing="false" onAction="#handleButtonFile" text="Add new file" />
-                            </children>
-                        </HBox>
-                        <ListView id="videos" fx:id="videos" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                            <contextMenu>
-                                <ContextMenu>
-                                    <items>
-                                        <Menu mnemonicParsing="false" text="Add to playlist">
-                                            <items>
-                                                <MenuItem mnemonicParsing="false">
-                                                    <graphic>
-                                                        <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
-                                                    </graphic>
-                                                </MenuItem>
-                                            </items>
-                                        </Menu>
-                                        <MenuItem mnemonicParsing="false" onAction="#deleteVideo" text="Delete" />
-                                    </items>
-                                </ContextMenu>
-                            </contextMenu>
-                        </ListView>
-                    </children>
-                </VBox>
+                  <ListView id="videos" fx:id="videos" prefHeight="200.0" prefWidth="200.0">
+                      <contextMenu>
+                          <ContextMenu>
+                              <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleButtonFile" text="Add new file" />
+                                  <Menu mnemonicParsing="false" text="Add to playlist">
+                                      <items>
+                                          <MenuItem mnemonicParsing="false">
+                                              <graphic>
+                                                  <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
+                                              </graphic>
+                                          </MenuItem>
+                                      </items>
+                                  </Menu>
+                                  <MenuItem mnemonicParsing="false" onAction="#deleteVideo" text="Delete from library" />
+                              </items>
+                          </ContextMenu>
+                      </contextMenu>
+                  </ListView>
                 <ListView fx:id="currentPlaylist" prefHeight="200.0" prefWidth="200.0" visible="false">
                     <contextMenu>
                         <ContextMenu>
@@ -161,7 +153,8 @@
                                         </MenuItem>
                                     </items>
                                 </Menu>
-                                <MenuItem mnemonicParsing="false" onAction="#deleteVideo" text="Delete" />
+                                <MenuItem mnemonicParsing="false" onAction="#deleteVideo" text="Remove from playlist" />
+                        <MenuItem mnemonicParsing="false" onAction="#deletePlaylist" text="Delete playlist" />
                             </items>
                         </ContextMenu>
                     </contextMenu></ListView>

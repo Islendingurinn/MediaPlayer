@@ -71,7 +71,7 @@ public class Video {
     private int setupID(){
         DB.selectSQL("SELECT TOP 1 fldVideoID FROM tblVideo ORDER BY fldVideoID DESC");
 
-        int id = -1;
+        int id = 0;
         do{
             String resultset = DB.getData();
 

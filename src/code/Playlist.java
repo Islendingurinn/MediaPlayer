@@ -57,7 +57,10 @@ public class Playlist {
         if(!Controller._DISPLAYEDPLAYLISTS.contains(toString()))
             Controller._DISPLAYEDPLAYLISTS.add(toString());
         else
+        {
             Controller._DISPLAYEDPLAYLISTS.remove(toString());
+            System.out.println("removed");
+        }
     }
 
     /**
@@ -66,9 +69,9 @@ public class Playlist {
      * @return int count of IDs from DB
      */
     private int setupID(){
-        DB.selectSQL("SELECT count(fldPlaylistID) FROM tblPlaylist");
+        DB.selectSQL("SELECT TOP 1 fldPlaylistID FROM tblPlaylist ORDER BY fldPlaylistID DESC");
 
-        int id = -1;
+        int id = 0;
         do{
             String resultset = DB.getData();
 
@@ -93,9 +96,10 @@ public class Playlist {
     /**
      * Deletes the Playlist data from the DB
      */
-    private void delete(){
-        DB.deleteSQL("DELETE FROM tblPlaylist WHERE fldPlaylistID=" + _ID);
+    public void delete(){
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + _ID);
+        DB.deleteSQL("DELETE FROM tblPlaylist WHERE fldPlaylistID=" + _ID);
+        toggleDisplay();
     }
 
     /**

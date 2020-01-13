@@ -298,11 +298,20 @@ public class Controller {
      * about Playlists upon initialization.
      */
     private void setupPlaylists(){
+        DB.selectSQL("SELECT fldPlaylistID FROM tblPlaylist");
 
-        DB.selectSQL("SELECT count(fldPlaylistID) FROM tblPlaylist");
-        int nrValues = Integer.parseInt(DB.getData());
+        ArrayList<Integer> playlistID = new ArrayList<>();
+        do{
+            String data = DB.getData();
+            if (data.equals(DB.NOMOREDATA)){
+                break;
+            }else{
+                playlistID.add(Integer.valueOf(data));
+            }
+        } while(true);
 
-        for (int i = 1; i <= nrValues; i++) {
+        for (int i : playlistID)
+        {
             DB.selectSQL("SELECT fldName FROM tblPlaylist WHERE fldPlaylistID=" + i);
             String name = DB.getData();
 
@@ -330,17 +339,17 @@ public class Controller {
     private void setupVideos(){
         DB.selectSQL("SELECT fldVideoID FROM tblVideo");
 
-        ArrayList<Integer> id = new ArrayList<>();
+        ArrayList<Integer> videoID = new ArrayList<>();
         do{
             String data = DB.getData();
             if (data.equals(DB.NOMOREDATA)){
                 break;
             }else{
-                id.add(Integer.valueOf(data));
+                videoID.add(Integer.valueOf(data));
             }
         } while(true);
 
-        for (int i : id)
+        for (int i : videoID)
         {
             DB.selectSQL("SELECT fldName FROM tblVideo WHERE fldVideoID=" + i);
             String name = DB.getData();
@@ -366,6 +375,19 @@ public class Controller {
             for (Playlist playlist : _PLAYLISTS)
             {
                 playlist.remove(video);
+            }
+        }
+    }
+    @FXML
+    private void deletePlaylist()
+    {
+        for(Playlist playlist : _PLAYLISTS) {
+            if (playlist.toString().equalsIgnoreCase(playlists.getSelectionModel().getSelectedItem())) {
+                playlist.delete();
+                _PLAYLISTS.remove(playlist);
+                System.out.println(_DISPLAYEDPLAYLISTS.toString());
+                System.out.println(_PLAYLISTS.toString());
+                break;
             }
         }
     }
