@@ -80,6 +80,7 @@ public class Controller {
 
         _CURRENTPLAYLIST = FXCollections.observableArrayList();
         currentPlaylist.setItems(_CURRENTPLAYLIST);
+        currentPlaylist.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         //Sets up the Videos and Playlists from the DB
         _VIDEOS = new ArrayList<>();
@@ -379,14 +380,40 @@ public class Controller {
         }
     }
     @FXML
+    private void removeVideo()
+    {
+        List<Video> selectedVideos = new ArrayList<>();
+        for(String toString : currentPlaylist.getSelectionModel().getSelectedItems())
+        {
+            for(Video video : _VIDEOS)
+            {
+                if (video.toString().equalsIgnoreCase(toString))
+                {
+                    selectedVideos.add(video);
+                    break;
+                }
+            }
+        }
+
+        for(Playlist playlist : _PLAYLISTS)
+        {
+            if (playlist.toString().equalsIgnoreCase(playlists.getSelectionModel().getSelectedItem()))
+            {
+                for (Video video : selectedVideos)
+                {
+                    playlist.remove(video);
+                }
+            }
+        }
+
+    }
+    @FXML
     private void deletePlaylist()
     {
         for(Playlist playlist : _PLAYLISTS) {
             if (playlist.toString().equalsIgnoreCase(playlists.getSelectionModel().getSelectedItem())) {
                 playlist.delete();
                 _PLAYLISTS.remove(playlist);
-                System.out.println(_DISPLAYEDPLAYLISTS.toString());
-                System.out.println(_PLAYLISTS.toString());
                 break;
             }
         }

@@ -59,7 +59,6 @@ public class Playlist {
         else
         {
             Controller._DISPLAYEDPLAYLISTS.remove(toString());
-            System.out.println("removed");
         }
     }
 
@@ -94,6 +93,16 @@ public class Playlist {
     }
 
     /**
+     * Removes a Video from the Playlist
+     * @param video Video to remove
+     */
+    public void remove(Video video){
+        DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + _ID + " AND fldVideoID=" + video.getID());
+        Controller._CURRENTPLAYLIST.remove(video.toString());
+        _VIDEOS.remove(video);
+    }
+
+    /**
      * Deletes the Playlist data from the DB
      */
     public void delete(){
@@ -111,12 +120,4 @@ public class Playlist {
         DB.insertSQL("INSERT INTO tblMapping (fldPlaylistID, fldVideoID) VALUES (" + _ID + ", " + video.getID() + ")");
     }
 
-    /**
-     * Removes a Video from the Playlist
-     * @param video Video to remove
-     */
-    public void remove(Video video){
-        _VIDEOS.remove(video);
-        DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + _ID + " AND fldVideoID=" + video.getID());
-    }
 }
