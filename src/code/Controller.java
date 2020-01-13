@@ -417,5 +417,7 @@ public class Controller {
                 break;
             }
         }
+        currentPlaylist.setVisible(false);
+        videos.setVisible(true);
     }
 }
