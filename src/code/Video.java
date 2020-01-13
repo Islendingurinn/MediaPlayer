@@ -22,8 +22,8 @@ public class Video {
         _PATH = path;
         _CATEGORY = category;
 
-        toggleDisplay();
         if(_ID == -1) this._ID = setupID();
+        toggleDisplay();
     }
 
     /**
