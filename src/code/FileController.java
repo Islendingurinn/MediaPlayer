@@ -1,9 +1,6 @@
 package code;
 
-import database.DB;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -39,5 +36,6 @@ public class FileController
 
         Video video = new Video(-1, "test", path, "test");
         video.save();
+        Controller._VIDEOS.add(video);
     }
 }
