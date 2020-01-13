@@ -21,134 +21,151 @@
 <?import javafx.scene.media.MediaView?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.Controller">
-   <top>
-      <GridPane id="menu" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
-          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="321.0" />
-            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="329.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="MediaPlayer" />
-            <TextField id="search" fx:id="search" maxWidth="200.0" minWidth="200.0" onKeyTyped="#searched" prefWidth="200.0" promptText="Search" GridPane.columnIndex="1" />
-            <HBox id="volume" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="132.0" GridPane.columnIndex="3">
-               <children>
-                  <FontAwesomeIconView glyphName="VOLUME_UP" />
-                  <Slider fx:id="volume" majorTickUnit="50.0" prefHeight="14.0" value="100.0" />
-               </children>
-            </HBox>
-         </children>
-      </GridPane>
-   </top>
-   <bottom>
-      <GridPane id="control" maxWidth="10000.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="600.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <VBox id="control_center" prefHeight="48.0" prefWidth="574.0" GridPane.columnIndex="1">
-               <children>
-                  <HBox id="control_slider" alignment="TOP_CENTER" prefHeight="0.0" prefWidth="760.0">
-                     <children>
-                        <Label fx:id="videoTimestamp" style="-fx-padding: 0;" />
-                        <Slider prefHeight="20.0" prefWidth="674.0" style="-fx-padding: 3;" />
-                        <Label fx:id="videoLength" style="-fx-padding: 0;" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="89.0" prefWidth="760.0">
-                     <children>
-                        <Button mnemonicParsing="false">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="STEP_BACKWARD" text="" />
-                           </graphic>
-                        </Button>
-                        <Button id="play_btn" mnemonicParsing="false" onAction="#videoInteract">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="STOP" />
-                           </graphic>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="STEP_FORWARD" />
-                           </graphic>
-                        </Button>
-                        <Button id="play_btn" mnemonicParsing="false" onAction="#videoInteract">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="PLAY" />
-                           </graphic>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-      </GridPane>
-   </bottom>
-   <left>
-      <VBox id="sidemenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#requestLibrary" text="LIBRARY" />
-            <Label text="PLAYLISTS" />
-            <ListView id="playlists" fx:id="playlists" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#playlistInteract" prefHeight="391.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-            <StackPane prefHeight="0.0" prefWidth="200.0">
-               <children>
-                  <Button id="playlist_btn" alignment="CENTER" mnemonicParsing="false" onAction="#createPlaylist" prefWidth="729.0" text="Create playlist" />
-                  <TextField fx:id="playlistName" onAction="#onPlaylistName" prefHeight="35.0" prefWidth="150.0" visible="false" />
-               </children>
-            </StackPane>
-         </children>
-      </VBox>
-   </left>
-   <center>
+    <top>
+        <GridPane id="menu" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="321.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="329.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="MediaPlayer" />
+                <TextField id="search" fx:id="search" maxWidth="200.0" minWidth="200.0" onKeyTyped="#searched" prefWidth="200.0" promptText="Search" GridPane.columnIndex="1" />
+                <HBox id="volume" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="132.0" GridPane.columnIndex="3">
+                    <children>
+                        <FontAwesomeIconView glyphName="VOLUME_UP" />
+                        <Slider fx:id="volume" majorTickUnit="50.0" prefHeight="14.0" value="100.0" />
+                    </children>
+                </HBox>
+            </children>
+        </GridPane>
+    </top>
+    <bottom>
+        <GridPane id="control" maxWidth="10000.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="600.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <VBox id="control_center" prefHeight="48.0" prefWidth="574.0" GridPane.columnIndex="1">
+                    <children>
+                        <HBox id="control_slider" alignment="TOP_CENTER" prefHeight="0.0" prefWidth="760.0">
+                            <children>
+                                <Label fx:id="videoTimestamp" style="-fx-padding: 0;" />
+                                <Slider prefHeight="20.0" prefWidth="674.0" style="-fx-padding: 3;" />
+                                <Label fx:id="videoLength" style="-fx-padding: 0;" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="89.0" prefWidth="760.0">
+                            <children>
+                                <Button mnemonicParsing="false">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="STEP_BACKWARD" text="" />
+                                    </graphic>
+                                </Button>
+                                <Button id="play_btn" mnemonicParsing="false" onAction="#videoInteract">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="STOP" />
+                                    </graphic>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="STEP_FORWARD" />
+                                    </graphic>
+                                </Button>
+                                <Button id="play_btn" mnemonicParsing="false" onAction="#videoInteract">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="PLAY" />
+                                    </graphic>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </GridPane>
+    </bottom>
+    <left>
+        <VBox id="sidemenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#requestLibrary" text="LIBRARY" />
+                <Label text="PLAYLISTS" />
+                <ListView id="playlists" fx:id="playlists" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#playlistInteract" prefHeight="391.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                <StackPane prefHeight="0.0" prefWidth="200.0">
+                    <children>
+                        <Button id="playlist_btn" alignment="CENTER" mnemonicParsing="false" onAction="#createPlaylist" prefWidth="729.0" text="Create playlist" />
+                        <TextField fx:id="playlistName" onAction="#onPlaylistName" prefHeight="35.0" prefWidth="150.0" visible="false" />
+                    </children>
+                </StackPane>
+            </children>
+        </VBox>
+    </left>
+    <center>
         <StackPane fx:id="center" minHeight="600.0" minWidth="800.0" style="-fx-background-color: black;" BorderPane.alignment="TOP_LEFT">
-         <children>
-            <MediaView fx:id="mediaview" visible="false">
-               <viewport>
-                  <Rectangle2D />
-               </viewport>
-            </MediaView>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <HBox prefHeight="0.0" prefWidth="800.0">
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonFile" text="Add new file" />
-                     </children>
-                  </HBox>
-                  <ListView id="videos" fx:id="videos" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <contextMenu>
+            <children>
+                <MediaView fx:id="mediaview" visible="false">
+                    <viewport>
+                        <Rectangle2D />
+                    </viewport>
+                </MediaView>
+                <VBox prefHeight="200.0" prefWidth="100.0">
+                    <children>
+                        <HBox prefHeight="0.0" prefWidth="800.0">
+                            <children>
+                                <Button mnemonicParsing="false" onAction="#handleButtonFile" text="Add new file" />
+                            </children>
+                        </HBox>
+                        <ListView id="videos" fx:id="videos" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <Menu mnemonicParsing="false" text="Add to playlist">
+                                            <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                    <graphic>
+                                                        <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
+                                                    </graphic>
+                                                </MenuItem>
+                                            </items>
+                                        </Menu>
+                                        <MenuItem mnemonicParsing="false" onAction="#deleteVideo" text="Delete" />
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
+                        </ListView>
+                    </children>
+                </VBox>
+                <ListView fx:id="currentPlaylist" prefHeight="200.0" prefWidth="200.0" visible="false">
+                    <contextMenu>
                         <ContextMenu>
-                          <items>
-                              <Menu mnemonicParsing="false" text="Add to playlist">
-                                <items>
-                                  <MenuItem mnemonicParsing="false">
-                                       <graphic>
-                                          <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
-                                       </graphic>
-                                    </MenuItem>
-                                </items>
-                              </Menu>
-                          </items>
+                            <items>
+                                <Menu mnemonicParsing="false" text="Add to playlist">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false">
+                                            <graphic>
+                                                <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
+                                            </graphic>
+                                        </MenuItem>
+                                    </items>
+                                </Menu>
+                                <MenuItem mnemonicParsing="false" onAction="#deleteVideo" text="Delete" />
+                            </items>
                         </ContextMenu>
-                     </contextMenu>
-                  </ListView>
-               </children>
-            </VBox>
-            <ListView fx:id="currentPlaylist" prefHeight="200.0" prefWidth="200.0" visible="false" />
-         </children>
-      </StackPane>
-   </center>
+                    </contextMenu></ListView>
+            </children>
+        </StackPane>
+    </center>
 </BorderPane>

@@ -2,6 +2,8 @@ package code;
 
 import database.DB;
 
+import java.util.ArrayList;
+
 public class Video {
 
     private int _ID;
@@ -67,7 +69,7 @@ public class Video {
      * @return int count of IDs from DB
      */
     private int setupID(){
-        DB.selectSQL("SELECT count(fldVideoID) FROM tblVideo");
+        DB.selectSQL("SELECT TOP 1 fldVideoID FROM tblVideo ORDER BY fldVideoID DESC");
 
         int id = -1;
         do{
@@ -92,7 +94,9 @@ public class Video {
      * Deletes the Video data from the DB
      */
     public void delete(){
+        DB.deleteSQL("DELETE FROM tblMapping WHERE fldVideoID=" + _ID);
         DB.deleteSQL("DELETE FROM tblVideo WHERE fldVideoID=" + _ID);
+        toggleDisplay();
     }
 
     /**

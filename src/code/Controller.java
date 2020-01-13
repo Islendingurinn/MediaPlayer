@@ -321,8 +321,6 @@ public class Controller {
             Playlist newPlaylist = new Playlist(i, name, playlistVideos);
             _PLAYLISTS.add(newPlaylist);
         }
-
-
     }
 
     /**
@@ -330,12 +328,20 @@ public class Controller {
      * about Videos upon initialization.
      */
     private void setupVideos(){
-        DB.selectSQL("SELECT count(fldVideoID) FROM tblVideo");
-        int count = Integer.parseInt(DB.getData());
+        DB.selectSQL("SELECT fldVideoID FROM tblVideo");
 
-        for (int i = 1; i <= count; i++)
+        ArrayList<Integer> id = new ArrayList<>();
+        do{
+            String data = DB.getData();
+            if (data.equals(DB.NOMOREDATA)){
+                break;
+            }else{
+                id.add(Integer.valueOf(data));
+            }
+        } while(true);
+
+        for (int i : id)
         {
-            System.out.println(i);
             DB.selectSQL("SELECT fldName FROM tblVideo WHERE fldVideoID=" + i);
             String name = DB.getData();
 
@@ -347,6 +353,20 @@ public class Controller {
 
             Video newVideo = new Video(i, name, path, category);
             _VIDEOS.add(newVideo);
+        }
+    }
+    @FXML
+    private void deleteVideo()
+    {
+        List<Video> selectedVideos = getSelectedVideos(videos);
+
+        for (Video video : selectedVideos)
+        {
+            video.delete();
+            for (Playlist playlist : _PLAYLISTS)
+            {
+                playlist.remove(video);
+            }
         }
     }
 }
