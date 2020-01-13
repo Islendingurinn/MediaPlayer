@@ -152,10 +152,12 @@ public class Controller {
         Playlist newPlaylist = new Playlist(-1, playlistName.getText(), playlistVideos);
         newPlaylist.save();
         playlistName.setVisible(false);
+        waitingForPlaylistName = false;
 
         _PLAYLISTS.clear();
         _DISPLAYEDPLAYLISTS.clear();
         setupPlaylists();
+
     }
 
     /**
