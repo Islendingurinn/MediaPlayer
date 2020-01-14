@@ -133,6 +133,8 @@ public class PlayerManager {
             mediaview.setMediaPlayer(mediaplayer);
         }catch(IndexOutOfBoundsException ex){
             stopVideo();
+        }catch(NullPointerException ex){
+            stopVideo();
         }
     }
 
