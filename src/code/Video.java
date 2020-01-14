@@ -95,9 +95,9 @@ public class Video {
      * @return boolean if any term contains the search
      */
     public boolean compares(String search){
-        if(search.matches("(?s).*" + _ID + ".*")) return true;
-        if(search.matches("(?s).*" + _NAME + ".*")) return true;
-        if(search.matches("(?s).*" + _CATEGORY + ".*")) return true;
+        if(search.matches("" + _ID)) return true;
+        if(search.matches("" + _NAME)) return true;
+        if(search.matches("" + _CATEGORY)) return true;
 
         return false;
     }

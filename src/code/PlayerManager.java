@@ -146,7 +146,7 @@ public class PlayerManager {
     }
 
     public static void skip(){
-        playlist.remove(0);
+        if(!(previousVideo == null)) playlist.remove(0);
         play(playlist);
     }
 }
