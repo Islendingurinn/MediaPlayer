@@ -30,6 +30,9 @@ Button
     -fx-background-color: Transparent;
     -fx-padding: 5 10;
 }
+/*
+Top bar
+ */
 #menu
 {
     -fx-background-color: #2e2e2e;
@@ -41,6 +44,9 @@ Button
     -fx-border-width: 0;
     -fx-border-radius: 10;
 }
+/*
+Left side menu
+ */
 #sidemenu
 {
     -fx-background-color: #2e2e2e;
@@ -54,9 +60,17 @@ Button
 {
     -fx-padding: 20 0 0 20;
 }
+#sidemenu Button
+{
+    -fx-text-fill: green;
+}
+#sidemenu Button:selected
+{
+    -fx-text-fill: green;
+}
 #sidemenu Button:hover
 {
-    -fx-text-fill: white;
+    -fx-text-fill: green;
 }
 /* The ListView for playlist */
 #playlists
@@ -65,25 +79,19 @@ Button
     -fx-padding: 5 1 0 10;
     -fx-background-color: Transparent;
 }
-
-/**/
 #playlists .list-cell
 {
     -fx-text-fill: #A7A7A7;
     -fx-background-color: Transparent;
 }
-
 #playlists .list-cell:selected
 {
-    -fx-text-fill: white;
+    -fx-text-fill: green;
 }
-
 #playlists .list-cell:hover
 {
-    -fx-text-fill: white;
+    -fx-text-fill: green;
 }
-
-
 /* The scrollbar of ListView */
 #playlists .scroll-bar:horizontal .track,
 #playlists .scroll-bar:vertical .track
@@ -139,7 +147,9 @@ Button
     -fx-text-fill: white;
 }
 
-/* Bottom control */
+/*
+Bottom control
+*/
 #control
 {
     -fx-min-height: 90;
@@ -192,13 +202,11 @@ Slider .thumb:hover
 {
     -fx-padding: 0 0 10 0;
 }
-
 #volume Slider
 {
     -fx-max-width: 110;
     -fx-padding: 0 0 0 10;
 }
-
 #video ContextMenu Menu
 {
     -fx-text-fill: red;

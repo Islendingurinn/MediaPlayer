@@ -4,6 +4,7 @@ import database.DB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -61,7 +62,7 @@ public class Controller {
     private Slider volume;
 
     @FXML
-    private Button addFile;
+    private Button library;
 
     /**
      * Method ran upon opening the program.
@@ -156,6 +157,11 @@ public class Controller {
         newPlaylist.save();
         playlistName.setVisible(false);
         waitingForPlaylistName = false;
+        videos.setVisible(false);
+        currentPlaylist.setVisible(true);
+        library.setStyle("-fx-text-fill: white;");
+        playlists.getSelectionModel().select(newPlaylist.getID()-1);
+        displayPlaylistVideos();
     }
 
     /**
@@ -231,6 +237,11 @@ public class Controller {
      */
     @FXML
     private void playlistInteract(MouseEvent mouseEvent) {
+        displayPlaylistVideos();
+    }
+
+    private void displayPlaylistVideos()
+    {
         if(waitingForPlaylistName) return;
 
         String playlistClicked = playlists.getSelectionModel().getSelectedItem();
@@ -238,6 +249,10 @@ public class Controller {
         PlayerManager.stopVideo();
         videos.setVisible(false);
         currentPlaylist.setVisible(true);
+        library.setStyle("-fx-text-fill: #a8a8a8;");
+        library.setOnMouseEntered(e -> library.setStyle("-fx-text-fill: green;"));
+        library.setOnMouseExited(e -> library.setStyle("-fx-text-fill: #a8a8a8;"));
+
 
         int id = Integer.parseInt(playlistClicked.split(". ")[0]);
         Playlist playlist = null;
@@ -267,6 +282,10 @@ public class Controller {
         PlayerManager.stopVideo();
         currentPlaylist.setVisible(false);
         videos.setVisible(true);
+        playlists.getSelectionModel().clearSelection();
+        library.setStyle("-fx-text-fill: green;");
+        library.setOnMouseEntered(null);
+        library.setOnMouseExited(null);
     }
 
     /**
@@ -426,5 +445,7 @@ public class Controller {
         }
         currentPlaylist.setVisible(false);
         videos.setVisible(true);
+        playlists.getSelectionModel().clearSelection();
+        library.setStyle("-fx-text-fill: green;");
     }
 }
