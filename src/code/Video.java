@@ -3,6 +3,7 @@ package code;
 import database.DB;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class Video {
 
@@ -95,9 +96,9 @@ public class Video {
      * @return boolean if any term contains the search
      */
     public boolean compares(String search){
-        if(search.matches("" + _ID)) return true;
-        if(search.matches("" + _NAME)) return true;
-        if(search.matches("" + _CATEGORY)) return true;
+        if(Pattern.compile(search).matcher("" + _ID).find()) return true;
+        if(Pattern.compile(search.toLowerCase()).matcher(_NAME.toLowerCase()).find()) return true;
+        if(Pattern.compile(search.toLowerCase()).matcher(_CATEGORY.toLowerCase()).find()) return true;
 
         return false;
     }
