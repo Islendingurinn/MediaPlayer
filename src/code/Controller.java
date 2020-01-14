@@ -373,6 +373,7 @@ public class Controller {
         {
             _DISPLAYEDVIDEOS.remove(video.toString());
             video.delete();
+            _VIDEOS.remove(video);
             for (Playlist playlist : _PLAYLISTS)
             {
                 playlist.remove(video);
