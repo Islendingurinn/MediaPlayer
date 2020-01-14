@@ -151,14 +151,11 @@ public class Controller {
         }
 
         Playlist newPlaylist = new Playlist(-1, playlistName.getText(), playlistVideos);
+        _DISPLAYEDPLAYLISTS.add(newPlaylist.toString());
+        _PLAYLISTS.add(newPlaylist);
         newPlaylist.save();
         playlistName.setVisible(false);
         waitingForPlaylistName = false;
-
-        _PLAYLISTS.clear();
-        _DISPLAYEDPLAYLISTS.clear();
-        setupPlaylists();
-
     }
 
     /**
@@ -330,6 +327,7 @@ public class Controller {
 
             Playlist newPlaylist = new Playlist(i, name, playlistVideos);
             _PLAYLISTS.add(newPlaylist);
+            _DISPLAYEDPLAYLISTS.add(newPlaylist.toString());
         }
     }
 
@@ -363,6 +361,7 @@ public class Controller {
 
             Video newVideo = new Video(i, name, path, category);
             _VIDEOS.add(newVideo);
+            _DISPLAYEDVIDEOS.add(newVideo.toString());
         }
     }
     @FXML
@@ -372,6 +371,7 @@ public class Controller {
 
         for (Video video : selectedVideos)
         {
+            _DISPLAYEDVIDEOS.remove(video.toString());
             video.delete();
             for (Playlist playlist : _PLAYLISTS)
             {
@@ -401,6 +401,7 @@ public class Controller {
             {
                 for (Video video : selectedVideos)
                 {
+                    _CURRENTPLAYLIST.remove(video.toString());
                     playlist.remove(video);
                 }
             }
@@ -413,6 +414,7 @@ public class Controller {
         for(Playlist playlist : _PLAYLISTS) {
             if (playlist.toString().equalsIgnoreCase(playlists.getSelectionModel().getSelectedItem())) {
                 playlist.delete();
+                _DISPLAYEDPLAYLISTS.remove(playlist.toString());
                 _PLAYLISTS.remove(playlist);
                 break;
             }

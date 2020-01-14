@@ -22,7 +22,6 @@ public class Playlist {
         this._VIDEOS = videos;
 
         if(this._ID == -1) this._ID = setupID();
-        toggleDisplay();
     }
 
     /**
@@ -48,18 +47,6 @@ public class Playlist {
      */
     public List<Video> getVideos(){
         return _VIDEOS;
-    }
-
-    /**
-     * A method to toggle display of the Playlist in the GUI
-     */
-    public void toggleDisplay(){
-        if(!Controller._DISPLAYEDPLAYLISTS.contains(toString()))
-            Controller._DISPLAYEDPLAYLISTS.add(toString());
-        else
-        {
-            Controller._DISPLAYEDPLAYLISTS.remove(toString());
-        }
     }
 
     /**
@@ -97,9 +84,8 @@ public class Playlist {
      * @param video Video to remove
      */
     public void remove(Video video){
-        DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + _ID + " AND fldVideoID=" + video.getID());
-        Controller._CURRENTPLAYLIST.remove(video.toString());
         _VIDEOS.remove(video);
+        DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + _ID + " AND fldVideoID=" + video.getID());
     }
 
     /**
@@ -108,7 +94,6 @@ public class Playlist {
     public void delete(){
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + _ID);
         DB.deleteSQL("DELETE FROM tblPlaylist WHERE fldPlaylistID=" + _ID);
-        toggleDisplay();
     }
 
     /**

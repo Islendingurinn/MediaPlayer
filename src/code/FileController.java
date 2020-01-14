@@ -31,11 +31,11 @@ public class FileController
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("mp4 files (*.mp4)", "*.mp4");
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showOpenDialog(stage);
-        System.out.println(file.toString());
         String path = file.toString();
 
         Video video = new Video(-1, "test", path, "test");
         video.save();
+        Controller._DISPLAYEDVIDEOS.add(video.toString());
         Controller._VIDEOS.add(video);
     }
 }

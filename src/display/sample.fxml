@@ -153,7 +153,7 @@
                                         </MenuItem>
                                     </items>
                                 </Menu>
-                                <MenuItem mnemonicParsing="false" onAction="#deleteVideo" text="Remove from playlist" />
+                                <MenuItem mnemonicParsing="false" onAction="#removeVideo" text="Remove from playlist" />
                         <MenuItem mnemonicParsing="false" onAction="#deletePlaylist" text="Delete playlist" />
                             </items>
                         </ContextMenu>

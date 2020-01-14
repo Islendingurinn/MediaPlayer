@@ -25,7 +25,6 @@ public class Video {
         _CATEGORY = category;
 
         if(_ID == -1) this._ID = setupID();
-        toggleDisplay();
     }
 
     /**
@@ -51,16 +50,6 @@ public class Video {
     @Override
     public String toString(){
         return _ID + ". " + _NAME + "\n" + _CATEGORY;
-    }
-
-    /**
-     * A method to toggle display of the video in the library
-     */
-    public void toggleDisplay(){
-        if(!Controller._DISPLAYEDVIDEOS.contains(toString()))
-            Controller._DISPLAYEDVIDEOS.add(toString());
-        else
-            Controller._DISPLAYEDVIDEOS.remove(toString());
     }
 
     /**
@@ -96,7 +85,6 @@ public class Video {
     public void delete(){
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldVideoID=" + _ID);
         DB.deleteSQL("DELETE FROM tblVideo WHERE fldVideoID=" + _ID);
-        toggleDisplay();
     }
 
     /**
