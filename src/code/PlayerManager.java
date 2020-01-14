@@ -22,6 +22,9 @@ public class PlayerManager {
     private static Label videoTimestamp;
     private static Label videoLength;
 
+    private static List<Video> playlist;
+    private static Video previousVideo;
+
     /**
      * Sets the components required for the MediaPlayer
      * @param mv The MediaView
@@ -99,6 +102,7 @@ public class PlayerManager {
      */
     public static void play(List<Video> videos){
         try {
+            playlist = videos;
             Video video = videos.get(0);
             Media file = new Media(new File(video.getPath()).toURI().toString());
             mediaplayer = new MediaPlayer(file);
@@ -130,5 +134,17 @@ public class PlayerManager {
         }catch(IndexOutOfBoundsException ex){
             stopVideo();
         }
+    }
+
+    public static void previous(){
+        if(previousVideo == null) stopVideo();
+
+        playlist.add(0, previousVideo);
+        play(playlist);
+    }
+
+    public static void skip(){
+        playlist.remove(0);
+        play(playlist);
     }
 }

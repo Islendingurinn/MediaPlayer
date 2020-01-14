@@ -100,7 +100,7 @@ public class Controller {
     private void handleButtonFile()
     {
         try {
-            AnchorPane file = (AnchorPane) FXMLLoader.load(FileController.class.getResource("/display/FileView.fxml"));
+            AnchorPane file = FXMLLoader.load(FileController.class.getResource("/display/FileView.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Add file");
             stage.setScene(new Scene(file));
@@ -291,6 +291,18 @@ public class Controller {
         }
     }
 
+    @FXML
+    public void previous(ActionEvent event) {
+        if(!mediaview.isVisible()) return;
+        PlayerManager.previous();
+    }
+
+    @FXML
+    private void skip(ActionEvent event) {
+        if(!mediaview.isVisible()) return;
+        PlayerManager.skip();
+    }
+
     /**
      * The method provides the app with info from DB
      * about Playlists upon initialization.
@@ -364,6 +376,7 @@ public class Controller {
             _DISPLAYEDVIDEOS.add(newVideo.toString());
         }
     }
+
     @FXML
     private void deleteVideo()
     {
@@ -380,21 +393,11 @@ public class Controller {
             }
         }
     }
+
     @FXML
     private void removeVideo()
     {
-        List<Video> selectedVideos = new ArrayList<>();
-        for(String toString : currentPlaylist.getSelectionModel().getSelectedItems())
-        {
-            for(Video video : _VIDEOS)
-            {
-                if (video.toString().equalsIgnoreCase(toString))
-                {
-                    selectedVideos.add(video);
-                    break;
-                }
-            }
-        }
+        List<Video> selectedVideos = getSelectedVideos(currentPlaylist);
 
         for(Playlist playlist : _PLAYLISTS)
         {
@@ -409,6 +412,7 @@ public class Controller {
         }
 
     }
+
     @FXML
     private void deletePlaylist()
     {

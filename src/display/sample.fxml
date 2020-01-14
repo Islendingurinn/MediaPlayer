@@ -65,7 +65,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="89.0" prefWidth="760.0">
                             <children>
-                                <Button mnemonicParsing="false">
+                                <Button mnemonicParsing="false" onAction="#previous">
                                     <graphic>
                                         <FontAwesomeIconView glyphName="STEP_BACKWARD" text="" />
                                     </graphic>
@@ -78,7 +78,7 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Button>
-                                <Button mnemonicParsing="false">
+                                <Button mnemonicParsing="false" onAction="#skip">
                                     <graphic>
                                         <FontAwesomeIconView glyphName="STEP_FORWARD" />
                                     </graphic>
