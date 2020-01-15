@@ -13,7 +13,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -63,11 +65,17 @@ public class Controller {
 
     @FXML
     private Button library;
+    @FXML
+    private VBox sidemenu;
 
     /**
      * Method ran upon opening the program.
      */
     public void initialize(){
+        // Load fonts
+        Font.loadFont(Controller.class.getResourceAsStream("/display/fonts/OpenSans-Regular.ttf"), 16);
+        Font.loadFont(Controller.class.getResourceAsStream("/display/fonts/OpenSans-Bold.ttf"), 16);
+
         //Constructs the components for PlayerManager
         PlayerManager.setComponents(mediaview, videoTimestamp, videoLength);
 

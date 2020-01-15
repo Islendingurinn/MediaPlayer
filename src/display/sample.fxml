@@ -99,7 +99,7 @@
         </GridPane>
     </bottom>
     <left>
-        <VBox id="sidemenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <VBox id="sidemenu" fx:id="sidemenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
                 <Button fx:id="library" mnemonicParsing="false" onAction="#requestLibrary" text="LIBRARY" />
                 <Label text="PLAYLISTS" />
