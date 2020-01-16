@@ -4,7 +4,6 @@ import database.DB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,12 +11,11 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +63,10 @@ public class Controller {
 
     @FXML
     private Button library;
-    @FXML
-    private VBox sidemenu;
+
+    public static Stage stage;
+
+
 
     /**
      * Method ran upon opening the program.
@@ -78,6 +78,8 @@ public class Controller {
 
         //Constructs the components for PlayerManager
         PlayerManager.setComponents(mediaview, videoTimestamp, videoLength);
+
+        FullscreenController.init(mediaview, center);
 
         //Sets up the ListViews that display Videos and Playlists
         _DISPLAYEDPLAYLISTS = FXCollections.observableArrayList();
@@ -120,6 +122,17 @@ public class Controller {
         {
             e.printStackTrace();
         }
+    }
+    public void setStage(Stage stage){
+        this.stage=stage;
+    }
+    @FXML
+    private void handleButtonFullscreen()
+    {
+        stage.hide();
+        mediaview.fitHeightProperty().unbind();
+        mediaview.fitWidthProperty().unbind();
+        FullscreenController.show();
     }
 
     /**

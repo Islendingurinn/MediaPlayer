@@ -203,3 +203,11 @@ Slider .thumb:hover
 {
     -fx-text-fill: red;
 }
+#fullscreen > Button
+{
+    -fx-opacity: 0;
+}
+#fullscreen:hover Button
+{
+    -fx-opacity: 1;
+}

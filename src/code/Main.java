@@ -11,13 +11,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        Parent root = FXMLLoader.load(getClass().getResource("/display/sample.fxml"));
-        Scene scene = new Scene(root);
+        // Main scene
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/display/sample.fxml"));
+        Parent root = (Parent) fxmlLoader.load();
+        Scene main = new Scene(root);
         primaryStage.setMinWidth(1066);
         primaryStage.setMinHeight(739);
         // primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("hospital.png")));
-        primaryStage.setScene(scene);
+        primaryStage.setScene(main);
         primaryStage.show();
+        ((Controller) fxmlLoader.getController()).setStage(primaryStage);
     }
 
     public static void main(String[] args) {
