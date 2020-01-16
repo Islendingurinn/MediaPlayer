@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="full" style="-fx-background-color: black;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.FullscreenController">
+<StackPane fx:id="full" prefHeight="504.0" prefWidth="1000.0" style="-fx-background-color: black;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.FullscreenController">
    <children>
-      <BorderPane prefHeight="400.0" prefWidth="1000.0">
+      <BorderPane fx:id="top" prefHeight="400.0" prefWidth="1000.0" visible="false">
          <top>
             <HBox id="fullscreen" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="minimize" mnemonicParsing="false" onAction="#closeFullscreen" prefWidth="12.0">
                      <graphic>
-                        <FontAwesomeIconView glyphName="ARROWS_ALT" size="14" />
+                        <FontAwesomeIconView glyphName="TIMES" size="14" />
                      </graphic>
                   </Button>
                </children>

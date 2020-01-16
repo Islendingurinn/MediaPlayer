@@ -42,7 +42,7 @@ public class DB {
      */
     static {
         Properties props = new Properties();
-        String fileName = "src/database/db.properties";
+        String fileName = "C:/Users/paviln/Dropbox/CS/2.semester/Project/MediaPlayerProject/MediaPlayer/src/database/db.properties";
         InputStream input;
         try{
             input = new FileInputStream(fileName);

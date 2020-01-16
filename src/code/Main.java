@@ -21,6 +21,8 @@ public class Main extends Application {
         primaryStage.setScene(main);
         primaryStage.show();
         ((Controller) fxmlLoader.getController()).setStage(primaryStage);
+
+
     }
 
     public static void main(String[] args) {
