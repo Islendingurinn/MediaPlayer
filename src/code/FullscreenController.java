@@ -8,6 +8,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -48,7 +49,7 @@ public class FullscreenController
              * Fullscreen show top and mouse when mouse is moved
              */
             BorderPane top = (BorderPane) scene.lookup("#top");
-            PauseTransition idle = new PauseTransition(Duration.seconds(1));
+            PauseTransition idle = new PauseTransition(Duration.seconds(2));
             idle.setOnFinished(e -> {
                 scene.setCursor(Cursor.NONE);
                 top.setVisible(false);

@@ -48,7 +48,8 @@
         <GridPane id="control" maxWidth="10000.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="600.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="754.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -56,11 +57,11 @@
             <children>
                 <VBox id="control_center" prefHeight="48.0" prefWidth="574.0" GridPane.columnIndex="1">
                     <children>
-                        <HBox id="control_slider" alignment="TOP_CENTER" prefHeight="0.0" prefWidth="760.0">
+                        <HBox id="control_slider" alignment="CENTER" prefHeight="0.0" prefWidth="760.0">
                             <children>
                                 <Label fx:id="videoTimestamp" style="-fx-padding: 0;" />
-                                <Slider prefHeight="20.0" prefWidth="674.0" style="-fx-padding: 3;" />
-                                <Label fx:id="videoLength" style="-fx-padding: 0;" />
+                                <Slider prefHeight="20.0" prefWidth="640.0" style="-fx-padding: 3;" />
+                                <Label fx:id="videoLength" alignment="CENTER" style="-fx-padding: 0;" />
                             </children>
                         </HBox>
                         <HBox fx:id="controls" alignment="CENTER" prefHeight="89.0" prefWidth="760.0">
@@ -91,11 +92,16 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Button>
-                        <Button mnemonicParsing="false" onAction="#handleButtonFullscreen" text="Button" />
+                        <Button mnemonicParsing="false" text="Button" visible="false" />
                             </children>
                         </HBox>
                     </children>
                 </VBox>
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleButtonFullscreen" GridPane.columnIndex="2">
+               <graphic>
+                  <FontAwesomeIconView glyphName="ARROWS_ALT" />
+               </graphic>
+            </Button>
             </children>
         </GridPane>
     </bottom>
@@ -145,20 +151,12 @@
                     <contextMenu>
                         <ContextMenu>
                             <items>
-                                <Menu mnemonicParsing="false" text="Add to playlist">
-                                    <items>
-                                        <MenuItem mnemonicParsing="false">
-                                            <graphic>
-                                                <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
-                                            </graphic>
-                                        </MenuItem>
-                                    </items>
-                                </Menu>
                                 <MenuItem mnemonicParsing="false" onAction="#removeVideo" text="Remove from playlist" />
                         <MenuItem mnemonicParsing="false" onAction="#deletePlaylist" text="Delete playlist" />
                             </items>
                         </ContextMenu>
-                    </contextMenu></ListView>
+                    </contextMenu>
+            </ListView>
             </children>
         </StackPane>
     </center>

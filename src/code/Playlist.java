@@ -38,7 +38,7 @@ public class Playlist {
      */
     @Override
     public String toString(){
-        return _ID + ". " + _NAME;
+        return _NAME;
     }
 
     /**

@@ -264,9 +264,9 @@ public class Controller {
     private void displayPlaylistVideos()
     {
         if(waitingForPlaylistName) return;
-
-        String playlistClicked = playlists.getSelectionModel().getSelectedItem();
-        if(playlistClicked == null) return;
+        int id = playlists.getSelectionModel().getSelectedIndex();
+        Playlist playlistClicked = _PLAYLISTS.get(id);
+        if(id > playlists.getSelectionModel().getSelectedItems().size()) return;
         PlayerManager.stopVideo();
         videos.setVisible(false);
         currentPlaylist.setVisible(true);
@@ -274,11 +274,9 @@ public class Controller {
         library.setOnMouseEntered(e -> library.setStyle("-fx-text-fill: green;"));
         library.setOnMouseExited(e -> library.setStyle("-fx-text-fill: #a8a8a8;"));
 
-
-        int id = Integer.parseInt(playlistClicked.split(". ")[0]);
         Playlist playlist = null;
         for(Playlist p : _PLAYLISTS){
-            if(p.getID() == id){
+            if(p.getID() == playlistClicked.getID()){
                 playlist = p;
                 break;
             }

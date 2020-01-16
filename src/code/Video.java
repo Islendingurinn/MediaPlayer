@@ -50,7 +50,7 @@ public class Video {
      */
     @Override
     public String toString(){
-        return _ID + ". " + _NAME + "\n" + _CATEGORY;
+        return _NAME + "\n" + _CATEGORY;
     }
 
     /**
