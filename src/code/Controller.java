@@ -265,8 +265,8 @@ public class Controller {
     {
         if(waitingForPlaylistName) return;
         int id = playlists.getSelectionModel().getSelectedIndex();
+        if(id < 0) return;
         Playlist playlistClicked = _PLAYLISTS.get(id);
-        if(id > playlists.getSelectionModel().getSelectedItems().size()) return;
         PlayerManager.stopVideo();
         videos.setVisible(false);
         currentPlaylist.setVisible(true);
