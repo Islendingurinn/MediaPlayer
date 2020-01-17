@@ -273,6 +273,9 @@ public class Controller {
         for(Video video : selectedVideos){
             playlist.add(video);
         }
+
+        videos.setVisible(false);
+        currentPlaylist.setVisible(true);
     }
 
     private void displayPlaylistVideos()
