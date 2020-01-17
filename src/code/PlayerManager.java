@@ -8,6 +8,7 @@ import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManager {
@@ -95,10 +96,11 @@ public class PlayerManager {
      * Set up the display and then play.
      * Then set the Player to run the method again
      * on Video end, but without the current Video.
-     * @param videos List of Videos to play
+     * @param v List of Videos to play
      */
-    public static void play(List<Video> videos){
+    public static void play(List<Video> v){
         try {
+            List<Video> videos = new ArrayList<>(v);
             playlist = videos;
             Video video = videos.get(0);
             Media file = new Media(new File(video.getPath()).toURI().toString());
