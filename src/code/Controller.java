@@ -279,6 +279,7 @@ public class Controller {
 
         videos.setVisible(false);
         currentPlaylist.setVisible(true);
+        playlists.getFocusModel().focus(miniPlaylist.getSelectionModel().getSelectedIndex());
         libraryMenu.hide();
 
         _CURRENTPLAYLIST.clear();
