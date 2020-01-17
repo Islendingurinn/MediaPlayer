@@ -2,33 +2,35 @@ package code;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManager {
 
+    private static ListView listView;
     private static MediaView mediaview; //setmediaplayer(player)
     private static MediaPlayer mediaplayer; //new with media
     private static boolean _PAUSE = false;
     private static double volume = 1;
     private static Label videoTimestamp;
     private static Label videoLength;
-
     private static List<Video> playlist;
-    private static Video previousVideo;
+    private static int playingVideo = 0;
 
     /**
      * Sets the components required for the MediaPlayer
      * @param mv The MediaView
      * @param vL The Label VideoLength
      */
-    public static void setComponents(MediaView mv, Label vT, Label vL){
+    public static void setComponents(MediaView mv, Label vT, Label vL)
+    {
+
         mediaview = mv;
         videoTimestamp = vT;
         videoLength = vL;
@@ -71,11 +73,15 @@ public class PlayerManager {
     public static void stopVideo(){
         if(mediaview.getMediaPlayer() == null) return;
 
-        previousVideo = null;
         mediaplayer.stop();
         mediaview.setMediaPlayer(null);
         mediaview.setVisible(false);
         _PAUSE = false;
+        videoTimestamp.textProperty().unbind();
+        videoLength.textProperty().unbind();
+        videoTimestamp.setText("");
+        videoLength.setText("");
+        listView.setVisible(true);
     }
 
     /**
@@ -99,43 +105,43 @@ public class PlayerManager {
      * on Video end, but without the current Video.
      * @param videos List of Videos to play
      */
-    public static void play(List<Video> videos){
+    public static void play(List<Video> videos, ListView lV){
         try {
+            listView = lV;
             playlist = new ArrayList<>(videos);
-            Video video = playlist.get(0);
-
+            Video video = videos.get(playingVideo);
             Media file = new Media(new File(video.getPath()).toURI().toString());
             mediaplayer = new MediaPlayer(file);
 
             mediaplayer.setOnReady(() ->
             {
+                // play
                 mediaplayer.setVolume(volume);
                 mediaplayer.play();
 
                 videoTimestamp.textProperty().bind(
-                    Bindings.createStringBinding(() -> {
-                        Duration time = mediaplayer.getCurrentTime();
-                        return String.format("%4d:%02d:%02d", (int) time.toHours(), (int) time.toMinutes() % 60, (int)time.toSeconds() % 60);
-                    },
-                    mediaplayer.currentTimeProperty()));
+                        Bindings.createStringBinding(() -> {
+                                    Duration time = mediaplayer.getCurrentTime();
+                                    return String.format("%4d:%02d:%02d", (int) time.toHours(), (int) time.toMinutes() % 60, (int)time.toSeconds() % 60);
+                                },
+                                mediaplayer.currentTimeProperty()));
 
                 Duration time = mediaplayer.getStopTime();
                 videoLength.setText(String.format("%4d:%02d:%02d", (int) time.toHours(), (int) time.toMinutes() % 60, (int)time.toSeconds() % 60));
             });
 
             mediaplayer.setOnEndOfMedia(() -> {
-                previousVideo = video;
-                videos.remove(0);
-                play(videos);
+                playingVideo++;
+                play(videos, listView);
             });
 
             mediaview.setMediaPlayer(mediaplayer);
-
         }catch(IndexOutOfBoundsException ex){
+            playingVideo = 0;
             stopVideo();
         }catch(NullPointerException ex){
-            stopVideo();
-        }
+            playingVideo = 0;
+            stopVideo();        }
     }
 
     /**
@@ -143,11 +149,10 @@ public class PlayerManager {
      * previous video. If there's none,
      * stop the video player.
      */
-    public static void previous(){
-        if(previousVideo == null) stopVideo();
-
-        playlist.add(0, previousVideo);
-        play(playlist);
+    public static void previous()
+    {
+        playingVideo--;
+        play(playlist, listView);
     }
 
     /**
@@ -156,7 +161,7 @@ public class PlayerManager {
      * then remove it from the playlist.
      */
     public static void skip(){
-        if(!(previousVideo == null)) playlist.remove(0);
-        play(playlist);
+        playingVideo++;
+        play(playlist, listView);
     }
 }

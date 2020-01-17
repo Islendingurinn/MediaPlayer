@@ -71,7 +71,7 @@
                                         <FontAwesomeIconView glyphName="STEP_BACKWARD" text="" />
                                     </graphic>
                                 </Button>
-                                <Button id="play_btn" mnemonicParsing="false" onAction="#videoInteract">
+                                <Button id="play_btn" mnemonicParsing="false" onAction="#stopVideo">
                                     <graphic>
                                         <FontAwesomeIconView glyphName="STOP" />
                                     </graphic>

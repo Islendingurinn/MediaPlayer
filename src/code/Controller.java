@@ -124,10 +124,13 @@ public class Controller {
         switch(view){
             case LIBRARY:
                 videos.setVisible(true);
+                break;
             case PLAYLIST:
                 currentPlaylist.setVisible(true);
+                break;
             case VIDEO:
                 mediaview.setVisible(true);
+                break;
         }
     }
 
@@ -246,7 +249,7 @@ public class Controller {
             if(selectedVideos.size() == 0) return;
 
             setVisible(View.VIDEO);
-            PlayerManager.play(selectedVideos);
+            PlayerManager.play(selectedVideos, videos);
         }else if(currentPlaylist.isVisible()){
             List<Video> selectedVideos = getSelectedVideos(currentPlaylist);
             if(selectedVideos.size() == 0){
@@ -256,19 +259,19 @@ public class Controller {
 
             setVisible(View.VIDEO);
             _CURRENTPLAYLIST.clear();
-            PlayerManager.play(selectedVideos);
+            PlayerManager.play(selectedVideos, currentPlaylist);
         }
     }
 
     /**
      * Method to handle clicking "Stop" button
      */
-/*    @FXML
+    @FXML
     private void stopVideo(ActionEvent event){
         if(mediaview.isVisible()){
             PlayerManager.stopVideo();
         }
-    }*/
+    }
 
     /**
      * A method to get the selected playlist from the

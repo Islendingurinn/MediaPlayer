@@ -1,8 +1,6 @@
 package code;
 
 import database.DB;
-
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Video {
