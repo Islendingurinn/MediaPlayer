@@ -112,6 +112,26 @@ public class Controller {
     }
 
     /**
+     * Set which window should be visible;
+     * whether that's video, library or playlist.
+     * @param view
+     */
+    public void setVisible(View view){
+        mediaview.setVisible(false);
+        videos.setVisible(false);
+        currentPlaylist.setVisible(false);
+
+        switch(view){
+            case LIBRARY:
+                videos.setVisible(true);
+            case PLAYLIST:
+                currentPlaylist.setVisible(true);
+            case VIDEO:
+                mediaview.setVisible(true);
+        }
+    }
+
+    /**
      * A method to handle showing the file manager window that
      * opens when the user wants to add videos.
      */
@@ -194,12 +214,14 @@ public class Controller {
         _DISPLAYEDPLAYLISTS.add(newPlaylist.toString());
         _PLAYLISTS.add(newPlaylist);
         newPlaylist.save();
+
         playlistName.setVisible(false);
         waitingForPlaylistName = false;
-        videos.setVisible(false);
-        currentPlaylist.setVisible(true);
+
         library.setStyle("-fx-text-fill: white;");
         playlists.getSelectionModel().select(newPlaylist.getID()-1);
+
+        setVisible(View.PLAYLIST);
         displayPlaylistVideos();
     }
 
@@ -220,22 +242,19 @@ public class Controller {
         if(mediaview.isVisible()){
             PlayerManager.handleInteraction();
         }else if(videos.isVisible()){
-            //LIBRARY ACTIONS play all
             List<Video> selectedVideos = getSelectedVideos(videos);
             if(selectedVideos.size() == 0) return;
 
-            videos.setVisible(false);
-            currentPlaylist.setVisible(false);
+            setVisible(View.VIDEO);
             PlayerManager.play(selectedVideos);
         }else if(currentPlaylist.isVisible()){
-            //PLAY PLAYLIST
             List<Video> selectedVideos = getSelectedVideos(currentPlaylist);
             if(selectedVideos.size() == 0){
                 String playlist = playlists.getSelectionModel().getSelectedItem();
                 selectedVideos = getSelectedPlaylist(playlist).getVideos();
             }
 
-            currentPlaylist.setVisible(false);
+            setVisible(View.VIDEO);
             _CURRENTPLAYLIST.clear();
             PlayerManager.play(selectedVideos);
         }
@@ -313,8 +332,7 @@ public class Controller {
             playlist.add(video);
         }
 
-        videos.setVisible(false);
-        currentPlaylist.setVisible(true);
+        setVisible(View.PLAYLIST);
         playlists.getSelectionModel().select(miniPlaylist.getSelectionModel().getSelectedIndex());
         libraryMenu.hide();
         library.setStyle("-fx-text-fill: #a8a8a8;");
@@ -332,12 +350,14 @@ public class Controller {
     private void displayPlaylistVideos()
     {
         if(waitingForPlaylistName) return;
+
         int id = playlists.getSelectionModel().getSelectedIndex();
         if(id < 0) return;
+
         Playlist playlistClicked = _PLAYLISTS.get(id);
         PlayerManager.stopVideo();
-        videos.setVisible(false);
-        currentPlaylist.setVisible(true);
+        setVisible(View.PLAYLIST);
+
         library.setStyle("-fx-text-fill: #a8a8a8;");
         library.setOnMouseEntered(e -> library.setStyle("-fx-text-fill: green;"));
         library.setOnMouseExited(e -> library.setStyle("-fx-text-fill: #a8a8a8;"));
@@ -367,9 +387,9 @@ public class Controller {
         if(waitingForPlaylistName) return;
 
         PlayerManager.stopVideo();
-        currentPlaylist.setVisible(false);
-        videos.setVisible(true);
+        setVisible(View.LIBRARY);
         playlists.getSelectionModel().clearSelection();
+
         library.setStyle("-fx-text-fill: green;");
         library.setOnMouseEntered(null);
         library.setOnMouseExited(null);
@@ -386,11 +406,9 @@ public class Controller {
         if(waitingForPlaylistName) return;
 
         PlayerManager.stopVideo();
-        videos.setVisible(false);
-        currentPlaylist.setVisible(true);
+        setVisible(View.PLAYLIST);
 
         _CURRENTPLAYLIST.clear();
-
         String searchTerm = search.getText();
         for(Video video : _VIDEOS){
             if(video.compares(searchTerm)) _CURRENTPLAYLIST.add(video.toString());

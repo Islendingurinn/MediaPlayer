@@ -102,14 +102,13 @@ public class PlayerManager {
     public static void play(List<Video> videos){
         try {
             playlist = new ArrayList<>(videos);
-            Video video = videos.get(0);
+            Video video = playlist.get(0);
+
             Media file = new Media(new File(video.getPath()).toURI().toString());
             mediaplayer = new MediaPlayer(file);
 
             mediaplayer.setOnReady(() ->
             {
-                // play
-                mediaview.setVisible(true);
                 mediaplayer.setVolume(volume);
                 mediaplayer.play();
 
@@ -131,6 +130,7 @@ public class PlayerManager {
             });
 
             mediaview.setMediaPlayer(mediaplayer);
+
         }catch(IndexOutOfBoundsException ex){
             stopVideo();
         }catch(NullPointerException ex){
