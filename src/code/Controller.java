@@ -243,6 +243,16 @@ public class Controller {
     }
 
     /**
+     * Method to handle clicking "Stop" button
+     */
+    @FXML
+    private void stopVideo(ActionEvent event){
+        if(mediaview.isVisible()){
+            PlayerManager.stopVideo();
+        }
+    }
+
+    /**
      * A method to get the selected playlist from the
      * display name
      * @param toString The display name
