@@ -220,3 +220,20 @@ Slider .thumb:hover
 {
     -fx-text-fill: #000;
 }
+.list
+{
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+.list .list-cell
+{
+    -fx-background-color: white;
+}
+
+.list .list-cell:selected
+{
+    -fx-background-color: #2e2e2e;
+    -fx-text-fill: white;
+}

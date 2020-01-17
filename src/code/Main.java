@@ -2,8 +2,8 @@ package code;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -13,7 +13,7 @@ public class Main extends Application {
     {
         // Main scene
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/display/sample.fxml"));
-        Parent root = (Parent) fxmlLoader.load();
+        BorderPane root = (BorderPane) fxmlLoader.load();
         Scene main = new Scene(root);
         primaryStage.setMinWidth(1066);
         primaryStage.setMinHeight(739);

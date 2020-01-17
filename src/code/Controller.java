@@ -230,7 +230,6 @@ public class Controller {
         }else if(currentPlaylist.isVisible()){
             //PLAY PLAYLIST
             List<Video> selectedVideos = getSelectedVideos(currentPlaylist);
-
             if(selectedVideos.size() == 0){
                 String playlist = playlists.getSelectionModel().getSelectedItem();
                 selectedVideos = getSelectedPlaylist(playlist).getVideos();
@@ -245,12 +244,12 @@ public class Controller {
     /**
      * Method to handle clicking "Stop" button
      */
-    @FXML
+/*    @FXML
     private void stopVideo(ActionEvent event){
         if(mediaview.isVisible()){
             PlayerManager.stopVideo();
         }
-    }
+    }*/
 
     /**
      * A method to get the selected playlist from the
@@ -318,6 +317,7 @@ public class Controller {
         currentPlaylist.setVisible(true);
         playlists.getSelectionModel().select(miniPlaylist.getSelectionModel().getSelectedIndex());
         libraryMenu.hide();
+        library.setStyle("-fx-text-fill: #a8a8a8;");
 
         _CURRENTPLAYLIST.clear();
         for(Video video : playlist.getVideos()){
