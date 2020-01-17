@@ -103,6 +103,7 @@ public class PlayerManager {
             Video video = videos.get(0);
             Media file = new Media(new File(video.getPath()).toURI().toString());
             mediaplayer = new MediaPlayer(file);
+            previousVideo = video;
 
             mediaplayer.setOnReady(() ->
             {
