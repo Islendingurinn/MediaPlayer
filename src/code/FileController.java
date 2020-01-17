@@ -22,10 +22,19 @@ public class FileController
 
     String path = "";
 
+    /**
+     * Method run on initialization
+     * @param newStage
+     */
     public static void init(Stage newStage)
     {
         stage = newStage;
     }
+
+    /**
+     * Method to open the file browser and look for
+     * mp4 files. Then, save the path.
+     */
     @FXML
     private void openFile()
     {
@@ -43,6 +52,11 @@ public class FileController
             fileInput.setText(path);
         }
     }
+
+    /**
+     * Use the path to save and implement the video
+     * into the code and into the DB.
+     */
     @FXML
     private void save()
     {
@@ -63,6 +77,10 @@ public class FileController
             fileInput.clear();
         }
     }
+
+    /**
+     * Method run on close request
+     */
     @FXML
     private void close()
     {

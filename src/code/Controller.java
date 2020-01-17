@@ -111,6 +111,10 @@ public class Controller {
         mediaview.fitHeightProperty().bind(center.heightProperty().subtract(100));
     }
 
+    /**
+     * A method to handle showing the file manager window that
+     * opens when the user wants to add videos.
+     */
     @FXML
     private void handleButtonFile()
     {
@@ -127,9 +131,19 @@ public class Controller {
             e.printStackTrace();
         }
     }
+
+    /**
+     * A method to set the stage
+     * @param stage stage to set
+     */
     public void setStage(Stage stage){
         this.stage=stage;
     }
+
+    /**
+     * A method to handle wanting to put the
+     * video into fullscreen.
+     */
     @FXML
     private void handleButtonFullscreen()
     {
@@ -228,6 +242,12 @@ public class Controller {
         }
     }
 
+    /**
+     * A method to get the selected playlist from the
+     * display name
+     * @param toString The display name
+     * @return the Playlist object
+     */
     private Playlist getSelectedPlaylist(String toString){
         for(Playlist pl : _PLAYLISTS){
             if(pl.toString().equalsIgnoreCase(toString))
@@ -268,6 +288,13 @@ public class Controller {
         displayPlaylistVideos();
     }
 
+    /**
+     * A method for adding videos to a playlist when
+     * the ListView is clicked. The method first
+     * gets the selected videos and playlist, then
+     * adds it before changing the visibility to
+     * the playlist.
+     */
     @FXML
     private void addToPlaylist(MouseEvent mouseEvent) {
         List<Video> selectedVideos = getSelectedVideos(videos);
@@ -288,6 +315,10 @@ public class Controller {
         }
     }
 
+    /**
+     * A method to display the videos in a playlist
+     * when a playlist is clicked in the ListView.
+     */
     private void displayPlaylistVideos()
     {
         if(waitingForPlaylistName) return;
@@ -356,12 +387,20 @@ public class Controller {
         }
     }
 
+    /**
+     * Method to handle when "skip to previous"
+     * button is pressed.
+     */
     @FXML
     public void previous(ActionEvent event) {
         if(!mediaview.isVisible()) return;
         PlayerManager.previous();
     }
 
+    /**
+     * Method to handle when "skip to next"
+     * button is pressed.
+     */
     @FXML
     private void skip(ActionEvent event) {
         if(!mediaview.isVisible()) return;
@@ -442,6 +481,10 @@ public class Controller {
         }
     }
 
+    /**
+     * A method to handle clicking delete for a
+     * video. Removes the reference in the code & DB.
+     */
     @FXML
     private void deleteVideo()
     {
@@ -459,6 +502,10 @@ public class Controller {
         }
     }
 
+    /**
+     * A method to handle clicking remove from playlist
+     * for a video. Removes the reference in the code & DB.
+     */
     @FXML
     private void removeVideo()
     {
@@ -478,6 +525,10 @@ public class Controller {
 
     }
 
+    /**
+     * A method to handle clicking delete for a
+     * playlist. Removes the reference in the code & DB.
+     */
     @FXML
     private void deletePlaylist()
     {

@@ -26,6 +26,12 @@ public class FullscreenController
     private static StackPane center;
     private static StackPane fullscreen;
 
+    /**
+     * The method to initialize the fullscreen mode
+     * sets the scene and actions.
+     * @param m The video MediaView
+     * @param c The StackPane containing the MediaView
+     */
     public static void init(MediaView m, StackPane c)
     {
         mediaView = m;
@@ -67,6 +73,9 @@ public class FullscreenController
         }
     }
 
+    /**
+     * Show the MediaView in the fullscreen window
+     */
     public static void show()
     {
         fullscreen.getChildren().add(mediaView);
@@ -76,12 +85,19 @@ public class FullscreenController
         stage.show();
     }
 
+    /**
+     * On Action close the fullscreen by request
+     */
     @FXML
     private void closeFullscreen()
     {
         stage.close();
     }
 
+    /**
+     * A method to reset the window when
+     * closing the fullscreen is requested
+     */
     public static void onClose()
     {
         mediaView.fitWidthProperty().bind(center.widthProperty().subtract(100));

@@ -71,6 +71,7 @@ public class PlayerManager {
     public static void stopVideo(){
         if(mediaview.getMediaPlayer() == null) return;
 
+        previousVideo = null;
         mediaplayer.stop();
         mediaview.setMediaPlayer(null);
         mediaview.setVisible(false);
@@ -137,6 +138,11 @@ public class PlayerManager {
         }
     }
 
+    /**
+     * A method to handle playing the
+     * previous video. If there's none,
+     * stop the video player.
+     */
     public static void previous(){
         if(previousVideo == null) stopVideo();
 
@@ -144,6 +150,11 @@ public class PlayerManager {
         play(playlist);
     }
 
+    /**
+     * A method to handle playing the
+     * next video. If there's a past video
+     * then remove it from the playlist.
+     */
     public static void skip(){
         if(!(previousVideo == null)) playlist.remove(0);
         play(playlist);
