@@ -215,10 +215,8 @@ public class Controller {
             if(selectedVideos.size() == 0){
                String playlist = playlists.getSelectionModel().getSelectedItem();
                for(Playlist pl : _PLAYLISTS){
-                   if(pl.toString().equalsIgnoreCase(playlist)) {
+                   if(pl.toString().equalsIgnoreCase(playlist))
                        selectedVideos = pl.getVideos();
-                       return;
-                   }
                }
             }
 
