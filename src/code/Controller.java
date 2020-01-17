@@ -66,6 +66,9 @@ public class Controller {
     @FXML
     private ListView<String> miniPlaylist;
 
+    @FXML
+    private ContextMenu libraryMenu;
+
     public static Stage stage;
 
     /**
@@ -276,6 +279,12 @@ public class Controller {
 
         videos.setVisible(false);
         currentPlaylist.setVisible(true);
+        libraryMenu.hide();
+
+        _CURRENTPLAYLIST.clear();
+        for(Video video : playlist.getVideos()){
+            _CURRENTPLAYLIST.add(video.toString());
+        }
     }
 
     private void displayPlaylistVideos()
