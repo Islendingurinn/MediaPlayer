@@ -96,12 +96,11 @@ public class PlayerManager {
      * Set up the display and then play.
      * Then set the Player to run the method again
      * on Video end, but without the current Video.
-     * @param v List of Videos to play
+     * @param videos List of Videos to play
      */
-    public static void play(List<Video> v){
+    public static void play(List<Video> videos){
         try {
-            List<Video> videos = new ArrayList<>(v);
-            playlist = videos;
+            playlist = new ArrayList<>(videos);
             Video video = videos.get(0);
             Media file = new Media(new File(video.getPath()).toURI().toString());
             mediaplayer = new MediaPlayer(file);

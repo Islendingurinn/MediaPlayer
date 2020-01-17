@@ -63,9 +63,10 @@ public class Controller {
     @FXML
     private Button library;
 
+    @FXML
+    private ListView<String> miniPlaylist;
+
     public static Stage stage;
-
-
 
     /**
      * Method ran upon opening the program.
@@ -83,6 +84,7 @@ public class Controller {
         //Sets up the ListViews that display Videos and Playlists
         _DISPLAYEDPLAYLISTS = FXCollections.observableArrayList();
         playlists.setItems(_DISPLAYEDPLAYLISTS);
+        miniPlaylist.setItems(_DISPLAYEDPLAYLISTS);
 
         _DISPLAYEDVIDEOS = FXCollections.observableArrayList();
         videos.setItems(_DISPLAYEDVIDEOS);
@@ -213,17 +215,23 @@ public class Controller {
             List<Video> selectedVideos = getSelectedVideos(currentPlaylist);
 
             if(selectedVideos.size() == 0){
-               String playlist = playlists.getSelectionModel().getSelectedItem();
-               for(Playlist pl : _PLAYLISTS){
-                   if(pl.toString().equalsIgnoreCase(playlist))
-                       selectedVideos = pl.getVideos();
-               }
+                selectedVideos = getSelectedPlaylist().getVideos();
             }
 
             currentPlaylist.setVisible(false);
             _CURRENTPLAYLIST.clear();
             PlayerManager.play(selectedVideos);
         }
+    }
+
+    private Playlist getSelectedPlaylist(){
+        String playlist = playlists.getSelectionModel().getSelectedItem();
+        for(Playlist pl : _PLAYLISTS){
+            if(pl.toString().equalsIgnoreCase(playlist))
+                return pl;
+        }
+
+        return null;
     }
 
     /**
@@ -255,6 +263,16 @@ public class Controller {
     @FXML
     private void playlistInteract(MouseEvent mouseEvent) {
         displayPlaylistVideos();
+    }
+
+    @FXML
+    private void addToPlaylist(MouseEvent mouseEvent) {
+        List<Video> selectedVideos = getSelectedVideos(videos);
+        Playlist playlist = getSelectedPlaylist();
+
+        for(Video video : selectedVideos){
+            playlist.add(video);
+        }
     }
 
     private void displayPlaylistVideos()
