@@ -215,7 +215,8 @@ public class Controller {
             List<Video> selectedVideos = getSelectedVideos(currentPlaylist);
 
             if(selectedVideos.size() == 0){
-                selectedVideos = getSelectedPlaylist().getVideos();
+                String playlist = playlists.getSelectionModel().getSelectedItem();
+                selectedVideos = getSelectedPlaylist(playlist).getVideos();
             }
 
             currentPlaylist.setVisible(false);
@@ -224,10 +225,9 @@ public class Controller {
         }
     }
 
-    private Playlist getSelectedPlaylist(){
-        String playlist = playlists.getSelectionModel().getSelectedItem();
+    private Playlist getSelectedPlaylist(String toString){
         for(Playlist pl : _PLAYLISTS){
-            if(pl.toString().equalsIgnoreCase(playlist))
+            if(pl.toString().equalsIgnoreCase(toString))
                 return pl;
         }
 
@@ -268,7 +268,7 @@ public class Controller {
     @FXML
     private void addToPlaylist(MouseEvent mouseEvent) {
         List<Video> selectedVideos = getSelectedVideos(videos);
-        Playlist playlist = getSelectedPlaylist();
+        Playlist playlist = getSelectedPlaylist(miniPlaylist.getSelectionModel().getSelectedItem());
 
         for(Video video : selectedVideos){
             playlist.add(video);
