@@ -213,14 +213,13 @@ public class Controller {
             List<Video> selectedVideos = getSelectedVideos(currentPlaylist);
 
             if(selectedVideos.size() == 0){
-                for(String toString : currentPlaylist.getItems()){
-                    for(Video video : _VIDEOS) {
-                        if (video.toString().equalsIgnoreCase(toString)) {
-                            selectedVideos.add(video);
-                            break;
-                        }
-                    }
-                }
+               String playlist = playlists.getSelectionModel().getSelectedItem();
+               for(Playlist pl : _PLAYLISTS){
+                   if(pl.toString().equalsIgnoreCase(playlist)) {
+                       selectedVideos = pl.getVideos();
+                       return;
+                   }
+               }
             }
 
             currentPlaylist.setVisible(false);
