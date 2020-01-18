@@ -5,21 +5,34 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane id="file" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FileController">
+<AnchorPane id="file" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="300.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FileController">
    <children>
-      <Label layoutX="4.0" layoutY="12.0" text="Name" />
-      <TextField fx:id="name" layoutX="109.0" layoutY="14.0" prefHeight="25.0" prefWidth="127.0" />
-      <Label layoutX="3.0" layoutY="54.0" text="Category" />
-      <TextField fx:id="category" layoutX="109.0" layoutY="56.0" maxWidth="132.0" prefHeight="25.0" prefWidth="127.0" />
-      <Label layoutX="4.0" layoutY="98.0" text="File" />
-      <TextField fx:id="fileInput" layoutX="145.0" layoutY="100.0" maxWidth="132.0" prefHeight="25.0" prefWidth="91.0" />
-      <Button layoutX="105.0" layoutY="99.0" minWidth="16.0" mnemonicParsing="false" onAction="#openFile" prefHeight="29.0" prefWidth="41.0">
-         <graphic>
-            <FontAwesomeIconView glyphName="FOLDER_OPEN" />
-         </graphic>
-      </Button>
-      <Button layoutX="38.0" layoutY="192.0" mnemonicParsing="false" onAction="#save" styleClass="btn" text="Save" />
-      <Button layoutX="133.0" layoutY="192.0" mnemonicParsing="false" onAction="#close" styleClass="btn" text="Cancel" />
+      <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="21.0" prefHeight="30.0" prefWidth="250.0">
+         <children>
+            <Label prefHeight="30.0" prefWidth="100.0" text="Name" />
+            <TextField fx:id="name" prefHeight="25.0" prefWidth="150.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="68.0" prefHeight="30.0" prefWidth="250.0">
+         <children>
+            <Label prefHeight="30.0" prefWidth="100.0" text="Category" />
+            <TextField fx:id="category" maxWidth="149.0" prefHeight="25.0" prefWidth="149.0" />
+         </children>
+      </HBox>
+      <HBox layoutX="25.0" layoutY="118.0" prefHeight="30.0" prefWidth="250.0">
+         <children>
+            <Label prefHeight="30.0" prefWidth="100.0" text="File" />
+            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#openFile" prefHeight="29.0" prefWidth="41.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="FOLDER_OPEN" />
+               </graphic>
+            </Button>
+            <TextField fx:id="fileInput" maxWidth="150.0" prefHeight="25.0" prefWidth="109.0" />
+         </children>
+      </HBox>
+      <Button layoutX="63.0" layoutY="177.0" mnemonicParsing="false" onAction="#save" styleClass="btn" text="Save" />
+      <Button layoutX="158.0" layoutY="177.0" mnemonicParsing="false" onAction="#close" styleClass="btn" text="Cancel" />
    </children>
 </AnchorPane>

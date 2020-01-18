@@ -53,7 +53,8 @@ public class FullscreenController
              */
             BorderPane top = (BorderPane) scene.lookup("#top");
             PauseTransition idle = new PauseTransition(Duration.seconds(2));
-            idle.setOnFinished(e -> {
+            idle.setOnFinished(e ->
+            {
                 scene.setCursor(Cursor.NONE);
                 top.setVisible(false);
             });
@@ -65,7 +66,8 @@ public class FullscreenController
                 top.setVisible(true);
             });
         }
-        catch(Exception e) {
+        catch(Exception e)
+        {
             System.out.println(e.getMessage());
         }
     }

@@ -1,6 +1,7 @@
 package application;
 
 import database.DB;
+import de.jensd.fx.glyphs.GlyphsStack;
 import domain.PlayerManager;
 import domain.Playlist;
 import domain.Video;
@@ -17,21 +18,24 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaView;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller {
-
-    public PlayerManager playerManager;
+public class Controller
+{
+    public static Stage stage;
     public static ObservableList<String> _DISPLAYEDPLAYLISTS;
     public static ObservableList<String> _DISPLAYEDVIDEOS;
     public static ObservableList<String> _CURRENTPLAYLIST;
     public static List<Playlist> _PLAYLISTS;
     public static List<Video> _VIDEOS;
-
+    public PlayerManager playerManager;
     private List<String> selectedVideos;
     private boolean waitingForPlaylistName = false;
 
@@ -77,16 +81,17 @@ public class Controller {
     @FXML
     private ContextMenu libraryMenu;
 
-    public static Stage stage;
+    @FXML
+    private GlyphsStack stack;
 
     /**
      * Method ran upon opening the program.
      */
-    public void initialize(){
+    public void initialize()
+    {
         // Load fonts
         Font.loadFont(Controller.class.getResourceAsStream("/presentation/fonts/OpenSans-Regular.ttf"), 16);
         Font.loadFont(Controller.class.getResourceAsStream("/presentation/fonts/OpenSans-Bold.ttf"), 16);
-
 
         FullscreenController.init(mediaview, center);
 
@@ -110,15 +115,28 @@ public class Controller {
         setupVideos();
         setupPlaylists();
 
-        //Sets up the volume property and fixes the video window size
-        volume.valueProperty().addListener((observable, oldValue, newValue) -> playerManager.volumeVideo(newValue.doubleValue()/100));
+        // Sets up the volume property listener
+        volume.valueProperty().addListener((observable, oldValue, newValue) ->
+        {
+            playerManager.volumeVideo(newValue.doubleValue()/100);
+            if (newValue.doubleValue() == 0)
+            {
+                stack.getChildren().get(0).setOpacity(0);
+                stack.getChildren().get(1).setOpacity(1);
+            }
+            else if (oldValue.doubleValue() == 0 && newValue.doubleValue() > 0)
+            {
+                stack.getChildren().get(0).setOpacity(1);
+                stack.getChildren().get(1).setOpacity(0);
+            }
+        });
 
+        // Bind medaview fit property to center property
         mediaview.fitWidthProperty().bind(center.widthProperty().subtract(100));
         mediaview.fitHeightProperty().bind(center.heightProperty().subtract(100));
 
-        //Constructs the components for PlayerManager
+        // Constructs the components for PlayerManager
         playerManager = new PlayerManager(mediaview, time, videoTimestamp, videoLength);
-
     }
 
     /**
@@ -126,12 +144,14 @@ public class Controller {
      * whether that's video, library or playlist.
      * @param view
      */
-    public void setVisible(View view){
+    public void setVisible(View view)
+    {
         mediaview.setVisible(false);
         videos.setVisible(false);
         currentPlaylist.setVisible(false);
 
-        switch(view){
+        switch (view)
+        {
             case LIBRARY:
                 videos.setVisible(true);
                 break;
@@ -144,6 +164,23 @@ public class Controller {
         }
     }
 
+    @FXML
+    private void volumeToggle()
+    {
+        if (volume.getValue() == 0)
+        {
+            volume.setValue(100);
+            stack.getChildren().get(0).setOpacity(1);
+            stack.getChildren().get(1).setOpacity(0);
+        }
+        else
+        {
+            volume.setValue(0);
+            stack.getChildren().get(0).setOpacity(0);
+            stack.getChildren().get(1).setOpacity(1);
+        }
+    }
+
     /**
      * A method to handle showing the file manager window that
      * opens when the user wants to add videos.
@@ -151,15 +188,23 @@ public class Controller {
     @FXML
     private void handleButtonFile()
     {
-        try {
+        try
+        {
             AnchorPane file = FXMLLoader.load(FileController.class.getResource("/presentation/FileView.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Add file");
-            stage.setScene(new Scene(file));
+            Scene scene = new Scene(file);
+            scene.setFill(Color.TRANSPARENT);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.initOwner(this.stage);
             stage.show();
             FileController.init(stage);
 
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -169,7 +214,8 @@ public class Controller {
      * A method to set the stage
      * @param stage stage to set
      */
-    public void setStage(Stage stage){
+    public void setStage(Stage stage)
+    {
         this.stage=stage;
     }
 
@@ -193,16 +239,19 @@ public class Controller {
      * so the user can pick out a name for the playlist.
      */
     @FXML
-    private void createPlaylist(ActionEvent event) {
-        if(mediaview.getMediaPlayer() != null) return;
-        if(waitingForPlaylistName) return;
+    private void createPlaylist(ActionEvent event)
+    {
+        if (mediaview.getMediaPlayer() != null) return;
+        if (waitingForPlaylistName) return;
 
         selectedVideos = videos.getSelectionModel().getSelectedItems();
-        if(selectedVideos.size() > 0){
+        if (selectedVideos.size() > 0)
+        {
             waitingForPlaylistName = true;
             playlistName.setVisible(true);
             playlistName.requestFocus();
-        }else selectedVideos = null;
+        }
+        else selectedVideos = null;
     }
 
     /**
@@ -212,11 +261,15 @@ public class Controller {
      * Afterward, reset the GUI.
      */
     @FXML
-    private void onPlaylistName(ActionEvent event){
+    private void onPlaylistName(ActionEvent event)
+    {
         List<Video> playlistVideos = new ArrayList<>();
-        for(String toString : selectedVideos){
-            for(Video video : _VIDEOS){
-                if(video.toString().equalsIgnoreCase(toString)){
+        for (String toString : selectedVideos)
+        {
+            for (Video video : _VIDEOS)
+            {
+                if (video.toString().equalsIgnoreCase(toString))
+                {
                     playlistVideos.add(video);
                     break;
                 }
@@ -227,13 +280,10 @@ public class Controller {
         _DISPLAYEDPLAYLISTS.add(newPlaylist.toString());
         _PLAYLISTS.add(newPlaylist);
         newPlaylist.save();
-
         playlistName.setVisible(false);
         waitingForPlaylistName = false;
-
         library.setStyle("-fx-text-fill: white;");
         playlists.getSelectionModel().select(newPlaylist.getID()-1);
-
         setVisible(View.PLAYLIST);
         displayPlaylistVideos();
     }
@@ -251,26 +301,26 @@ public class Controller {
     @FXML
     private void videoInteract(ActionEvent event)
     {
-        if(waitingForPlaylistName) return;
+        if (waitingForPlaylistName) return;
 
-        if(mediaview.isVisible())
+        if (mediaview.isVisible())
         {
             playerManager.handleInteraction();
         }
-        else if(videos.isVisible())
+        else if (videos.isVisible())
         {
             List<Video> selectedVideos = getSelectedVideos(videos);
-            if(selectedVideos.size() == 0)
+            if (selectedVideos.size() == 0)
             {
                 selectedVideos = _VIDEOS;
             }
             setVisible(View.VIDEO);
             playerManager.play(selectedVideos, videos);
         }
-        else if(currentPlaylist.isVisible())
+        else if (currentPlaylist.isVisible())
         {
             List<Video> selectedVideos = getSelectedVideos(currentPlaylist);
-            if(selectedVideos.size() == 0)
+            if (selectedVideos.size() == 0)
             {
                 String playlist = playlists.getSelectionModel().getSelectedItem();
                 selectedVideos = getSelectedPlaylist(playlist).getVideos();
@@ -285,8 +335,10 @@ public class Controller {
      * Method to handle clicking "Stop" button
      */
     @FXML
-    private void stopVideo(ActionEvent event){
-        if(mediaview.isVisible()){
+    private void stopVideo(ActionEvent event)
+    {
+        if (mediaview.isVisible())
+        {
             playerManager.stopVideo();
         }
     }
@@ -297,9 +349,11 @@ public class Controller {
      * @param toString The display name
      * @return the Playlist object
      */
-    private Playlist getSelectedPlaylist(String toString){
-        for(Playlist pl : _PLAYLISTS){
-            if(pl.toString().equalsIgnoreCase(toString))
+    private Playlist getSelectedPlaylist(String toString)
+    {
+        for (Playlist pl : _PLAYLISTS)
+        {
+            if (pl.toString().equalsIgnoreCase(toString))
                 return pl;
         }
 
@@ -312,11 +366,15 @@ public class Controller {
      * @param selection The ListView listing the Videos
      * @return A List of Video objects
      */
-    private List<Video> getSelectedVideos(ListView<String> selection) {
+    private List<Video> getSelectedVideos(ListView<String> selection)
+    {
         List<Video> selectedVideos = new ArrayList<>();
-        for(String toString : selection.getSelectionModel().getSelectedItems()){
-            for(Video video : _VIDEOS) {
-                if (video.toString().equalsIgnoreCase(toString)) {
+        for (String toString : selection.getSelectionModel().getSelectedItems())
+        {
+            for (Video video : _VIDEOS)
+            {
+                if (video.toString().equalsIgnoreCase(toString))
+                {
                     selectedVideos.add(video);
                     break;
                 }
@@ -333,7 +391,8 @@ public class Controller {
      * Videos into the ListView for display.
      */
     @FXML
-    private void playlistInteract(MouseEvent mouseEvent) {
+    private void playlistInteract(MouseEvent mouseEvent)
+    {
         displayPlaylistVideos();
     }
 
@@ -345,11 +404,13 @@ public class Controller {
      * the playlist.
      */
     @FXML
-    private void addToPlaylist(MouseEvent mouseEvent) {
+    private void addToPlaylist(MouseEvent mouseEvent)
+    {
         List<Video> selectedVideos = getSelectedVideos(videos);
         Playlist playlist = getSelectedPlaylist(miniPlaylist.getSelectionModel().getSelectedItem());
 
-        for(Video video : selectedVideos){
+        for (Video video : selectedVideos)
+        {
             playlist.add(video);
         }
 
@@ -359,7 +420,8 @@ public class Controller {
         library.setStyle("-fx-text-fill: #a8a8a8;");
 
         _CURRENTPLAYLIST.clear();
-        for(Video video : playlist.getVideos()){
+        for (Video video : playlist.getVideos())
+        {
             _CURRENTPLAYLIST.add(video.toString());
         }
     }
@@ -370,10 +432,10 @@ public class Controller {
      */
     private void displayPlaylistVideos()
     {
-        if(waitingForPlaylistName) return;
+        if (waitingForPlaylistName) return;
 
         int id = playlists.getSelectionModel().getSelectedIndex();
-        if(id < 0) return;
+        if (id < 0) return;
 
         Playlist playlistClicked = _PLAYLISTS.get(id);
         playerManager.stopVideo();
@@ -384,8 +446,10 @@ public class Controller {
         library.setOnMouseExited(e -> library.setStyle("-fx-text-fill: #a8a8a8;"));
 
         Playlist playlist = null;
-        for(Playlist p : _PLAYLISTS){
-            if(p.getID() == playlistClicked.getID()){
+        for (Playlist p : _PLAYLISTS)
+        {
+            if (p.getID() == playlistClicked.getID())
+            {
                 playlist = p;
                 break;
             }
@@ -404,8 +468,9 @@ public class Controller {
      * and make the Video list interface visible.
      */
     @FXML
-    private void requestLibrary(ActionEvent event) {
-        if(waitingForPlaylistName) return;
+    private void requestLibrary(ActionEvent event)
+    {
+        if (waitingForPlaylistName) return;
 
         playerManager.stopVideo();
         setVisible(View.LIBRARY);
@@ -425,15 +490,16 @@ public class Controller {
      */
     @FXML
     private void searched(KeyEvent event){
-        if(waitingForPlaylistName) return;
+        if (waitingForPlaylistName) return;
 
         playerManager.stopVideo();
         setVisible(View.PLAYLIST);
 
         _CURRENTPLAYLIST.clear();
         String searchTerm = search.getText();
-        for(Video video : _VIDEOS){
-            if(video.compares(searchTerm)) _CURRENTPLAYLIST.add(video.toString());
+        for (Video video : _VIDEOS)
+        {
+            if (video.compares(searchTerm)) _CURRENTPLAYLIST.add(video.toString());
         }
     }
 
@@ -442,8 +508,9 @@ public class Controller {
      * button is pressed.
      */
     @FXML
-    public void previous(ActionEvent event) {
-        if(!mediaview.isVisible()) return;
+    public void previous(ActionEvent event)
+    {
+        if (!mediaview.isVisible()) return;
         playerManager.previous();
     }
 
@@ -452,8 +519,9 @@ public class Controller {
      * button is pressed.
      */
     @FXML
-    private void skip(ActionEvent event) {
-        if(!mediaview.isVisible()) return;
+    private void skip(ActionEvent event)
+    {
+        if (!mediaview.isVisible()) return;
         playerManager.skip();
     }
 
@@ -461,18 +529,23 @@ public class Controller {
      * The method provides the app with info from DB
      * about Playlists upon initialization.
      */
-    private void setupPlaylists(){
+    private void setupPlaylists()
+    {
         DB.selectSQL("SELECT fldPlaylistID FROM tblPlaylist");
 
         ArrayList<Integer> playlistID = new ArrayList<>();
-        do{
+        do
+        {
             String data = DB.getData();
-            if (data.equals(DB.NOMOREDATA)){
+            if (data.equals(DB.NOMOREDATA))
+            {
                 break;
-            }else{
+            }
+            else
+            {
                 playlistID.add(Integer.valueOf(data));
             }
-        } while(true);
+        } while (true);
 
         for (int i : playlistID)
         {
@@ -481,15 +554,18 @@ public class Controller {
 
             List<Video> playlistVideos = new ArrayList<>();
             DB.selectSQL("SELECT fldVideoID FROM tblMapping WHERE fldPlaylistID=" + i);
-            do{
+            do
+            {
                 String mappingset = DB.getData();
-                if(mappingset.equals(DB.NOMOREDATA)) break;
+                if (mappingset.equals(DB.NOMOREDATA)) break;
 
                 int videoID = Integer.parseInt(mappingset);
-                for(Video video : _VIDEOS){
-                    if(video.getID() == videoID) playlistVideos.add(video);
+                for (Video video : _VIDEOS)
+                {
+                    if (video.getID() == videoID) playlistVideos.add(video);
                 }
-            }while(true);
+            }
+            while (true);
 
             Playlist newPlaylist = new Playlist(i, name, playlistVideos);
             _PLAYLISTS.add(newPlaylist);
@@ -501,18 +577,23 @@ public class Controller {
      * The method provides the app with info from DB
      * about Videos upon initialization.
      */
-    private void setupVideos(){
+    private void setupVideos()
+    {
         DB.selectSQL("SELECT fldVideoID FROM tblVideo");
 
         ArrayList<Integer> videoID = new ArrayList<>();
-        do{
+        do
+        {
             String data = DB.getData();
-            if (data.equals(DB.NOMOREDATA)){
+            if (data.equals(DB.NOMOREDATA))
+            {
                 break;
-            }else{
+            }
+            else
+            {
                 videoID.add(Integer.valueOf(data));
             }
-        } while(true);
+        } while (true);
 
         for (int i : videoID)
         {
@@ -561,7 +642,7 @@ public class Controller {
     {
         List<Video> selectedVideos = getSelectedVideos(currentPlaylist);
 
-        for(Playlist playlist : _PLAYLISTS)
+        for (Playlist playlist : _PLAYLISTS)
         {
             if (playlist.toString().equalsIgnoreCase(playlists.getSelectionModel().getSelectedItem()))
             {
@@ -572,7 +653,6 @@ public class Controller {
                 }
             }
         }
-
     }
 
     /**
@@ -582,8 +662,10 @@ public class Controller {
     @FXML
     private void deletePlaylist()
     {
-        for(Playlist playlist : _PLAYLISTS) {
-            if (playlist.toString().equalsIgnoreCase(playlists.getSelectionModel().getSelectedItem())) {
+        for (Playlist playlist : _PLAYLISTS)
+        {
+            if (playlist.toString().equalsIgnoreCase(playlists.getSelectionModel().getSelectedItem()))
+            {
                 playlist.delete();
                 _DISPLAYEDPLAYLISTS.remove(playlist.toString());
                 _PLAYLISTS.remove(playlist);

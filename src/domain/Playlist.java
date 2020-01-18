@@ -4,8 +4,8 @@ import database.DB;
 
 import java.util.List;
 
-public class Playlist {
-
+public class Playlist
+{
     private int _ID;
     private String _NAME;
     private List<Video> _VIDEOS;
@@ -16,19 +16,21 @@ public class Playlist {
      * @param name Name of the Playlist
      * @param videos List of videos in the Playlist
      */
-    public Playlist(int id, String name, List<Video> videos){
+    public Playlist(int id, String name, List<Video> videos)
+    {
         this._ID = id;
         this._NAME = name;
         this._VIDEOS = videos;
 
-        if(this._ID == -1) this._ID = setupID();
+        if (this._ID == -1) this._ID = setupID();
     }
 
     /**
      * A method to get the ID of the Playlist
      * @return The int ID of the Playlist
      */
-    public int getID(){
+    public int getID()
+    {
         return _ID;
     }
 
@@ -37,7 +39,8 @@ public class Playlist {
      * @return String display for the Playlist
      */
     @Override
-    public String toString(){
+    public String toString()
+    {
         return _NAME;
     }
 
@@ -45,7 +48,8 @@ public class Playlist {
      * A method to get the Videos in the Playlist
      * @return A List of Video objects
      */
-    public List<Video> getVideos(){
+    public List<Video> getVideos()
+    {
         return _VIDEOS;
     }
 
@@ -54,16 +58,19 @@ public class Playlist {
      * according to the DB
      * @return int count of IDs from DB
      */
-    private int setupID(){
+    private int setupID()
+    {
         DB.selectSQL("SELECT TOP 1 fldPlaylistID FROM tblPlaylist ORDER BY fldPlaylistID DESC");
 
         int id = 0;
-        do{
+        do
+        {
             String resultset = DB.getData();
 
-            if(resultset.equals(DB.NOMOREDATA)) break;
+            if (resultset.equals(DB.NOMOREDATA)) break;
             id = Integer.parseInt(resultset);
-        }while(true);
+        }
+        while (true);
 
         return id+1;
     }
@@ -71,10 +78,12 @@ public class Playlist {
     /**
      * Saves the Playlist data into the DB
      */
-    public void save(){
+    public void save()
+    {
         DB.insertSQL("INSERT INTO tblPlaylist (fldPlaylistID, fldName) VALUES (" + _ID + ", '" + _NAME + "')");
 
-        for(Video video : _VIDEOS){
+        for(Video video : _VIDEOS)
+        {
             DB.insertSQL("INSERT INTO tblMapping (fldVideoID, fldPlaylistID) VALUES (" + video.getID() + ", " + _ID + ")");
         }
     }
@@ -83,7 +92,8 @@ public class Playlist {
      * Removes a Video from the Playlist
      * @param video Video to remove
      */
-    public void remove(Video video){
+    public void remove(Video video)
+    {
         _VIDEOS.remove(video);
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + _ID + " AND fldVideoID=" + video.getID());
     }
@@ -91,7 +101,8 @@ public class Playlist {
     /**
      * Deletes the Playlist data from the DB
      */
-    public void delete(){
+    public void delete()
+    {
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldPlaylistID=" + _ID);
         DB.deleteSQL("DELETE FROM tblPlaylist WHERE fldPlaylistID=" + _ID);
     }
@@ -100,9 +111,9 @@ public class Playlist {
      * Adds a Video to the Playlist
      * @param video Video to add
      */
-    public void add(Video video){
+    public void add(Video video)
+    {
         _VIDEOS.add(video);
         DB.insertSQL("INSERT INTO tblMapping (fldPlaylistID, fldVideoID) VALUES (" + _ID + ", " + video.getID() + ")");
     }
-
 }

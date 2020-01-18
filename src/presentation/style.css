@@ -30,8 +30,9 @@ Top bar
     -fx-background-color: #2e2e2e;
     -fx-min-height: 50;
 }
-#search
+.input
 {
+    -fx-background-insets: 0;
     -fx-background-radius: 10;
     -fx-border-width: 0;
     -fx-border-radius: 10;
@@ -196,8 +197,7 @@ Slider .thumb:hover
 }
 #volume Slider
 {
-    -fx-max-width: 110;
-    -fx-padding: 0 0 0 10;
+    -fx-max-width: 100;
 }
 #video ContextMenu Menu
 {
@@ -206,6 +206,7 @@ Slider .thumb:hover
 #file
 {
     -fx-background-color: #1c1c1c;
+    -fx-background-radius: 10;
 }
 .btn
 {
@@ -234,6 +235,6 @@ Slider .thumb:hover
 
 .list .list-cell:selected
 {
-    -fx-background-color: #2e2e2e;
+    -fx-background-color: green;
     -fx-text-fill: white;
 }

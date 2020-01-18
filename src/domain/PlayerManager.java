@@ -45,11 +45,15 @@ public class PlayerManager {
      * If the PLAY button is pressed while viewing
      * a video. If the video is paused, resume, else pause.
      */
-    public void handleInteraction(){
-        if(_PAUSE){
+    public void handleInteraction()
+    {
+        if (_PAUSE)
+        {
             resumeVideo();
             _PAUSE = !_PAUSE;
-        }else{
+        }
+        else
+        {
             pauseVideo();
             _PAUSE = !_PAUSE;
         }
@@ -58,14 +62,16 @@ public class PlayerManager {
     /**
      * Method for resuming the Video playing
      */
-    public void resumeVideo(){
+    public void resumeVideo()
+    {
         mediaplayer.play();
     }
 
     /**
      * Method for pausing the Video playing
      */
-    public void pauseVideo(){
+    public void pauseVideo()
+    {
         mediaplayer.pause();
     }
 
@@ -75,8 +81,9 @@ public class PlayerManager {
      * Else, stop the video and reset the MediaPlayer.
      * Reset the Pause, and change the visibility to the MediaView.
      */
-    public void stopVideo(){
-        if(mediaview.getMediaPlayer() == null) return;
+    public void stopVideo()
+    {
+        if (mediaview.getMediaPlayer() == null) return;
 
         mediaplayer.stop();
         mediaview.setMediaPlayer(null);
@@ -140,29 +147,30 @@ public class PlayerManager {
 
             mediaplayer.setOnReady(() ->
             {
-                // play
+                // play video
                 mediaplayer.setVolume(volume);
                 mediaplayer.play();
 
-                videoTimestamp.textProperty().bind(
-                        Bindings.createStringBinding(() ->
-                                {
-                                    Duration time = mediaplayer.getCurrentTime();
-                                    return String.format("%4d:%02d:%02d", (int) time.toHours(), (int) time.toMinutes() % 60, (int) time.toSeconds() % 60);
-                                },
-                                mediaplayer.currentTimeProperty()));
+                // Bind timestamp label to mediaplayer current time
+                videoTimestamp.textProperty().bind(Bindings.createStringBinding(() ->
+                {
+                    Duration time = mediaplayer.getCurrentTime();
+                    return String.format("%4d:%02d:%02d", (int) time.toHours(), (int) time.toMinutes() % 60, (int) time.toSeconds() % 60);
+                },
+                mediaplayer.currentTimeProperty()));
 
+                // Set length label to mediaplayer stop time
                 Duration time = mediaplayer.getStopTime();
                 videoLength.setText(String.format("%4d:%02d:%02d", (int) time.toHours(), (int) time.toMinutes() % 60, (int) time.toSeconds() % 60));
             });
 
-            // Slider
+            // Slider value listener
             time.valueProperty().addListener(ov ->
             {
                 if (time.isValueChanging())
                 {
                     // multiply duration by percentage calculated by slider position
-                    if(duration!=null)
+                    if (duration!=null)
                     {
                         mediaplayer.seek(duration.multiply(time.getValue() / 100.0));
                     }
@@ -170,7 +178,7 @@ public class PlayerManager {
                 }
             });
 
-            //
+            // Mediaplayer time listener
             mediaplayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> updateValues());
 
             mediaplayer.setOnEndOfMedia(() -> {
@@ -179,12 +187,17 @@ public class PlayerManager {
             });
 
             mediaview.setMediaPlayer(mediaplayer);
-        }catch(IndexOutOfBoundsException ex){
+        }
+        catch(IndexOutOfBoundsException ex)
+        {
             playingVideo = 0;
             stopVideo();
-        }catch(NullPointerException ex){
+        }
+        catch(NullPointerException ex)
+        {
             playingVideo = 0;
-            stopVideo();        }
+            stopVideo();
+        }
     }
 
     /**
@@ -203,7 +216,8 @@ public class PlayerManager {
      * next video. If there's a past video
      * then remove it from the playlist.
      */
-    public void skip(){
+    public void skip()
+    {
         playingVideo++;
         play(playlist, listView);
     }

@@ -43,7 +43,7 @@ public class FileController
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("mp4 files (*.mp4)", "*.mp4");
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showOpenDialog(stage);
-        if(file == null)
+        if (file == null)
         {
             fileInput.clear();
         }
@@ -65,7 +65,7 @@ public class FileController
         String filetype = file.toString();
         filetype = filetype.substring(filetype.lastIndexOf(".") + 1, filetype.length());
 
-        if(file.isFile() && filetype.equalsIgnoreCase("mp4") && !name.getText().isEmpty() && !category.getText().isEmpty())
+        if (file.isFile() && filetype.equalsIgnoreCase("mp4") && !name.getText().isEmpty() && !category.getText().isEmpty())
         {
             Video video = new Video(-1, name.getText(), path, category.getText());
             video.save();

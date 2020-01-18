@@ -3,8 +3,8 @@ package domain;
 import database.DB;
 import java.util.regex.Pattern;
 
-public class Video {
-
+public class Video
+{
     private int _ID;
     private String _NAME;
     private String _PATH;
@@ -17,20 +17,22 @@ public class Video {
      * @param path Path to the video
      * @param category Category of the video
      */
-    public Video(int id, String name, String path, String category){
+    public Video(int id, String name, String path, String category)
+    {
         _ID = id;
         _NAME = name;
         _PATH = path;
         _CATEGORY = category;
 
-        if(_ID == -1) this._ID = setupID();
+        if (_ID == -1) this._ID = setupID();
     }
 
     /**
      * A method to get the ID of the Video
      * @return The int ID of the video
      */
-    public int getID(){
+    public int getID()
+    {
         return _ID;
     }
 
@@ -38,7 +40,8 @@ public class Video {
      * A method to get the path of the Video
      * @return The String path of the video
      */
-    public String getPath(){
+    public String getPath()
+    {
         return _PATH;
     }
 
@@ -47,7 +50,8 @@ public class Video {
      * @return String display for the Video
      */
     @Override
-    public String toString(){
+    public String toString()
+    {
         return _NAME + "\n" + "#" + _CATEGORY;
     }
 
@@ -56,17 +60,20 @@ public class Video {
      * according to the DB
      * @return int count of IDs from DB
      */
-    private int setupID(){
+    private int setupID()
+    {
         DB.selectSQL("SELECT TOP 1 fldVideoID FROM tblVideo ORDER BY fldVideoID DESC");
 
         int id = 0;
-        do{
+        do
+        {
             String resultset = DB.getData();
 
-            if(resultset.equals(DB.NOMOREDATA)) break;
+            if (resultset.equals(DB.NOMOREDATA)) break;
             id = Integer.parseInt(resultset);
 
-        }while(true);
+        }
+        while(true);
 
         return id+1;
     }
@@ -74,14 +81,16 @@ public class Video {
     /**
      * Saves the Video data into the DB
      */
-    public void save(){
+    public void save()
+    {
         DB.insertSQL("INSERT INTO tblVideo (fldVideoID, fldName, fldPath, fldCategory) VALUES('" + _ID + "','" + _NAME + "','" + _PATH + "','" + _CATEGORY + "')");
     }
 
     /**
      * Deletes the Video data from the DB
      */
-    public void delete(){
+    public void delete()
+    {
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldVideoID=" + _ID);
         DB.deleteSQL("DELETE FROM tblVideo WHERE fldVideoID=" + _ID);
     }
@@ -93,12 +102,12 @@ public class Video {
      * @param search Search term
      * @return boolean if any term contains the search
      */
-    public boolean compares(String search){
-        if(Pattern.compile(search).matcher("" + _ID).find()) return true;
-        if(Pattern.compile(search.toLowerCase()).matcher(_NAME.toLowerCase()).find()) return true;
-        if(Pattern.compile(search.toLowerCase()).matcher(_CATEGORY.toLowerCase()).find()) return true;
+    public boolean compares(String search)
+    {
+        if (Pattern.compile(search).matcher("" + _ID).find()) return true;
+        if (Pattern.compile(search.toLowerCase()).matcher(_NAME.toLowerCase()).find()) return true;
+        if (Pattern.compile(search.toLowerCase()).matcher(_CATEGORY.toLowerCase()).find()) return true;
 
         return false;
     }
-
 }
