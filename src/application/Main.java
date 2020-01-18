@@ -1,4 +1,4 @@
-package code;
+package application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception
     {
         // Main scene
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/display/sample.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/presentation/MainView.fxml"));
         BorderPane root = (BorderPane) fxmlLoader.load();
         Scene main = new Scene(root);
         primaryStage.setMinWidth(1066);

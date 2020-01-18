@@ -1,8 +1,10 @@
-package code;
+package domain;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -13,34 +15,37 @@ import java.util.List;
 
 public class PlayerManager {
 
-    private static ListView listView;
-    private static MediaView mediaview; //setmediaplayer(player)
-    private static MediaPlayer mediaplayer; //new with media
-    private static boolean _PAUSE = false;
-    private static double volume = 1;
-    private static Label videoTimestamp;
-    private static Label videoLength;
-    private static List<Video> playlist;
-    private static int playingVideo = 0;
+    private ListView listView;
+    private MediaView mediaview;
+    private MediaPlayer mediaplayer;
+    private Label videoTimestamp;
+    private Label videoLength;
+    private List<Video> videos;
+    private List<Video> playlist;
+    private Duration duration;
+    private Slider time;
+    private int playingVideo = 0;
+    private boolean _PAUSE = false;
+    private double volume = 1;
 
     /**
      * Sets the components required for the MediaPlayer
-     * @param mv The MediaView
+     * @param mediaView The MediaView
      * @param vL The Label VideoLength
      */
-    public static void setComponents(MediaView mv, Label vT, Label vL)
+    public PlayerManager(MediaView mediaView, Slider slider, Label vT, Label vL)
     {
-
-        mediaview = mv;
-        videoTimestamp = vT;
-        videoLength = vL;
+        this.mediaview = mediaView;
+        this.time = slider;
+        this.videoTimestamp = vT;
+        this.videoLength = vL;
     }
 
     /**
      * If the PLAY button is pressed while viewing
      * a video. If the video is paused, resume, else pause.
      */
-    public static void handleInteraction(){
+    public void handleInteraction(){
         if(_PAUSE){
             resumeVideo();
             _PAUSE = !_PAUSE;
@@ -53,14 +58,14 @@ public class PlayerManager {
     /**
      * Method for resuming the Video playing
      */
-    public static void resumeVideo(){
+    public void resumeVideo(){
         mediaplayer.play();
     }
 
     /**
      * Method for pausing the Video playing
      */
-    public static void pauseVideo(){
+    public void pauseVideo(){
         mediaplayer.pause();
     }
 
@@ -70,7 +75,7 @@ public class PlayerManager {
      * Else, stop the video and reset the MediaPlayer.
      * Reset the Pause, and change the visibility to the MediaView.
      */
-    public static void stopVideo(){
+    public void stopVideo(){
         if(mediaview.getMediaPlayer() == null) return;
 
         mediaplayer.stop();
@@ -88,13 +93,31 @@ public class PlayerManager {
      * A method to change the volume of the Video
      * @param value New volume value
      */
-    public static void volumeVideo(double value)
+    public void volumeVideo(double value)
     {
         volume = value;
 
         if(mediaview.getMediaPlayer() == null) return;
 
         mediaplayer.setVolume(volume);
+    }
+
+    //
+    private void updateValues()
+    {
+        duration = mediaplayer.getMedia().getDuration();
+        if (mediaplayer.getMedia().getDuration() != null && time != null && duration != null)
+        {
+            Platform.runLater(() ->
+            {
+                Duration currentTime = mediaplayer.getCurrentTime();
+                time.setDisable(duration.isUnknown());
+                if (!time.isDisabled() && duration.greaterThan(Duration.ZERO) && !time.isValueChanging())
+                {
+                    time.setValue(currentTime.divide(duration).toMillis() * 100.0);
+                }
+            });
+        }
     }
 
     /**
@@ -105,9 +128,11 @@ public class PlayerManager {
      * on Video end, but without the current Video.
      * @param videos List of Videos to play
      */
-    public static void play(List<Video> videos, ListView lV){
-        try {
-            listView = lV;
+    public void play(List<Video> videos, ListView listView){
+        try
+        {
+            this.videos = videos;
+            this.listView = listView;
             playlist = new ArrayList<>(videos);
             Video video = videos.get(playingVideo);
             Media file = new Media(new File(video.getPath()).toURI().toString());
@@ -120,15 +145,33 @@ public class PlayerManager {
                 mediaplayer.play();
 
                 videoTimestamp.textProperty().bind(
-                        Bindings.createStringBinding(() -> {
+                        Bindings.createStringBinding(() ->
+                                {
                                     Duration time = mediaplayer.getCurrentTime();
-                                    return String.format("%4d:%02d:%02d", (int) time.toHours(), (int) time.toMinutes() % 60, (int)time.toSeconds() % 60);
+                                    return String.format("%4d:%02d:%02d", (int) time.toHours(), (int) time.toMinutes() % 60, (int) time.toSeconds() % 60);
                                 },
                                 mediaplayer.currentTimeProperty()));
 
                 Duration time = mediaplayer.getStopTime();
-                videoLength.setText(String.format("%4d:%02d:%02d", (int) time.toHours(), (int) time.toMinutes() % 60, (int)time.toSeconds() % 60));
+                videoLength.setText(String.format("%4d:%02d:%02d", (int) time.toHours(), (int) time.toMinutes() % 60, (int) time.toSeconds() % 60));
             });
+
+            // Slider
+            time.valueProperty().addListener(ov ->
+            {
+                if (time.isValueChanging())
+                {
+                    // multiply duration by percentage calculated by slider position
+                    if(duration!=null)
+                    {
+                        mediaplayer.seek(duration.multiply(time.getValue() / 100.0));
+                    }
+                    updateValues();
+                }
+            });
+
+            //
+            mediaplayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> updateValues());
 
             mediaplayer.setOnEndOfMedia(() -> {
                 playingVideo++;
@@ -149,7 +192,7 @@ public class PlayerManager {
      * previous video. If there's none,
      * stop the video player.
      */
-    public static void previous()
+    public void previous()
     {
         playingVideo--;
         play(playlist, listView);
@@ -160,7 +203,7 @@ public class PlayerManager {
      * next video. If there's a past video
      * then remove it from the playlist.
      */
-    public static void skip(){
+    public void skip(){
         playingVideo++;
         play(playlist, listView);
     }

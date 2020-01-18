@@ -1,4 +1,4 @@
-package code;
+package domain;
 
 import database.DB;
 import java.util.regex.Pattern;

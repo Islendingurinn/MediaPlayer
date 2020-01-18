@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="full" prefHeight="504.0" prefWidth="1000.0" style="-fx-background-color: black;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.FullscreenController">
+<StackPane fx:id="full" prefHeight="504.0" prefWidth="1000.0" style="-fx-background-color: black;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FullscreenController">
    <children>
       <BorderPane fx:id="top" prefHeight="400.0" prefWidth="1000.0" visible="false">
          <top>

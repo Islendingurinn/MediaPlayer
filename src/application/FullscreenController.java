@@ -1,14 +1,11 @@
-package code;
+package application;
 
 import javafx.animation.PauseTransition;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -38,7 +35,7 @@ public class FullscreenController
         center = c;
         try
         {
-            fullscreen = FXMLLoader.load(FullscreenController.class.getResource("/display/FullscreenView.fxml"));
+            fullscreen = FXMLLoader.load(FullscreenController.class.getResource("/presentation/FullscreenView.fxml"));
             Rectangle2D r = Screen.getPrimary().getBounds();
             scene = new Scene(fullscreen, r.getWidth(), r.getHeight());
             stage = new Stage();

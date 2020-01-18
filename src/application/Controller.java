@@ -1,6 +1,10 @@
-package code;
+package application;
 
 import database.DB;
+import domain.PlayerManager;
+import domain.Playlist;
+import domain.Video;
+import domain.View;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +25,7 @@ import java.util.List;
 
 public class Controller {
 
+    public PlayerManager playerManager;
     public static ObservableList<String> _DISPLAYEDPLAYLISTS;
     public static ObservableList<String> _DISPLAYEDVIDEOS;
     public static ObservableList<String> _CURRENTPLAYLIST;
@@ -61,6 +66,9 @@ public class Controller {
     private Slider volume;
 
     @FXML
+    private Slider time;
+
+    @FXML
     private Button library;
 
     @FXML
@@ -76,11 +84,9 @@ public class Controller {
      */
     public void initialize(){
         // Load fonts
-        Font.loadFont(Controller.class.getResourceAsStream("/display/fonts/OpenSans-Regular.ttf"), 16);
-        Font.loadFont(Controller.class.getResourceAsStream("/display/fonts/OpenSans-Bold.ttf"), 16);
+        Font.loadFont(Controller.class.getResourceAsStream("/presentation/fonts/OpenSans-Regular.ttf"), 16);
+        Font.loadFont(Controller.class.getResourceAsStream("/presentation/fonts/OpenSans-Bold.ttf"), 16);
 
-        //Constructs the components for PlayerManager
-        PlayerManager.setComponents(mediaview, videoTimestamp, videoLength);
 
         FullscreenController.init(mediaview, center);
 
@@ -105,10 +111,14 @@ public class Controller {
         setupPlaylists();
 
         //Sets up the volume property and fixes the video window size
-        volume.valueProperty().addListener((observable, oldValue, newValue) -> PlayerManager.volumeVideo(newValue.doubleValue()/100));
+        volume.valueProperty().addListener((observable, oldValue, newValue) -> playerManager.volumeVideo(newValue.doubleValue()/100));
 
         mediaview.fitWidthProperty().bind(center.widthProperty().subtract(100));
         mediaview.fitHeightProperty().bind(center.heightProperty().subtract(100));
+
+        //Constructs the components for PlayerManager
+        playerManager = new PlayerManager(mediaview, time, videoTimestamp, videoLength);
+
     }
 
     /**
@@ -142,7 +152,7 @@ public class Controller {
     private void handleButtonFile()
     {
         try {
-            AnchorPane file = FXMLLoader.load(FileController.class.getResource("/display/FileView.fxml"));
+            AnchorPane file = FXMLLoader.load(FileController.class.getResource("/presentation/FileView.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Add file");
             stage.setScene(new Scene(file));
@@ -239,27 +249,35 @@ public class Controller {
      * play the whole playlist.
      */
     @FXML
-    private void videoInteract(ActionEvent event) {
+    private void videoInteract(ActionEvent event)
+    {
         if(waitingForPlaylistName) return;
 
-        if(mediaview.isVisible()){
-            PlayerManager.handleInteraction();
-        }else if(videos.isVisible()){
+        if(mediaview.isVisible())
+        {
+            playerManager.handleInteraction();
+        }
+        else if(videos.isVisible())
+        {
             List<Video> selectedVideos = getSelectedVideos(videos);
-            if(selectedVideos.size() == 0) return;
-
+            if(selectedVideos.size() == 0)
+            {
+                selectedVideos = _VIDEOS;
+            }
             setVisible(View.VIDEO);
-            PlayerManager.play(selectedVideos, videos);
-        }else if(currentPlaylist.isVisible()){
+            playerManager.play(selectedVideos, videos);
+        }
+        else if(currentPlaylist.isVisible())
+        {
             List<Video> selectedVideos = getSelectedVideos(currentPlaylist);
-            if(selectedVideos.size() == 0){
+            if(selectedVideos.size() == 0)
+            {
                 String playlist = playlists.getSelectionModel().getSelectedItem();
                 selectedVideos = getSelectedPlaylist(playlist).getVideos();
             }
-
             setVisible(View.VIDEO);
             _CURRENTPLAYLIST.clear();
-            PlayerManager.play(selectedVideos, currentPlaylist);
+            playerManager.play(selectedVideos, currentPlaylist);
         }
     }
 
@@ -269,7 +287,7 @@ public class Controller {
     @FXML
     private void stopVideo(ActionEvent event){
         if(mediaview.isVisible()){
-            PlayerManager.stopVideo();
+            playerManager.stopVideo();
         }
     }
 
@@ -358,7 +376,7 @@ public class Controller {
         if(id < 0) return;
 
         Playlist playlistClicked = _PLAYLISTS.get(id);
-        PlayerManager.stopVideo();
+        playerManager.stopVideo();
         setVisible(View.PLAYLIST);
 
         library.setStyle("-fx-text-fill: #a8a8a8;");
@@ -389,8 +407,9 @@ public class Controller {
     private void requestLibrary(ActionEvent event) {
         if(waitingForPlaylistName) return;
 
-        PlayerManager.stopVideo();
+        playerManager.stopVideo();
         setVisible(View.LIBRARY);
+        videos.getSelectionModel().clearSelection();
         playlists.getSelectionModel().clearSelection();
 
         library.setStyle("-fx-text-fill: green;");
@@ -408,7 +427,7 @@ public class Controller {
     private void searched(KeyEvent event){
         if(waitingForPlaylistName) return;
 
-        PlayerManager.stopVideo();
+        playerManager.stopVideo();
         setVisible(View.PLAYLIST);
 
         _CURRENTPLAYLIST.clear();
@@ -425,7 +444,7 @@ public class Controller {
     @FXML
     public void previous(ActionEvent event) {
         if(!mediaview.isVisible()) return;
-        PlayerManager.previous();
+        playerManager.previous();
     }
 
     /**
@@ -435,7 +454,7 @@ public class Controller {
     @FXML
     private void skip(ActionEvent event) {
         if(!mediaview.isVisible()) return;
-        PlayerManager.skip();
+        playerManager.skip();
     }
 
     /**

@@ -1,5 +1,6 @@
-package code;
+package application;
 
+import domain.Video;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;

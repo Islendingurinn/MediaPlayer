@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
 
-<BorderPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.Controller">
+<BorderPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="822.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
     <top>
         <GridPane id="menu" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
             <columnConstraints>
@@ -60,7 +60,7 @@
                         <HBox id="control_slider" alignment="CENTER" prefHeight="0.0" prefWidth="760.0">
                             <children>
                                 <Label fx:id="videoTimestamp" style="-fx-padding: 0;" />
-                                <Slider prefHeight="20.0" prefWidth="640.0" style="-fx-padding: 3;" />
+                                <Slider fx:id="time" prefHeight="20.0" prefWidth="640.0" style="-fx-padding: 3;" />
                                 <Label fx:id="videoLength" alignment="CENTER" style="-fx-padding: 0;" />
                             </children>
                         </HBox>
