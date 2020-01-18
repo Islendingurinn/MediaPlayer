@@ -48,9 +48,7 @@ public class FullscreenController
                 onClose();
             } );
 
-            /**
-             * Fullscreen show top and mouse when mouse is moved
-             */
+            // Fullscreen show top and mouse when mouse is moved
             BorderPane top = (BorderPane) scene.lookup("#top");
             PauseTransition idle = new PauseTransition(Duration.seconds(2));
             idle.setOnFinished(e ->

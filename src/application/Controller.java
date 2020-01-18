@@ -131,7 +131,7 @@ public class Controller
             }
         });
 
-        // Bind medaview fit property to center property
+        // Bind mediaview fit property to center property
         mediaview.fitWidthProperty().bind(center.widthProperty().subtract(100));
         mediaview.fitHeightProperty().bind(center.heightProperty().subtract(100));
 
@@ -199,7 +199,7 @@ public class Controller
             stage.setResizable(false);
             stage.initStyle(StageStyle.UNDECORATED);
             stage.initStyle(StageStyle.TRANSPARENT);
-            stage.initOwner(this.stage);
+            stage.initOwner(Controller.stage);
             stage.show();
             FileController.init(stage);
 
@@ -216,7 +216,7 @@ public class Controller
      */
     public void setStage(Stage stage)
     {
-        this.stage=stage;
+        Controller.stage = stage;
     }
 
     /**

@@ -1,5 +1,5 @@
 package domain;
 
 public enum View {
-    VIDEO, LIBRARY, PLAYLIST;
+    VIDEO, LIBRARY, PLAYLIST
 }

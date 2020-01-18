@@ -20,7 +20,6 @@ public class PlayerManager {
     private MediaPlayer mediaplayer;
     private Label videoTimestamp;
     private Label videoLength;
-    private List<Video> videos;
     private List<Video> playlist;
     private Duration duration;
     private Slider time;
@@ -138,7 +137,6 @@ public class PlayerManager {
     public void play(List<Video> videos, ListView listView){
         try
         {
-            this.videos = videos;
             this.listView = listView;
             playlist = new ArrayList<>(videos);
             Video video = videos.get(playingVideo);
