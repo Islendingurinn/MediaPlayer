@@ -6,6 +6,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class FileController
 {
@@ -20,8 +25,6 @@ public class FileController
 
     @FXML
     private TextField fileInput;
-
-    String path = "";
 
     /**
      * Method run on initialization
@@ -49,8 +52,7 @@ public class FileController
         }
         else
         {
-            path = file.toString();
-            fileInput.setText(path);
+            fileInput.setText(file.toString());
         }
     }
 
@@ -62,16 +64,23 @@ public class FileController
     private void save()
     {
         File file = new File(fileInput.getText());
-        String filetype = file.toString();
-        filetype = filetype.substring(filetype.lastIndexOf(".") + 1, filetype.length());
+        String source = file.toString();
+        String dest = System.getProperty("user.dir") + "\\src\\presentation\\media" + source.substring(source.lastIndexOf("\\"), source.length());
+        String filetype = source.substring(source.lastIndexOf(".") + 1, source.length());
 
         if (file.isFile() && filetype.equalsIgnoreCase("mp4") && !name.getText().isEmpty() && !category.getText().isEmpty())
         {
-            Video video = new Video(-1, name.getText(), path, category.getText());
-            video.save();
-            Controller._DISPLAYEDVIDEOS.add(video.toString());
-            Controller._VIDEOS.add(video);
-            stage.hide();
+            try {
+                Files.copy(Paths.get(source), Paths.get(dest));
+                Video video = new Video(-1, name.getText(), dest, category.getText());
+                video.save();
+                Controller._DISPLAYEDVIDEOS.add(video.toString());
+                Controller._VIDEOS.add(video);
+                stage.hide();
+
+            } catch (IOException ex) {
+                System.err.format("I/O Error when copying file");
+            }
         }
         else
         {
