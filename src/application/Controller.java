@@ -326,7 +326,6 @@ public class Controller
                 selectedVideos = getSelectedPlaylist(playlist).getVideos();
             }
             setVisible(View.VIDEO);
-            _CURRENTPLAYLIST.clear();
             playerManager.play(selectedVideos, currentPlaylist);
         }
     }

@@ -13,8 +13,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerManager {
-
+public class PlayerManager
+{
     private ListView listView;
     private MediaView mediaview;
     private MediaPlayer mediaplayer;
