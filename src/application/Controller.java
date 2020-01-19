@@ -82,7 +82,10 @@ public class Controller
     private ContextMenu libraryMenu;
 
     @FXML
-    private GlyphsStack stack;
+    private GlyphsStack volumeStack;
+
+    @FXML
+    private GlyphsStack playStack;
 
     /**
      * Method ran upon opening the program.
@@ -121,13 +124,11 @@ public class Controller
             playerManager.volumeVideo(newValue.doubleValue()/100);
             if (newValue.doubleValue() == 0)
             {
-                stack.getChildren().get(0).setOpacity(0);
-                stack.getChildren().get(1).setOpacity(1);
+                setVisibleVolume(View.UNMUTE);
             }
             else if (oldValue.doubleValue() == 0 && newValue.doubleValue() > 0)
             {
-                stack.getChildren().get(0).setOpacity(1);
-                stack.getChildren().get(1).setOpacity(0);
+                setVisibleVolume(View.MUTE);
             }
         });
 
@@ -136,7 +137,7 @@ public class Controller
         mediaview.fitHeightProperty().bind(center.heightProperty().subtract(100));
 
         // Constructs the components for PlayerManager
-        playerManager = new PlayerManager(mediaview, time, videoTimestamp, videoLength);
+        playerManager = new PlayerManager(mediaview, time, videoTimestamp, videoLength, playStack);
     }
 
     /**
@@ -163,6 +164,46 @@ public class Controller
                 break;
         }
     }
+    /**
+     * Set which window should be visible;
+     * whether that's video, library or playlist.
+     * @param view
+     */
+    public void setVisibleVolume(View view)
+    {
+        volumeStack.getChildren().get(0).setVisible(false);
+        volumeStack.getChildren().get(1).setVisible(false);
+
+        switch (view)
+        {
+            case MUTE:
+                volumeStack.getChildren().get(0).setVisible(true);
+                break;
+            case UNMUTE:
+                volumeStack.getChildren().get(1).setVisible(true);
+                break;
+        }
+    }
+    /**
+     * Set which window should be visible;
+     * whether that's video, library or playlist.
+     * @param view
+     */
+    public void setVisiblePlay(View view)
+    {
+        playStack.getChildren().get(0).setVisible(false);
+        playStack.getChildren().get(1).setVisible(false);
+
+        switch (view)
+        {
+            case PLAY:
+                playStack.getChildren().get(0).setVisible(true);
+                break;
+            case PAUSE:
+                playStack.getChildren().get(1).setVisible(true);
+                break;
+        }
+    }
 
     @FXML
     private void volumeToggle()
@@ -170,14 +211,12 @@ public class Controller
         if (volume.getValue() == 0)
         {
             volume.setValue(100);
-            stack.getChildren().get(0).setOpacity(1);
-            stack.getChildren().get(1).setOpacity(0);
+            setVisibleVolume(View.MUTE);
         }
         else
         {
             volume.setValue(0);
-            stack.getChildren().get(0).setOpacity(0);
-            stack.getChildren().get(1).setOpacity(1);
+            setVisibleVolume(View.UNMUTE);
         }
     }
 
@@ -202,7 +241,6 @@ public class Controller
             stage.initOwner(Controller.stage);
             stage.show();
             FileController.init(stage);
-
         }
         catch (IOException e)
         {
@@ -301,6 +339,7 @@ public class Controller
     @FXML
     private void videoInteract(ActionEvent event)
     {
+        setVisiblePlay(View.PAUSE);
         if (waitingForPlaylistName) return;
 
         if (mediaview.isVisible())
@@ -339,6 +378,7 @@ public class Controller
         if (mediaview.isVisible())
         {
             playerManager.stopVideo();
+            setVisiblePlay(View.PLAY);
         }
     }
 
@@ -442,6 +482,7 @@ public class Controller
 
         Playlist playlistClicked = _PLAYLISTS.get(id);
         playerManager.stopVideo();
+        setVisiblePlay(View.PLAY);
         setVisible(View.PLAYLIST);
 
         library.setStyle("-fx-text-fill: #a8a8a8;");
@@ -476,6 +517,7 @@ public class Controller
         if (waitingForPlaylistName) return;
 
         playerManager.stopVideo();
+        setVisiblePlay(View.PLAY);
         setVisible(View.LIBRARY);
         videos.getSelectionModel().clearSelection();
         playlists.getSelectionModel().clearSelection();

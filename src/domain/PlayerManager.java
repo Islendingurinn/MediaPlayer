@@ -1,5 +1,6 @@
 package domain;
 
+import de.jensd.fx.glyphs.GlyphsStack;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.Label;
@@ -21,6 +22,7 @@ public class PlayerManager
     private Label videoTimestamp;
     private Label videoLength;
     private List<Video> playlist;
+    private GlyphsStack playStack;
     private Duration duration;
     private Slider time;
     private int playingVideo = 0;
@@ -32,8 +34,9 @@ public class PlayerManager
      * @param mediaView The MediaView
      * @param vL The Label VideoLength
      */
-    public PlayerManager(MediaView mediaView, Slider slider, Label vT, Label vL)
+    public PlayerManager(MediaView mediaView, Slider slider, Label vT, Label vL, GlyphsStack playStack)
     {
+        this.playStack = playStack;
         this.mediaview = mediaView;
         this.time = slider;
         this.videoTimestamp = vT;
@@ -48,11 +51,15 @@ public class PlayerManager
     {
         if (_PAUSE)
         {
+            playStack.getChildren().get(0).setVisible(false);
+            playStack.getChildren().get(1).setVisible(true);
             resumeVideo();
             _PAUSE = !_PAUSE;
         }
         else
         {
+            playStack.getChildren().get(0).setVisible(true);
+            playStack.getChildren().get(1).setVisible(false);
             pauseVideo();
             _PAUSE = !_PAUSE;
         }

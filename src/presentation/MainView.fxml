@@ -40,10 +40,10 @@
                     <children>
                   <Button mnemonicParsing="false" onAction="#volumeToggle">
                      <graphic>
-                        <GlyphsStack fx:id="stack">
+                        <GlyphsStack fx:id="volumeStack">
                            <children>
                               <FontAwesomeIconView glyphName="VOLUME_UP" />
-                              <FontAwesomeIconView glyphName="VOLUME_OFF" opacity="0.0" />
+                              <FontAwesomeIconView glyphName="VOLUME_OFF" visible="false" />
                            </children>
                         </GlyphsStack>
                      </graphic>
@@ -95,12 +95,17 @@
                                     </graphic>
                                 </Button>
                                 <Button id="play_btn" mnemonicParsing="false" onAction="#videoInteract">
-                                    <graphic>
-                                        <FontAwesomeIconView glyphName="PLAY" />
-                                    </graphic>
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
+                           <graphic>
+                              <GlyphsStack fx:id="playStack">
+                                 <children>
+                                              <FontAwesomeIconView glyphName="PLAY" />
+                                    <FontAwesomeIconView glyphName="PAUSE" visible="false" />
+                                 </children>
+                              </GlyphsStack>
+                           </graphic>
                                 </Button>
                         <Button mnemonicParsing="false" text="Button" visible="false" />
                             </children>
