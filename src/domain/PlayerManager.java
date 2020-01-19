@@ -93,6 +93,7 @@ public class PlayerManager {
         videoTimestamp.setText("");
         videoLength.setText("");
         listView.setVisible(true);
+        playingVideo = 0;
     }
 
     /**
