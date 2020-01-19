@@ -92,6 +92,7 @@ public class PlayerManager
         if (mediaview.getMediaPlayer() == null) return;
 
         mediaplayer.stop();
+        mediaplayer.dispose();
         mediaview.setMediaPlayer(null);
         mediaview.setVisible(false);
         _PAUSE = false;
