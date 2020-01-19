@@ -143,15 +143,15 @@
                           <ContextMenu fx:id="libraryMenu">
                               <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleButtonFile" text="Add new file" />
-                                  <Menu mnemonicParsing="false" text="Add to playlist">
-                                      <items>
-                                          <MenuItem mnemonicParsing="false">
-                                              <graphic>
-                                                  <ListView fx:id="miniPlaylist" onMouseClicked="#addToPlaylist" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
-                                              </graphic>
-                                          </MenuItem>
-                                      </items>
-                                  </Menu>
+                        <Menu mnemonicParsing="false" text="Add to playlist">
+                           <items>
+                              <MenuItem id="menuItem" disable="true" mnemonicParsing="false">
+                                 <graphic>
+                                                  <ListView fx:id="miniPlaylist" onMouseClicked="#addToPlaylist" prefHeight="200.0" prefWidth="200.0" styleClass="list" />
+                                 </graphic>
+                              </MenuItem>
+                           </items>
+                        </Menu>
                                   <MenuItem mnemonicParsing="false" onAction="#deleteVideo" text="Delete from library" />
                               </items>
                           </ContextMenu>

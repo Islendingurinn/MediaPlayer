@@ -407,22 +407,26 @@ public class Controller
     private void addToPlaylist(MouseEvent mouseEvent)
     {
         List<Video> selectedVideos = getSelectedVideos(videos);
-        Playlist playlist = getSelectedPlaylist(miniPlaylist.getSelectionModel().getSelectedItem());
 
-        for (Video video : selectedVideos)
+        if (selectedVideos.size() > 0)
         {
-            playlist.add(video);
-        }
+            Playlist playlist = getSelectedPlaylist(miniPlaylist.getSelectionModel().getSelectedItem());
 
-        setVisible(View.PLAYLIST);
-        playlists.getSelectionModel().select(miniPlaylist.getSelectionModel().getSelectedIndex());
-        libraryMenu.hide();
-        library.setStyle("-fx-text-fill: #a8a8a8;");
+            for (Video video : selectedVideos)
+            {
+                playlist.add(video);
+            }
 
-        _CURRENTPLAYLIST.clear();
-        for (Video video : playlist.getVideos())
-        {
-            _CURRENTPLAYLIST.add(video.toString());
+            setVisible(View.PLAYLIST);
+            playlists.getSelectionModel().select(miniPlaylist.getSelectionModel().getSelectedIndex());
+            libraryMenu.hide();
+            library.setStyle("-fx-text-fill: #a8a8a8;");
+
+            _CURRENTPLAYLIST.clear();
+            for (Video video : playlist.getVideos())
+            {
+                _CURRENTPLAYLIST.add(video.toString());
+            }
         }
     }
 

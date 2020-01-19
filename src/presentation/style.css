@@ -238,3 +238,28 @@ Slider .thumb:hover
     -fx-background-color: green;
     -fx-text-fill: white;
 }
+#menuItem
+{
+    -fx-background-color: transparent;
+    visibility: hidden;
+}
+#menuItem:selected
+{
+    -fx-background-color: transparent;
+    visibility: hidden;
+}
+#menuItem:hover
+{
+    -fx-background-color: transparent;
+}
+#menuItem .list-cell:selected
+{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+#menuItem .list-cell:hover
+{
+    -fx-font-weight: bold;
+    -fx-text-fill: green;
+}
+

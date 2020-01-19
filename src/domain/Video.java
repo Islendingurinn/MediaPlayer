@@ -1,6 +1,10 @@
 package domain;
 
 import database.DB;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
 public class Video
@@ -37,8 +41,26 @@ public class Video
     }
 
     /**
+     * A method to get the name the Video
+     * @return The string _NAME of the video
+     */
+    public String get_NAME()
+    {
+        return _NAME;
+    }
+
+    /**
+     * A method to get the category of the Video
+     * @return The int ID of the video
+     */
+    public String get_CATEGORY()
+    {
+        return _CATEGORY;
+    }
+
+    /**
      * A method to get the path of the Video
-     * @return The String path of the video
+     * @return The String _PATH of the video
      */
     public String getPath()
     {
@@ -91,6 +113,24 @@ public class Video
      */
     public void delete()
     {
+        DB.selectSQL("SELECT fldPath FROM tblVideo WHERE fldVideoID=" + _ID);
+
+        do
+        {
+            String path = DB.getData();
+
+            if (path.equals(DB.NOMOREDATA)) break;
+            try
+            {
+                Files.delete(Paths.get(path));
+            }
+            catch (IOException ex)
+            {
+                System.err.format("I/O Error when deleting file");
+            }
+        }
+        while (true);
+
         DB.deleteSQL("DELETE FROM tblMapping WHERE fldVideoID=" + _ID);
         DB.deleteSQL("DELETE FROM tblVideo WHERE fldVideoID=" + _ID);
     }

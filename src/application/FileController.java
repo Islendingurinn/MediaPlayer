@@ -7,10 +7,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 public class FileController
 {
@@ -65,26 +63,38 @@ public class FileController
     {
         File file = new File(fileInput.getText());
         String source = file.toString();
-        String dest = System.getProperty("user.dir") + "\\src\\presentation\\media" + source.substring(source.lastIndexOf("\\"), source.length());
+        String dest = System.getProperty("user.dir") + "\\src\\presentation\\media" + source.substring(source.lastIndexOf("\\"));
         String filetype = source.substring(source.lastIndexOf(".") + 1, source.length());
 
-        if (file.isFile() && filetype.equalsIgnoreCase("mp4") && !name.getText().isEmpty() && !category.getText().isEmpty())
+        String fileInputPath = fileInput.getText();
+        for (Video video : Controller._VIDEOS)
         {
-            try {
+            String videoPath = video.getPath();
+            if (fileInputPath.substring(fileInputPath.lastIndexOf("\\")).equalsIgnoreCase(videoPath.substring(video.getPath().lastIndexOf("\\"))))
+            {
+                fileInput.setText("");
+            }
+            if (name.getText().equalsIgnoreCase(video.get_NAME()))
+            {
+                name.setText("");
+            }
+        }
+
+        if (file.isFile() && filetype.equalsIgnoreCase("mp4") && !name.getText().isEmpty() && !category.getText().isEmpty() && !fileInput.getText().isEmpty())
+        {
+            try
+            {
                 Files.copy(Paths.get(source), Paths.get(dest));
                 Video video = new Video(-1, name.getText(), dest, category.getText());
                 video.save();
                 Controller._DISPLAYEDVIDEOS.add(video.toString());
                 Controller._VIDEOS.add(video);
                 stage.hide();
-
-            } catch (IOException ex) {
+            }
+            catch (IOException ex)
+            {
                 System.err.format("I/O Error when copying file");
             }
-        }
-        else
-        {
-            fileInput.clear();
         }
     }
 
