@@ -90,7 +90,6 @@ public class PlayerManager
     public void stopVideo()
     {
         if (mediaview.getMediaPlayer() == null) return;
-
         mediaplayer.stop();
         mediaplayer.dispose();
         mediaview.setMediaPlayer(null);
@@ -102,6 +101,8 @@ public class PlayerManager
         videoLength.setText("");
         listView.setVisible(true);
         playingVideo = 0;
+        playStack.getChildren().get(0).setVisible(true);
+        playStack.getChildren().get(1).setVisible(false);
     }
 
     /**
