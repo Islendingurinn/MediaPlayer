@@ -3,6 +3,8 @@ package domain;
 import de.jensd.fx.glyphs.GlyphsStack;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
@@ -28,6 +30,7 @@ public class PlayerManager
     private int playingVideo = 0;
     private boolean _PAUSE = false;
     private double volume = 1;
+    private ChangeListener listener;
 
     /**
      * Sets the components required for the MediaPlayer
@@ -90,9 +93,6 @@ public class PlayerManager
     public void stopVideo()
     {
         if (mediaview.getMediaPlayer() == null) return;
-        mediaplayer.stop();
-        mediaplayer.dispose();
-        mediaplayer = null;
         mediaview.setMediaPlayer(null);
         mediaview.setVisible(false);
         _PAUSE = false;
@@ -100,6 +100,10 @@ public class PlayerManager
         videoLength.textProperty().unbind();
         videoTimestamp.setText("");
         videoLength.setText("");
+        mediaplayer.currentTimeProperty().removeListener(listener);
+        mediaplayer.stop();
+        mediaplayer.dispose();
+        mediaplayer = null;
         listView.setVisible(true);
         playingVideo = 0;
         playStack.getChildren().get(0).setVisible(true);
@@ -188,7 +192,8 @@ public class PlayerManager
             });
 
             // Mediaplayer time listener
-            mediaplayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> updateValues());
+            listener = (observable, oldValue, newValue) -> updateValues();
+            mediaplayer.currentTimeProperty().addListener(listener);
 
             mediaplayer.setOnEndOfMedia(() -> {
                 playingVideo++;
