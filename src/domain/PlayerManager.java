@@ -18,7 +18,7 @@ public class PlayerManager
 {
     private ListView listView;
     private MediaView mediaview;
-    private MediaPlayer mediaplayer;
+    private static MediaPlayer mediaplayer;
     private Label videoTimestamp;
     private Label videoLength;
     private List<Video> playlist;
@@ -92,6 +92,7 @@ public class PlayerManager
         if (mediaview.getMediaPlayer() == null) return;
         mediaplayer.stop();
         mediaplayer.dispose();
+        mediaplayer = null;
         mediaview.setMediaPlayer(null);
         mediaview.setVisible(false);
         _PAUSE = false;
