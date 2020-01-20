@@ -70,7 +70,7 @@
                         <HBox id="control_slider" alignment="CENTER" prefHeight="0.0" prefWidth="760.0">
                             <children>
                                 <Label fx:id="videoTimestamp" style="-fx-padding: 0;" />
-                                <Slider fx:id="time" prefHeight="20.0" prefWidth="640.0" style="-fx-padding: 3;" />
+                                <Slider prefHeight="20.0" prefWidth="640.0" style="-fx-padding: 3;" />
                                 <Label fx:id="videoLength" alignment="CENTER" style="-fx-padding: 0;" />
                             </children>
                         </HBox>

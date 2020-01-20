@@ -1,10 +1,7 @@
 package domain;
 
 import de.jensd.fx.glyphs.GlyphsStack;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
@@ -18,30 +15,26 @@ import java.util.List;
 
 public class PlayerManager
 {
-    private ListView listView;
+    private ListView<String> listView;
     private MediaView mediaview;
     private static MediaPlayer mediaplayer;
     private Label videoTimestamp;
     private Label videoLength;
     private List<Video> playlist;
     private GlyphsStack playStack;
-    private Duration duration;
-    private Slider time;
     private int playingVideo = 0;
     private boolean _PAUSE = false;
     private double volume = 1;
-    private ChangeListener listener;
 
     /**
      * Sets the components required for the MediaPlayer
      * @param mediaView The MediaView
      * @param vL The Label VideoLength
      */
-    public PlayerManager(MediaView mediaView, Slider slider, Label vT, Label vL, GlyphsStack playStack)
+    public PlayerManager(MediaView mediaView, Label vT, Label vL, GlyphsStack playStack)
     {
         this.playStack = playStack;
         this.mediaview = mediaView;
-        this.time = slider;
         this.videoTimestamp = vT;
         this.videoLength = vL;
     }
@@ -93,17 +86,16 @@ public class PlayerManager
     public void stopVideo()
     {
         if (mediaview.getMediaPlayer() == null) return;
+        videoTimestamp.textProperty().unbind();
+        videoLength.textProperty().unbind();
+        mediaplayer.dispose();
+        mediaplayer.stop();
+        mediaplayer = null;
         mediaview.setMediaPlayer(null);
         mediaview.setVisible(false);
         _PAUSE = false;
-        videoTimestamp.textProperty().unbind();
-        videoLength.textProperty().unbind();
         videoTimestamp.setText("");
         videoLength.setText("");
-        mediaplayer.currentTimeProperty().removeListener(listener);
-        mediaplayer.stop();
-        mediaplayer.dispose();
-        mediaplayer = null;
         listView.setVisible(true);
         playingVideo = 0;
         playStack.getChildren().get(0).setVisible(true);
@@ -124,27 +116,6 @@ public class PlayerManager
     }
 
     /**
-     * Syncs the playtime between the slider and
-     * the video.
-     */
-    private void updateValues()
-    {
-        duration = mediaplayer.getMedia().getDuration();
-        if (mediaplayer.getMedia().getDuration() != null && time != null && duration != null)
-        {
-            Platform.runLater(() ->
-            {
-                Duration currentTime = mediaplayer.getCurrentTime();
-                time.setDisable(duration.isUnknown());
-                if (!time.isDisabled() && duration.greaterThan(Duration.ZERO) && !time.isValueChanging())
-                {
-                    time.setValue(currentTime.divide(duration).toMillis() * 100.0);
-                }
-            });
-        }
-    }
-
-    /**
      * A method to play a list of Videos.
      * Load the video, initiate the MediaPlayer.
      * Set up the display and then play.
@@ -152,7 +123,7 @@ public class PlayerManager
      * on Video end, but without the current Video.
      * @param videos List of Videos to play
      */
-    public void play(List<Video> videos, ListView listView){
+    public void play(List<Video> videos, ListView<String> listView){
         try
         {
             this.listView = listView;
@@ -179,24 +150,6 @@ public class PlayerManager
                 Duration time = mediaplayer.getStopTime();
                 videoLength.setText(String.format("%4d:%02d:%02d", (int) time.toHours(), (int) time.toMinutes() % 60, (int) time.toSeconds() % 60));
             });
-
-            // Slider value listener
-            time.valueProperty().addListener(ov ->
-            {
-                if (time.isValueChanging())
-                {
-                    // multiply duration by percentage calculated by slider position
-                    if (duration!=null)
-                    {
-                        mediaplayer.seek(duration.multiply(time.getValue() / 100.0));
-                    }
-                    updateValues();
-                }
-            });
-
-            // Mediaplayer time listener
-            listener = (observable, oldValue, newValue) -> updateValues();
-            mediaplayer.currentTimeProperty().addListener(listener);
 
             mediaplayer.setOnEndOfMedia(() -> {
                 playingVideo++;

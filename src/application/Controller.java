@@ -67,9 +67,6 @@ public class Controller
     private Slider volume;
 
     @FXML
-    private Slider time;
-
-    @FXML
     private Button library;
 
     @FXML
@@ -134,7 +131,7 @@ public class Controller
         mediaview.fitHeightProperty().bind(center.heightProperty().subtract(100));
 
         // Constructs the components for PlayerManager
-        playerManager = new PlayerManager(mediaview, time, videoTimestamp, videoLength, playStack);
+        playerManager = new PlayerManager(mediaview, videoTimestamp, videoLength, playStack);
     }
 
     /**
@@ -453,7 +450,10 @@ public class Controller
 
             for (Video video : selectedVideos)
             {
-                playlist.add(video);
+                if (!playlist.getVideos().contains(video))
+                {
+                    playlist.add(video);
+                }
             }
 
             setVisible(View.PLAYLIST);
