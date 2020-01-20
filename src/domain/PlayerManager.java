@@ -123,7 +123,10 @@ public class PlayerManager
         mediaplayer.setVolume(volume);
     }
 
-    //
+    /**
+     * Syncs the playtime between the slider and
+     * the video.
+     */
     private void updateValues()
     {
         duration = mediaplayer.getMedia().getDuration();

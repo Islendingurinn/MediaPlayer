@@ -2,10 +2,7 @@ package application;
 
 import database.DB;
 import de.jensd.fx.glyphs.GlyphsStack;
-import domain.PlayerManager;
-import domain.Playlist;
-import domain.Video;
-import domain.View;
+import domain.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -124,11 +121,11 @@ public class Controller
             playerManager.volumeVideo(newValue.doubleValue()/100);
             if (newValue.doubleValue() == 0)
             {
-                setVisibleVolume(View.UNMUTE);
+                setVisibleVolume(State.UNMUTE);
             }
             else if (oldValue.doubleValue() == 0 && newValue.doubleValue() > 0)
             {
-                setVisibleVolume(View.MUTE);
+                setVisibleVolume(State.MUTE);
             }
         });
 
@@ -165,16 +162,16 @@ public class Controller
         }
     }
     /**
-     * Set which window should be visible;
-     * whether that's video, library or playlist.
-     * @param view
+     * Sets the visibility of the volume button
+     * to reflect if its muted or unmuted
+     * @param state
      */
-    public void setVisibleVolume(View view)
+    public void setVisibleVolume(State state)
     {
         volumeStack.getChildren().get(0).setVisible(false);
         volumeStack.getChildren().get(1).setVisible(false);
 
-        switch (view)
+        switch (state)
         {
             case MUTE:
                 volumeStack.getChildren().get(0).setVisible(true);
@@ -185,16 +182,16 @@ public class Controller
         }
     }
     /**
-     * Set which window should be visible;
-     * whether that's video, library or playlist.
-     * @param view
+     * Sets the visibility of the pause button
+     * to reflect if its playing or paused
+     * @param state
      */
-    public void setVisiblePlay(View view)
+    public void setVisiblePlay(State state)
     {
         playStack.getChildren().get(0).setVisible(false);
         playStack.getChildren().get(1).setVisible(false);
 
-        switch (view)
+        switch (state)
         {
             case PLAY:
                 playStack.getChildren().get(0).setVisible(true);
@@ -205,18 +202,21 @@ public class Controller
         }
     }
 
+    /**
+     * Method to handle toggling the volume
+     */
     @FXML
     private void volumeToggle()
     {
         if (volume.getValue() == 0)
         {
             volume.setValue(100);
-            setVisibleVolume(View.MUTE);
+            setVisibleVolume(State.MUTE);
         }
         else
         {
             volume.setValue(0);
-            setVisibleVolume(View.UNMUTE);
+            setVisibleVolume(State.UNMUTE);
         }
     }
 
@@ -339,7 +339,7 @@ public class Controller
     @FXML
     private void videoInteract(ActionEvent event)
     {
-        setVisiblePlay(View.PAUSE);
+        setVisiblePlay(State.PAUSE);
         if (waitingForPlaylistName) return;
 
         if (mediaview.isVisible())
@@ -378,7 +378,7 @@ public class Controller
         if (mediaview.isVisible())
         {
             playerManager.stopVideo();
-            setVisiblePlay(View.PLAY);
+            setVisiblePlay(State.PLAY);
         }
     }
 
@@ -482,7 +482,7 @@ public class Controller
 
         Playlist playlistClicked = _PLAYLISTS.get(id);
         playerManager.stopVideo();
-        setVisiblePlay(View.PLAY);
+        setVisiblePlay(State.PLAY);
         setVisible(View.PLAYLIST);
 
         library.setStyle("-fx-text-fill: #a8a8a8;");
@@ -517,7 +517,7 @@ public class Controller
         if (waitingForPlaylistName) return;
 
         playerManager.stopVideo();
-        setVisiblePlay(View.PLAY);
+        setVisiblePlay(State.PLAY);
         setVisible(View.LIBRARY);
         videos.getSelectionModel().clearSelection();
         playlists.getSelectionModel().clearSelection();
